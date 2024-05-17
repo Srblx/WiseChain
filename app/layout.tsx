@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer.components';
-import Navbar from '@/components/Navbar.component';
+import Footer from '@/components/ui/Footer.component';
+import Navbar from '@/components/ui/Navbar.component';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './style/globals.css';
@@ -21,10 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='fr'>
-      <body className={inter.className}>
+    <html lang='fr' className='bg-background'>
+      <body className={`${inter.className} `}>
         <Navbar />
-        {children}
+        <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-36 mt-4'>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

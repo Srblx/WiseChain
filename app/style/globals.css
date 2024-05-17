@@ -3,13 +3,11 @@
 @tailwind utilities;
 
 @layer base {
- * {
-  box-sizing: border-box;
-
-}
+  * {
+    box-sizing: border-border;
+  }
 
   body {
-    @apply bg-background text-text mt-24;
+    @apply text-text mt-24;
   }
 }
-
