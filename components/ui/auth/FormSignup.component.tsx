@@ -1,5 +1,12 @@
-import countries from '@/app/_utils/country';
+// Utils
+import countries from '@/app/_utils/data/country';
+import Button from '@/components/shared/auth/btn-submit.component';
+import Input from '@/components/shared/auth/input.component';
+
+// Libs React
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+
+// Icons
 import { FaBirthdayCake, FaUser, FaUserSecret } from 'react-icons/fa';
 import { FaFlag, FaKey } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
@@ -74,105 +81,98 @@ const FormSignup = () => {
   return (
     <form
       onSubmit={handleSubmitSingup}
-      className='w-[90%] flex flex-col justify-center items-center'
+      className="w-[90%] flex flex-col justify-center items-center"
     >
-      <p className='text-tertiary text-xl mb-4'>Inscription</p>
-      <div className='grid grid-cols-2 w-full gap-4'>
+      <p className="text-tertiary text-xl mb-4">Inscription</p>
+      <div className="grid grid-cols-2 w-full gap-4">
         <label className={inputClassName}>
           <FaUser />*
-          <input
-            type='text'
-            className='w-full'
-            placeholder='Nom'
+          <Input
+            type="text"
+            placeholder="Nom"
             value={firstname}
             onChange={handleFirstnameChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaUser />*
-          <input
-            type='text'
-            className='w-full'
-            placeholder='Prénom'
+          <Input
+            type="text"
+            placeholder="Prénom"
             value={lastname}
             onChange={handleLastnameChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaUserSecret />*
-          <input
-            type='text'
-            className='w-full'
-            placeholder='Pseudo'
+          <Input
+            type="text"
+            placeholder="Pseudo"
             value={pseudo}
             onChange={handlePseudoChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <IoMdMail />*
-          <input
-            type='text'
-            className='w-full'
-            placeholder='Email'
+          <Input
+            type="text"
+            placeholder="Email"
             value={email}
             onChange={handleEmailChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaKey />*
-          <input
-            type='password'
-            className='w-full'
-            placeholder='Mot de passe'
+          <Input
+            type="password"
+            placeholder="Mot de passe"
             value={password}
             onChange={handlePasswordChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaKey />*
-          <input
-            type='password'
-            className='w-full'
-            placeholder='Confirmation mot de passe'
+          <Input
+            type="password"
+            placeholder="Confirmation mot de passe"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaBirthdayCake />*
-          <input
-            type='date'
-            className='w-full'
-            placeholder='DD/MM/YYYY'
+          <Input
+            type="date"
+            placeholder="DD/MM/YYYY"
             value={birthday}
             onChange={handleBirthdayChange}
             required
-            />
+          />
         </label>
         <label className={inputClassName}>
           <FaFlag />
           <select
-            name='country'
-            id='country'
-            className='w-full bg-background'
+            name="country"
+            id="country"
+            className="w-full bg-background"
             value={countries}
             onChange={handleCountryChange}
           >
-            <option value=''>Sélectionnez un pays</option>
+            <option value="">Sélectionnez un pays</option>
             {countriesOptions}
           </select>
         </label>
       </div>
-      <p className='text-xs text-start w-full mt-1 text-red-500'>* Champ requis</p>
-      <button className='btn w-full bg-button hover:!bg-green-500 text-white font-semibold text-lg mt-4'>
-        Inscription
-      </button>
+      <p className="text-xs text-start w-full mt-2 mb-4 text-red-500">
+        * Champ requis
+      </p>
+      <Button>S'inscrire</Button>
     </form>
   );
 };

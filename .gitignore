@@ -39,3 +39,7 @@ tailwind.config.js
 tsconfig.json
 postcss.config.js
 next.config.js
+
+# Ignore artifacts:
+# build
+# coverage

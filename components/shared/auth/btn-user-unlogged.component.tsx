@@ -1,10 +1,17 @@
 'use client';
 
+// Libs Next
 import Image from 'next/image';
+
+// Libs React
 import { useState } from 'react';
-import iconUserRed from '../../public/svg/icon-user.svg';
-import Modal from '../ui/Modal.component';
-import FormLogin from '../ui/auth/ModalContent.component';
+
+// Icons
+import iconUserRed from '@/public/svg/icon-user.svg';
+
+// Components
+import Modal from '@/components/ui/Modal.component';
+import ModalContent from '@/components/ui/auth/ModalContent.component';
 
 const ButtonUserUnlogged = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +31,7 @@ const ButtonUserUnlogged = () => {
       </nav>
       <div className='flex justify-center items-center'>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <FormLogin />
+          <ModalContent />
         </Modal>
       </div>
     </div>

@@ -1,14 +1,20 @@
+// Libs Next
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '../../public/img/logo.jpg';
+
+// CSS Module
+import logo from '@/public/img/logo.jpg';
+
+// Utils
+import { footerItems } from '@/app/_utils/data/footerItems';
+
+const navClass = 'sm:ml-10 max-md:block max-md:space-x-4 ';
 
 export default function Footer() {
-  const navClass = 'sm:ml-10 max-md:block max-md:space-x-4 ';
-
   return (
     <>
-      <div className='bg-backgroundTransparent flex justify-center items-center p-6 border-y-2 border-white mt-20'>
-        <div className='text-center text-sm space-y-6'>
+      <div className="bg-backgroundTransparent flex justify-center items-center p-6 border-y-2 border-white mt-20">
+        <div className="text-center text-sm space-y-6">
           <p>
             Investir dans les marchés financiers, y compris dans les
             crypto-actifs, comporte des risques significatifs. Il est crucial de
@@ -45,37 +51,27 @@ export default function Footer() {
           </p>
         </div>
       </div>
-      <footer className='footer p-10 mt-6 text-white max-md:flex max-md:flex-col max-md:items-center max-md:text-center'>
-        <aside className='sm:ml-10 md:ml-14 lg:ml-28'>
-          <Link href='/'>
+      <footer className="footer p-10 mt-6 text-white max-md:flex max-md:flex-col max-md:items-center max-md:text-center">
+        <aside className="sm:ml-10 md:ml-14 lg:ml-28">
+          <Link href="/">
             <Image
-              className='w-[200px]'
+              className="w-[200px]"
               src={logo}
-              alt='Logo du site Wisechain'
+              alt="Logo du site Wisechain"
             />
           </Link>
-          <p className='text-base mx-auto'>WISECHAIN</p>
+          <p className="text-base mx-auto">WISECHAIN</p>
         </aside>
-        <nav className={navClass}>
-          <h6 className='footer-title'>Cours Crypto-monnaie</h6>
-          <a className='link link-hover'>Crypto</a>
-          <a className='link link-hover'>Crypto</a>
-          <a className='link link-hover'>Crypto</a>
-          <a className='link link-hover'>Crypto</a>
-        </nav>
-        <nav className={navClass}>
-          <h6 className='footer-title'>Cours Blockchain</h6>
-          <a className='link link-hover'>Blockchain</a>
-          <a className='link link-hover'>Blockchain</a>
-          <a className='link link-hover'>Blockchain</a>
-          <a className='link link-hover'>Blockchain</a>
-        </nav>
-        <nav className={navClass}>
-          <h6 className='footer-title'>Legal</h6>
-          <a className='link link-hover'>À Propos</a>
-          <a className='link link-hover'>Condition d&#39;utlisation</a>
-          <a className='link link-hover'>English | Francais</a>
-        </nav>
+        {footerItems.map(({ title, links }) => (
+          <nav key={title} className={navClass}>
+            <h6 className="footer-title">{title}</h6>
+            {links.map((link) => (
+              <a key={link} className="link link-hover">
+                {link}
+              </a>
+            ))}
+          </nav>
+        ))}
       </footer>
     </>
   );
