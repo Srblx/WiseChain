@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react';
 import { ModalProps } from '@/interfaces/modal.interface';
 
 // Utils
-import { disableScroll, enableScroll } from '@/app/_utils/disableScroll';
+import { disableScroll, enableScroll } from '@/_utils/disableScroll';
 
 // Icons
 import { FaWindowClose } from 'react-icons/fa';

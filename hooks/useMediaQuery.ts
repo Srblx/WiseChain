@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // Utils
-import { breakpoints } from '@/app/_utils/breakpoints';
+import { breakpoints } from '@/_utils/breakpoints.utils';
 
 const useMediaQuery = () => {
   const [isMobile, setIsMobile] = useState(false);

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import logo from '@/public/img/logo.jpg';
 
 // Utils
-import { footerItems } from '@/app/_utils/data/footerItems';
+import { footerItems } from '@/_utils/data/footerItems';
 
 const navClass = 'sm:ml-10 max-md:block max-md:space-x-4 ';
 
@@ -50,7 +50,7 @@ export default function Footer() {
             éléments contenus dans l&#39;application.
           </p>
         </div>
-      </div>
+      </div> 
       <footer className="footer p-10 mt-6 text-white max-md:flex max-md:flex-col max-md:items-center max-md:text-center">
         <aside className="sm:ml-10 md:ml-14 lg:ml-28">
           <Link href="/">
@@ -63,11 +63,12 @@ export default function Footer() {
           <p className="text-base mx-auto">WISECHAIN</p>
         </aside>
         {footerItems.map(({ title, links }) => (
-          <nav key={title} className={navClass}>
-            <h6 className="footer-title">{title}</h6>
+          <nav key={/* title */ Math.random()} className={`${navClass}`}>
+            <h6 className="uppercase text-gray-500 mb-1">{title}</h6>
             {links.map((link) => (
               <a key={link} className="link link-hover">
                 {link}
+                {/* rajoute un in footer en db pour appele que les in footer */}
               </a>
             ))}
           </nav>

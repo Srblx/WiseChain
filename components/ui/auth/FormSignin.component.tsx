@@ -7,13 +7,14 @@ import { inputClassName } from './FormSignup.component';
 // Icons
 import Button from '@/components/shared/auth/btn-submit.component';
 import Input from '@/components/shared/auth/input.component';
-import { FaKey } from 'react-icons/fa6';
+import { notifyLogin } from '@/validators/auth.validator';
+import { FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
 
 export default function FormSignin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -23,14 +24,13 @@ export default function FormSignin() {
     setPassword(e.target.value);
   };
 
-  const handleSubmitSignin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Email :', email);
-    console.log('Mot de passe :', password);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
-  const handleSwitchForm = () => {
-    setIsLoginForm(!isLoginForm);
+  const handleSubmitSignin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log({ email, password });
   };
 
   return (
@@ -49,14 +49,19 @@ export default function FormSignin() {
       <label className={inputClassName}>
         <FaKey />
         <Input
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           placeholder="************"
           value={password}
           onChange={handlePasswordChange}
           required
         />
+      <button type="button" onClick={togglePasswordVisibility}>
+        {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+      </button>
       </label>
-      <Button>Se connecter</Button>
+      <Button onClick={() => notifyLogin({ email, password })}>
+        Se connecter
+      </Button>
     </form>
   );
 }

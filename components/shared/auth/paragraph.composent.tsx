@@ -4,7 +4,7 @@
 import { StepTextProps } from "@/interfaces/formStep.interface";
 
 const StepText = ({ children, onClick }: StepTextProps) => (
-  <p className={'text-button max-lg:text-xs mt-3'} onClick={onClick}>
+  <p className={'text-button max-lg:text-xs mt-3 cursor-pointer'} onClick={onClick}>
     {children}
   </p>
 );

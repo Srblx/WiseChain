@@ -1,78 +1,5 @@
-# [Dependancies]
-
-<!--? Front dependancies -> -->
-
-### npx create-next-app@latest wisechain --typescript --eslint
-
-### npm i -D autoprefixer
-
-### npm i @tailwindcss/typography daisyui -D
-
-### npm install --save-dev prettier
-
-### npm i -D daisyui@latest
-
-### npx shadcn-ui@latest init
-
-### npm i react-icons --save
-
-npm i react-icons --save
-
-<!--* Back dependancies ->  -->
-npm i next-auth
-npm i prisma --save-dev
-npm i @prisma/client
- npm i @next-auth/prisma-adapter    
-
-<!--^  Config -->
-
-npm install --save-dev eslint-config-airbnb-typescript  
- npm install --save-dev eslint eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
-npm install prettier --save-dev  
- npm uninstall eslint-plugin-prettier prettier
-npm install eslint-plugin-prettier prettier --save-dev
-
-<!--! Arborencense  -->
-
-nextjs-project/
-├── app/
-│ ├── (admin)/
-│ │ ├── users/
-│ │ │ ├── page.tsx
-│ │ │ └── [...slug]/page.tsx
-│ │ └── ...
-│ ├── (auth)/
-│ │ ├── login/
-│ │ │ └── page.tsx
-│ │ └── ...
-│ └── ...
-├── components/
-│ ├── auth/
-│ │ ├── LoginForm.tsx
-│ │ └── ...
-│ ├── ui/
-│ │ ├── Button.tsx
-│ │ └── ...
-│ └── ...
-├── hooks/
-│ ├── useAuth.ts
-│ └── ...
-├── \_services/
-│ ├── authService.ts
-│ └── ...
-├── \_lib/
-│ ├── utils.ts
-│ └── ...
-├── styles/
-│ ├── globals.css
-│ └── ...
-├── utils/
-│ ├── helpers.ts
-│ └── ...
-└── ...
-
-
-// schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -84,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String   @id @default(cuid())
   firstname     String
   lastname      String
   pseudo        String   @unique
@@ -95,7 +22,7 @@ model User {
   roles         String   @default("suscriber")
   profile_img   String?
   is_revoice    Boolean
-  created_at    DateTime @default(now()) @db.Date
+  created_at    DateTime @default(now())
   articles      Article[]
   realize_questionaries RealizeQuestionary[]
   staff_requests StaffRequest[]
@@ -105,12 +32,12 @@ model User {
 }
 
 model Article {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   title      String
   content    String   @db.Text
   cover_img  String
   img        String?
-  created_at DateTime @default(now()) @db.Date
+  created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
   category   Category @relation(fields: [category_id], references: [id])
@@ -118,7 +45,7 @@ model Article {
 }
 
 model RealizeQuestionary {
-  id                    String   @id @default(uuid())
+  id                    String   @id @default(cuid())
   score                 Int
   date_of_realize_questionary Boolean
   user                  User     @relation(fields: [user_id], references: [id])
@@ -128,10 +55,10 @@ model RealizeQuestionary {
 }
 
 model Questionary {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   subject    String   @db.VarChar(150)
   creator    String
-  created_at DateTime @default(now()) @db.Date
+  created_at DateTime @default(now())
   realize_questionaries RealizeQuestionary[]
   rewards    Reward[]
   questions  Question[]
@@ -139,11 +66,11 @@ model Questionary {
 }
 
 model Course {
-  id          String   @id @default(uuid())
+  id          String   @id @default(cuid())
   main_title  String
   description String?
   content     String   @db.Text
-  created_at  DateTime @default(now()) @db.Date
+  created_at  DateTime @default(now())
   update_at   DateTime @updatedAt @db.Date
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
@@ -161,7 +88,7 @@ model ToolCourse {
 }
 
 model Tool {
-  id   String @id @default(uuid())
+  id   String @id @default(cuid())
   name String @db.VarChar(150)
   link String @db.VarChar(200)
   img  String @db.Text
@@ -169,7 +96,7 @@ model Tool {
 }
 
 model Sequence {
-  id        String @id @default(uuid())
+  id        String @id @default(cuid())
   index     Int    @unique
   title     String @db.Text
   containt  String @db.Text
@@ -179,7 +106,7 @@ model Sequence {
 }
 
 model Reward {
-  id            String   @id @default(uuid())
+  id            String   @id @default(cuid())
   is_claim      Boolean
   date_of_claim DateTime? @db.Date
   questionary   Questionary @relation(fields: [questionary_id], references: [id])
@@ -197,7 +124,7 @@ model UserReward {
 }
 
 model StaffRequest {
-  id           String   @id @default(uuid())
+  id           String   @id @default(cuid())
   subject      String   @db.VarChar(150)
   message      String   @db.Text
   date_sending DateTime @db.Date
@@ -206,7 +133,7 @@ model StaffRequest {
 }
 
 model CommunityMessage {
-  id       String @id @default(uuid())
+  id       String @id @default(cuid())
   subject  String @db.VarChar(150)
   content  String @db.Text
   user     User   @relation(fields: [user_id], references: [id])
@@ -214,7 +141,7 @@ model CommunityMessage {
 }
 
 model FictiveAccount {
-  id            String @id @default(uuid())
+  id            String @id @default(cuid())
   solde         Int
   number_account Int
   user          User  @relation(fields: [user_id], references: [id])
@@ -222,14 +149,14 @@ model FictiveAccount {
 }
 
 model Category {
-  id       String    @id @default(uuid())
+  id       String    @id @default(cuid())
   name     String    @db.VarChar(80)
   articles Article[]
   courses  Course[]
 }
 
 model Answer {
-  id             String      @id @default(uuid())
+  id             String      @id @default(cuid())
   answer         String      @db.VarChar(255)
   correct_answer Boolean
   questionary    Questionary @relation(fields: [questionary_id], references: [id])
@@ -239,33 +166,10 @@ model Answer {
 }
 
 model Question {
-  id            String      @id @default(uuid())
+  id            String      @id @default(cuid())
   question      String      @db.VarChar(255) 
   questionary   Questionary @relation(fields: [questionary_id], references: [id])
   questionary_id String
   answers       Answer[]
 }
 
-
-
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
-async function main() {
-  const users = await prisma.user.findMany()
-  console.log(users)
-}
-
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
-
-  
-DATABASE_URL="file:./dev.db"

@@ -10,4 +10,8 @@
   body {
     @apply text-text mt-24;
   }
+  modal {
+    /* autres styles */
+    z-index: 1000; /* ou un autre nombre suffisamment élevé pour être au-dessus du footer */
+  }
 }

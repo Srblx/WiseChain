@@ -1,70 +1,59 @@
 // Utils
-import countries from '@/app/_utils/data/country';
+import countries from '@/_utils/data/country';
 import Button from '@/components/shared/auth/btn-submit.component';
 import Input from '@/components/shared/auth/input.component';
+import { notifySignup } from '@/validators/auth.validator';
 
 // Libs React
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useReducer, useState } from 'react';
 
 // Icons
 import { FaBirthdayCake, FaUser, FaUserSecret } from 'react-icons/fa';
-import { FaFlag, FaKey } from 'react-icons/fa6';
+import { FaFlag, FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
+
+// Validators
+import {
+  SignupAction,
+  initialState,
+  signupReducer,
+} from '@/_utils/data/signupReducer';
+import FormStep from '@/enums/formStep.emun';
+import { SignupValidator } from '@/interfaces/auth/auth.interface';
 
 export const inputClassName = 'input input-bordered flex items-center gap-2';
 
-const FormSignup = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [pseudo, setPseudo] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [birthday, setBirthday] = useState('');
+const FormSignup: React.FC = () => {
+  const [state, dispatch] = useReducer<
+    React.Reducer<SignupValidator, SignupAction>
+  >(signupReducer, initialState);
   const [countriesOptions, setCountriesOptions] = useState<JSX.Element[]>([]);
+  const [currentStep, setCurrentStep] = useState(FormStep.CONDITION_OF_USE);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleFirstnameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFirstname(e.target.value);
+  const signupData: SignupValidator = {
+    firstname: state.firstname,
+    lastname: state.lastname,
+    pseudo: state.pseudo,
+    email: state.email,
+    password: state.password,
+    confirmPassword: state.confirmPassword,
+    dateOfBirth: state.dateOfBirth,
+    country: state.country,
+    isTermsAccepted: state.isTermsAccepted,
+    errorMessage: state.errorMessage,
   };
 
-  const handleLastnameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLastname(e.target.value);
-  };
-
-  const handlePseudoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPseudo(e.target.value);
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-  };
-
-  const handleBirthdayChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setBirthday(e.target.value);
-  };
-
-  const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
-  };
-
-  const handleSubmitSingup = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitSignup = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('firstname : ', firstname);
-    console.log('Lastname : ', lastname);
-    console.log('Pseudo : ', pseudo);
-    console.log('Email :', email);
-    console.log('Mot de passe :', password);
-    console.log('Confime mot de passe : ', confirmPassword);
-    console.log('Birthday : ', birthday);
-    console.log('countries : ', countriesOptions);
+    if (!state.isTermsAccepted) {
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: "Vous devez accepter les conditions d'utilisation." });
+      return;
+    }
+    dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
+    console.log('Form Data:', signupData);
+    notifySignup(signupData);
   };
 
   useEffect(() => {
@@ -78,9 +67,17 @@ const FormSignup = () => {
     }
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <form
-      onSubmit={handleSubmitSingup}
+      onSubmit={handleSubmitSignup}
       className="w-[90%] flex flex-col justify-center items-center"
     >
       <p className="text-tertiary text-xl mb-4">Inscription</p>
@@ -90,8 +87,8 @@ const FormSignup = () => {
           <Input
             type="text"
             placeholder="Nom"
-            value={firstname}
-            onChange={handleFirstnameChange}
+            value={state.firstname}
+            onChange={(e) => dispatch({ type: 'SET_FIRSTNAME', payload: e.target.value })}
             required
           />
         </label>
@@ -100,8 +97,8 @@ const FormSignup = () => {
           <Input
             type="text"
             placeholder="Prénom"
-            value={lastname}
-            onChange={handleLastnameChange}
+            value={state.lastname}
+            onChange={(e) => dispatch({ type: 'SET_LASTNAME', payload: e.target.value })}
             required
           />
         </label>
@@ -110,8 +107,8 @@ const FormSignup = () => {
           <Input
             type="text"
             placeholder="Pseudo"
-            value={pseudo}
-            onChange={handlePseudoChange}
+            value={state.pseudo}
+            onChange={(e) => dispatch({ type: 'SET_PSEUDO', payload: e.target.value })}
             required
           />
         </label>
@@ -120,38 +117,44 @@ const FormSignup = () => {
           <Input
             type="text"
             placeholder="Email"
-            value={email}
-            onChange={handleEmailChange}
+            value={state.email}
+            onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })}
             required
           />
         </label>
         <label className={inputClassName}>
           <FaKey />*
           <Input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Mot de passe"
-            value={password}
-            onChange={handlePasswordChange}
+            value={state.password}
+            onChange={(e) => dispatch({ type: 'SET_PASSWORD', payload: e.target.value })}
             required
           />
+          <button type="button" onClick={togglePasswordVisibility}>
+            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+          </button>
         </label>
         <label className={inputClassName}>
           <FaKey />*
           <Input
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirmation mot de passe"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
+            value={state.confirmPassword}
+            onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}
             required
           />
+          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+            {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+          </button>
         </label>
         <label className={inputClassName}>
           <FaBirthdayCake />*
           <Input
             type="date"
             placeholder="DD/MM/YYYY"
-            value={birthday}
-            onChange={handleBirthdayChange}
+            value={state.dateOfBirth}
+            onChange={(e) => dispatch({ type: 'SET_BIRTHDAY', payload: e.target.value })}
             required
           />
         </label>
@@ -161,15 +164,39 @@ const FormSignup = () => {
             name="country"
             id="country"
             className="w-full bg-background"
-            value={countries}
-            onChange={handleCountryChange}
+            value={state.country}
+            onChange={(e) => dispatch({ type: 'SET_COUNTRY', payload: e.target.value })}
           >
-            <option value="">Sélectionnez un pays</option>
+            <option>Sélectionnez un pays</option>
             {countriesOptions}
           </select>
         </label>
       </div>
-      <p className="text-xs text-start w-full mt-2 mb-4 text-red-500">
+      <div className="form-control flex items-start">
+        <label className="cursor-pointer label flex items-center">
+          <input
+            type="checkbox"
+            className="checkbox checkbox-xs"
+            checked={state.isTermsAccepted}
+            onChange={(e) => dispatch({ type: 'SET_TERMS_ACCEPTED', payload: e.target.checked })}
+          />
+          <span
+            onClick={() => setCurrentStep(FormStep.CONDITION_OF_USE)}
+            className="label-text ml-2"
+          >
+            Accepter les 
+            <a href="/conditionOfUse" className="text-blue-400">
+              {" "}conditions d'utilisation
+            </a>
+          </span>
+        </label>
+      </div>
+      {state.errorMessage && (
+        <p className="text-xs text-center w-full mt-1 text-red-500">
+          {state.errorMessage}
+        </p>
+      )}
+      <p className="text-xs text-center w-full mt-2 mb-4 text-red-500">
         * Champ requis
       </p>
       <Button>S'inscrire</Button>

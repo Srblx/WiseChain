@@ -8,6 +8,7 @@ import Navbar from '@/components/ui/Navbar.component';
 
 // CSS Module
 import '@/style/globals.css';
+import { Toaster } from 'sonner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang='fr' className='bg-background'>
       <body className={`${inter.className} `}>
+        <Toaster richColors closeButton />
         <Navbar />
         <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-36 mt-4'>
           {children}

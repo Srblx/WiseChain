@@ -7,6 +7,7 @@ import { IoMdMail } from 'react-icons/io';
 // Components
 import Button from '@/components/shared/auth/btn-submit.component';
 import Input from '@/components/shared/auth/input.component';
+import { notifyForgotPassword } from '@/validators/auth.validator';
 import { inputClassName } from './FormSignup.component';
 
 function FormResetPassword() {
@@ -19,6 +20,7 @@ function FormResetPassword() {
   const handleSubmitResetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('mail : ', mail);
+    notifyForgotPassword(mail);
   };
 
   return (
