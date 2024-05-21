@@ -2,17 +2,18 @@ export interface LoginValidator {
     email: string;
     password: string;
   }
-  
+
   export interface SignupValidator {
     firstname: string;
     lastname: string;
     pseudo: string;
-    email: string;
+    mail: string;
     password: string;
     confirmPassword: string;
     dateOfBirth: string;
     country: string;
-    isTermsAccepted: boolean;
+    is_revoice: boolean;
     errorMessage: string;
+    isTermsAccepted: boolean;
   }
   

@@ -30,6 +30,7 @@ export default function RootLayout({
     <html lang='fr' className='bg-background'>
       <body className={`${inter.className} `}>
         <Toaster richColors closeButton />
+        {/* <SessionProvider session={pageProps.session}> */}
         <Navbar />
         <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-36 mt-4'>
           {children}

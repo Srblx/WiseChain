@@ -13,10 +13,11 @@ import FormSignup from './FormSignup.component';
 import formLoginImage from '@/public/img/form_img.jpeg';
 
 // Enums
-import StepText from '@/components/shared/auth/paragraph.composent';
+import StepText from '@/components/shared/auth/Paragraph.composent';
 import FormStep from '@/enums/formStep.emun';
+import { ModalContentProps } from '@/interfaces/modal.interface';
 
-export default function ModalContent() {
+export default function ModalContent({ onSuccess }: ModalContentProps) {
   const [currentStep, setCurrentStep] = useState(FormStep.LOGIN);
 
   const renderStep = () => {
@@ -24,7 +25,7 @@ export default function ModalContent() {
       case FormStep.LOGIN:
         return (
           <>
-            <FormSignin />
+            <FormSignin onSuccess={onSuccess} />
             <div className="flex justify-between w-[88%] ">
               <StepText onClick={() => setCurrentStep(FormStep.SIGNUP)}>
                 Pas de compte ? Créez en un !
@@ -38,7 +39,7 @@ export default function ModalContent() {
       case FormStep.SIGNUP:
         return (
           <>
-            <FormSignup />
+            <FormSignup onSuccess={onSuccess} />
             <StepText onClick={() => setCurrentStep(FormStep.LOGIN)}>
               Déjà un compte ? Connectez-vous !
             </StepText>

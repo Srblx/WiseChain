@@ -5,8 +5,8 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { IoMdMail } from 'react-icons/io';
 
 // Components
-import Button from '@/components/shared/auth/btn-submit.component';
-import Input from '@/components/shared/auth/input.component';
+import Button from '@/components/shared/auth/BtnSubmit.component';
+import Input from '@/components/shared/auth/Input.component';
 import { notifyForgotPassword } from '@/validators/auth.validator';
 import { inputClassName } from './FormSignup.component';
 

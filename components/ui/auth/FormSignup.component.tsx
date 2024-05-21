@@ -1,11 +1,13 @@
 // Utils
 import countries from '@/_utils/data/country';
-import Button from '@/components/shared/auth/btn-submit.component';
-import Input from '@/components/shared/auth/input.component';
+import Button from '@/components/shared/auth/BtnSubmit.component';
+import Input from '@/components/shared/auth/Input.component';
 import { notifySignup } from '@/validators/auth.validator';
 
 // Libs React
 import { FormEvent, useEffect, useReducer, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Icons
 import { FaBirthdayCake, FaUser, FaUserSecret } from 'react-icons/fa';
@@ -21,39 +23,79 @@ import {
 import FormStep from '@/enums/formStep.emun';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
 
+// Axios
+import { useLocalStorage } from '@/hooks/useLocalStorage.hooks';
+import { FormSignupProps } from '@/interfaces/modal.interface';
+import axios from 'axios';
+
 export const inputClassName = 'input input-bordered flex items-center gap-2';
 
-const FormSignup: React.FC = () => {
-  const [state, dispatch] = useReducer<
-    React.Reducer<SignupValidator, SignupAction>
-  >(signupReducer, initialState);
+const FormSignup = ({ onSuccess }: FormSignupProps) => {
+  const [state, dispatch] = useReducer<React.Reducer<SignupValidator, SignupAction>>(signupReducer, initialState);
   const [countriesOptions, setCountriesOptions] = useState<JSX.Element[]>([]);
   const [currentStep, setCurrentStep] = useState(FormStep.CONDITION_OF_USE);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [token, setToken] = useLocalStorage<string | null>('token', null);
+  const [role, setRole] = useLocalStorage<string | null>('role', null);
+  const [storedPseudo, setStoredPseudo] = useLocalStorage<string | null>('pseudo', null);
+
 
   const signupData: SignupValidator = {
     firstname: state.firstname,
     lastname: state.lastname,
     pseudo: state.pseudo,
-    email: state.email,
+    mail: state.mail,
     password: state.password,
     confirmPassword: state.confirmPassword,
     dateOfBirth: state.dateOfBirth,
     country: state.country,
+    is_revoice: state.is_revoice,
     isTermsAccepted: state.isTermsAccepted,
     errorMessage: state.errorMessage,
   };
 
-  const handleSubmitSignup = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!state.isTermsAccepted) {
       dispatch({ type: 'SET_ERROR_MESSAGE', payload: "Vous devez accepter les conditions d'utilisation." });
       return;
     }
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
-    console.log('Form Data:', signupData);
-    notifySignup(signupData);
+
+    const validationError = notifySignup(signupData);
+    if (validationError) {
+      toast.error(validationError);
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: validationError });
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/signup', signupData);
+
+      if (response.status === 201) {
+        const { token, pseudo } = response.data;
+        setToken(token);
+
+        setStoredPseudo(pseudo);
+console.log('con : ',  pseudo, token);
+        toast.success('Inscription réussie');
+        onSuccess();
+      } else {
+        throw new Error('Erreur lors de la soumission du formulaire.');
+      }
+    } catch (error) {
+      console.error(error);
+      let errorMessage = "Erreur lors de la création de l'utilisateur.";
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          errorMessage = error.response.data.error || "Erreur de validation des données.";
+        } else if (error.response.status === 409) {
+          errorMessage = "Le pseudo ou l'email est déjà utilisé.";
+        }
+      }
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
+    }
   };
 
   useEffect(() => {
@@ -117,7 +159,7 @@ const FormSignup: React.FC = () => {
           <Input
             type="text"
             placeholder="Email"
-            value={state.email}
+            value={state.mail}
             onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })}
             required
           />
@@ -200,6 +242,23 @@ const FormSignup: React.FC = () => {
         * Champ requis
       </p>
       <Button>S'inscrire</Button>
+     {/*  {state.errorMessage && (
+        <p className="text-xs text-center w-full mt-1 text-red-500">
+          {state.errorMessage}
+        </p>
+      )} */}
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </form>
   );
 };

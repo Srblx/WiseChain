@@ -11,18 +11,20 @@ export type SignupAction =
   | { type: 'SET_BIRTHDAY'; payload: string }
   | { type: 'SET_TERMS_ACCEPTED'; payload: boolean }
   | { type: 'SET_COUNTRY'; payload: string }
-  | { type: 'SET_ERROR_MESSAGE'; payload: string };
+  | { type: 'SET_ERROR_MESSAGE'; payload: string }
+  | { type: 'SET_IS_REVOICE'; payload: boolean };
 
 export const initialState: SignupValidator = {
   firstname: '',
   lastname: '',
   pseudo: '',
-  email: '',
+  mail: '',
   password: '',
   confirmPassword: '',
   dateOfBirth: '',
   country: '',
   isTermsAccepted: false,
+  is_revoice: false,
   errorMessage: '', 
 };
 
@@ -35,7 +37,7 @@ export const signupReducer = (state: SignupValidator, action: SignupAction): Sig
     case 'SET_PSEUDO':
       return { ...state, pseudo: action.payload };
     case 'SET_EMAIL':
-      return { ...state, email: action.payload };
+      return { ...state, mail: action.payload };
     case 'SET_PASSWORD':
       return { ...state, password: action.payload };
     case 'SET_CONFIRM_PASSWORD':
@@ -48,6 +50,8 @@ export const signupReducer = (state: SignupValidator, action: SignupAction): Sig
       return { ...state, isTermsAccepted: action.payload };
     case 'SET_ERROR_MESSAGE':
       return { ...state, errorMessage: action.payload };
+      case 'SET_IS_REVOICE':
+        return { ...state, is_revoice: action.payload };
     default:
       return state;
   }

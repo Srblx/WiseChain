@@ -19,19 +19,31 @@ const ButtonUserUnlogged = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalSuccess = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <nav>
         <button
-          className='rounded-full p-1 mr-4 border-2 border-white bg-black'
+          className="rounded-full p-1 mr-4 border-2 border-white bg-black"
           onClick={openModal}
         >
-          <Image src={iconUserRed} alt='Icon utilisateur non connecté' />
+          <Image src={iconUserRed} alt="Icon utilisateur non connecté" />
         </button>
       </nav>
-      <div className='flex justify-center items-center'>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <ModalContent />
+      <div className="flex justify-center items-center">
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSuccess={handleModalSuccess}
+        >
+          <ModalContent onSuccess={handleModalSuccess} />
         </Modal>
       </div>
     </div>
