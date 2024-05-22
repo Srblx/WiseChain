@@ -1,9 +1,11 @@
 //Libs Next
-import prisma from '@/lib/prisma';
+
+import { PrismaClient } from '@prisma/client';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 //Prisma Client
+const prisma = new PrismaClient();
 
 const googleId = process.env.GOOGLE_ID;
 const googleSecret = process.env.GOOGLE_SECRET;
