@@ -191,11 +191,11 @@ const FormSignup: React.FC = () => {
           </span>
         </label>
       </div>
-      {state.errorMessage && (
+      {/* {state.errorMessage && (
         <p className="text-xs text-center w-full mt-1 text-red-500">
           {state.errorMessage}
         </p>
-      )}
+      )} */}
       <p className="text-xs text-center w-full mt-2 mb-4 text-red-500">
         * Champ requis
       </p>
