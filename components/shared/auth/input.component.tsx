@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Interfaces
-import { InputProps } from '@/interfaces/inputAuth.interface';
+import { InputProps } from '@/interfaces/auth/inputAuth.interface';
 
 const Input: React.FC<InputProps> = ({
   type,

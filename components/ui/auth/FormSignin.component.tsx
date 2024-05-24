@@ -15,6 +15,10 @@ import { inputClassName } from './FormSignup.component';
 import { useLocalStorage } from '@/hooks/useLocalStorage.hooks';
 import { FormSigninProps } from '@/interfaces/modal.interface';
 
+// Validators
+import { LoginSchema } from '@/validators/auth.validator';
+import * as Yup from 'yup';
+
 export default function FormSignin({ onSuccess }: FormSigninProps) {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,33 +42,49 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
 
   const handleSubmitSignin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post('/api/signin', { mail, password }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      await LoginSchema.validate({ mail, password }, { abortEarly: false });
+      const response = await axios.post(
+        '/api/signin',
+        { mail, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
       const { token, pseudo } = response.data;
-  
+
       setToken(token);
       setPseudo(pseudo);
-  
+
       console.log('Token:', token, pseudo);
       toast.success('Connexion réussie');
       onSuccess();
     } catch (error: any) {
-      console.error(error);
-      
-      if (error.response) {
-        const { status, data } = error.response;
-        
-        if (status === 401) {
-          toast.error("E-mail ou mot de passe incorrect.");
-        } else {
-          setErrorMessage('Une erreur est survenue. Veuillez réessayer plus tard.');
-        }
+      if (error instanceof Yup.ValidationError) {
+        error.inner.forEach((err) => {
+          toast.error(err.message);
+        });
       } else {
-        setErrorMessage('Une erreur est survenue. Veuillez vérifier votre connexion internet.');
+        console.error(error);
+        if (error.response) {
+          const { status, data } = error.response;
+
+          if (status === 401) {
+            toast.error('E-mail ou mot de passe incorrect.');
+          } else {
+            toast.error(
+              'Une erreur est survenue. Veuillez réessayer plus tard.'
+            );
+          }
+        } else {
+          toast.error(
+            'Une erreur est survenue. Veuillez vérifier votre connexion internet.'
+          );
+        }
       }
     }
   };
@@ -97,7 +117,7 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
           </button>
         </label>
         <Button>Se connecter</Button>
-       {/*  {errorMessage && (
+        {/*  {errorMessage && (
           <p className="text-xs text-center w-full mt-1 text-red-500">
             {errorMessage}
           </p>

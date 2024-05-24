@@ -29,6 +29,35 @@ function createToken(userId: string, pseudo: string): string {
   return jwt.sign({ userId, pseudo }, JWT_SECRET!, { expiresIn: JWT_EXPIRES_IN });
 }
 
+// async function sendValidationEmail(mail: string, pseudo: string) {
+//   const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//       user: process.env.REACT_APP_SMTP_USER,
+//       pass: process.env.REACT_APP_SMTP_PASSWORD,
+//     },
+//   });
+
+//   const mailOptions = {
+//     from: process.env.REACT_APP_SMTP_USER,
+//     to: mail,
+//     subject: 'Validation de votre inscription',
+//     html: `
+//       <h1>Vérification d'inscription</h1>
+//       <p>Bonjour ${pseudo},</p>
+//       <p>Merci de vous être inscrit sur notre plateforme. Veuillez cliquer sur le lien suivant pour valider votre adresse e-mail : <a href="https://votredomaine.com/verify-email?token=123456">Valider mon e-mail</a></p>
+//     `,
+//   };
+
+//   try {
+//     const info = await transporter.sendMail(mailOptions);
+//     console.log('Email sent: ' + info.response);
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//     throw error;
+//   }
+// }
+
 export async function POST(req: NextRequest) {
   const data = await req.json();
 
@@ -64,6 +93,9 @@ export async function POST(req: NextRequest) {
     });
 
     const token = createToken(newUser.id, newUser.pseudo);
+
+    // Envoyer l'e-mail de validation
+    // await sendValidationEmail(mail, pseudo);
 
     return NextResponse.json({ token, pseudo: newUser.pseudo }, { status: 201 });
   } catch (error) {

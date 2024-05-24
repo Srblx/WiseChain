@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Interfaces
-import { ButtonProps } from '@/interfaces/buttonSubmit.interface';
+import { ButtonProps } from '@/interfaces/auth/buttonSubmit.interface';
 
 const ButtonSubmit: React.FC<ButtonProps> = ({
   children,

@@ -22,6 +22,8 @@ npm i react-icons --save
 npm install jsonwebtoken dotenv
 npm install --save-dev @types/jsonwebtoken
 
+npm install react-daisyui
+
 <!--* Back dependancies ->  -->
 npm i next-auth
 npm i prisma --save-dev

@@ -17,3 +17,9 @@ export interface LoginValidator {
     isTermsAccepted: boolean;
   }
   
+  export interface ValidateRegistration {
+    mail: string 
+    subject: string;
+    name: string;
+    message: string;
+  }
