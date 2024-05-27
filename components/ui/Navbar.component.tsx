@@ -79,5 +79,4 @@ const Navbar = memo(() => {
   );
 });
 
-
 export default Navbar;

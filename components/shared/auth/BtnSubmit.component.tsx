@@ -11,6 +11,7 @@ const ButtonSubmit: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+    type="submit"
       className={`btn w-full bg-button hover:!bg-green-500 text-white font-semibold text-lg ${className}`}
       onClick={onClick}
     >

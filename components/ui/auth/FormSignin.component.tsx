@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 // Components
 import Button from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
+
+// Icons
 import { FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
 import { inputClassName } from './FormSignup.component';

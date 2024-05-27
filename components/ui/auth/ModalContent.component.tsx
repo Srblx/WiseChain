@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 // Components
-import FormResetPassword from './FormResetPassword.component';
+import FormResetPassword from './FormClaimResetPassword.component';
 import FormSignin from './FormSignin.component';
 import FormSignup from './FormSignup.component';
 

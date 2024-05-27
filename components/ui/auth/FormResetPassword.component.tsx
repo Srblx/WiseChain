@@ -1,61 +1,72 @@
-// Libs React
-import { ChangeEvent, FormEvent, useState } from 'react';
+'use client';
 
-// Icons
-import { IoMdMail } from 'react-icons/io';
+//Libs React
+import { ChangeEvent, useState } from 'react';
 
 // Components
-import Button from '@/components/shared/auth/BtnSubmit.component';
+import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
-import { notifyForgotPassword } from '@/validators/auth.validator';
-import axios from 'axios';
 import { inputClassName } from './FormSignup.component';
 
-function FormResetPassword() {
-  const [mail, setMail] = useState('');
+// Icons
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
-  const handleMailResetPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setMail(e.target.value);
+// Libs Next
+
+const FormResetPassword = () => {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(e.target.value);
   };
 
-  const handleSubmitResetPassword = async (e: FormEvent<HTMLFormElement>) => {
+  const handleConfirmNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setConfirmNewPassword(e.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmitNewPassword = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
-    try {
-      const res = await axios.post('/api/send-email', {
-        name,
-        mail,
-        onmessage,
-      });
-  
-      if (res.status === 200) {
-        alert('Email envoyé avec succès');
-        // Réinitialisez le formulaire
-      } else {
-        alert("Erreur lors de l'envoi de l'email");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Erreur lors de l'envoi de l'email");
-    }
-    notifyForgotPassword(mail);
+    await console.log('submit');
+    // router.push('/');
   };
 
   return (
-    <form className="w-[90%] space-y-5" onSubmit={handleSubmitResetPassword}>
-      <p className="text-tertiary text-xl">Réinitialiser le mot de passe</p>
-      <label className={inputClassName}>
-        <IoMdMail />
-        <Input
-          type="mail"
-          placeholder="E-mail"
-          value={mail}
-          onChange={handleMailResetPassword}
-          required
-        />
-      </label>
-      <Button>Envoyer un mail de réinitialisation</Button>
-    </form>
+    <div className="mt-10">
+      <form onSubmit={handleSubmitNewPassword} className="space-y-4">
+        <label className={inputClassName}>
+          <Input
+            placeholder="Nouveau mot de passe"
+            type={showPassword ? 'text' : 'password'}
+            value={newPassword}
+            onChange={handleNewPasswordChange}
+          />
+          <button type="button" onClick={togglePasswordVisibility}>
+            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+          </button>
+        </label>
+        <label className={inputClassName}>
+          <Input
+            placeholder="Nouveau mot de passe"
+            type={showPassword ? 'text' : 'password'}
+            value={confirmNewPassword}
+            onChange={handleConfirmNewPasswordChange}
+          />
+          <button type="button" onClick={togglePasswordVisibility}>
+            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+          </button>
+        </label>
+        <ButtonSubmit>Réinitialiser le mot de passe</ButtonSubmit>
+      </form>
+    </div>
   );
-}
+};
 
 export default FormResetPassword;

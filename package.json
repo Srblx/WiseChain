@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -21,6 +22,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",
+    "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
@@ -46,6 +48,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cypress": "^13.10.0",
     "daisyui": "^4.11.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
