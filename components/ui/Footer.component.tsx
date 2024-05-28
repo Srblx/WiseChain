@@ -50,7 +50,7 @@ export default function Footer() {
             éléments contenus dans l&#39;application.
           </p>
         </div>
-      </div> 
+      </div>
       <footer className="footer p-10 mt-6 text-white max-md:flex max-md:flex-col max-md:items-center max-md:text-center">
         <aside className="sm:ml-10 md:ml-14 lg:ml-28">
           <Link href="/">
@@ -65,12 +65,12 @@ export default function Footer() {
         {footerItems.map(({ title, links }) => (
           <nav key={/* title */ Math.random()} className={`${navClass}`}>
             <h6 className="uppercase text-gray-500 mb-1">{title}</h6>
-            {links.map((link) => (
-              <a key={link} className="link link-hover">
-                {link}
+            {/* {links.map((link) => ( */}
+              {/* <a key={link} className="link link-hover"> */}
+                 {/* {link} */}
                 {/* rajoute un in footer en db pour appele que les in footer */}
-              </a>
-            ))}
+              {/* </a> */}
+            {/* ))} */}
           </nav>
         ))}
       </footer>

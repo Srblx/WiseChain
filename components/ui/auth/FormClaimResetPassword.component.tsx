@@ -1,16 +1,21 @@
 // Libs React
 import { ChangeEvent, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 // Icons
 import { IoMdMail } from 'react-icons/io';
 
 // Components
-import { checkEmailExists } from '@/app/api/resetPassword/route';
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
-import { compilerResetPasswordTemplate, sendMail } from '@/lib/mail';
-import { ToastContainer, toast } from 'react-toastify';
 import { inputClassName } from './FormSignup.component';
+
+// API
+import { checkEmailExists } from '@/app/api/claimResetPassword/route';
+import axios from 'axios';
+
+// Lib
+import { compilerResetPasswordTemplate, sendMail } from '@/lib/mail';
 
 function ClaimResetPasswordPage() {
   const [mail, setMail] = useState('');
@@ -28,11 +33,13 @@ function ClaimResetPasswordPage() {
         return;
       }
 
+      const response = await axios.post('/api/generateToken', { mail });
+
       await sendMail({
         to: `${mail}`,
         name: 'Réinitialisation de mot de passe',
         subject: 'Réinitialisation de mot de passe WiseChain',
-        body: await compilerResetPasswordTemplate('http://localhost:3000/'),
+        body: await compilerResetPasswordTemplate(`http://localhost:3000/resetPassword?token=${response.data.token}`),
       });
 
       toast.success('E-mail envoyé avec succès');

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 // CSS Module
-import logo from '../../public/img/logo-d.png';
+import logo from '@/public/img/logo-d.png';
 
 const LogoDetoured = () => {
   return (

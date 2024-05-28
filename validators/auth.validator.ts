@@ -5,11 +5,8 @@ export const LoginSchema = Yup.object().shape({
   mail: Yup.string()
     .email("L'email n'est pas valide")
     .required("L'email est requis"),
-  password: Yup.string()
-    .required('Le mot de passe est requis'),
+  password: Yup.string().required('Le mot de passe est requis'),
 });
-
-
 
 export const notifyForgotPassword = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

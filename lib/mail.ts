@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 // Interfaces
 import { Mail } from '@/interfaces/mail/mail.interface';

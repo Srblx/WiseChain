@@ -12,7 +12,6 @@ export interface FormSigninProps {
   onSuccess: () => void;
 }
 
-
 export interface ModalContentProps {
   onSuccess: () => void;
 }

@@ -1,14 +1,9 @@
-// ConfirmDialog.component.tsx
+// Lib React
 import React from 'react';
 import { Button, Modal } from 'react-daisyui';
 
-interface ConfirmDialogProps {
-  isOpen: boolean;
-  title: string;
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-}
+// Interfaces
+import { ConfirmDialogProps } from '@/interfaces/auth/dialogAlert.interface';
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,

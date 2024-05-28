@@ -10,25 +10,20 @@ import { useEffect, useState } from 'react';
 // Icons
 import iconUserGreen from '@/public/svg/icon-user-logged.svg';
 import iconUserRed from '@/public/svg/icon-user-unlogged.svg';
+import { MdOutlineLogout } from "react-icons/md";
 
 // Components
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/ui/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
-import { MdOutlineLogout } from 'react-icons/md';
+import useAuth from '@/hooks/useAuth.hooks';
 
 const ButtonUserUnlogged = () => {
   const router = useRouter();
-  const [isLogged, setIsLogged] = useState(false);
   const [isModalOpen, toggleModal] = useState(false);
   const [showConfirm, toggleConfirm] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLogged(true);
-    }
-  }, []);
+  const { token, logout } = useAuth();
+  const [isLogged, setIsLogged] = useState(token !== '' && token !== null);
 
   const handleModalClose = () => {
     toggleModal(false);
@@ -36,7 +31,6 @@ const ButtonUserUnlogged = () => {
 
   const handleModalSuccess = () => {
     toggleModal(false);
-    setIsLogged(true);
   };
 
   const confirmLogout = () => {
@@ -44,8 +38,7 @@ const ButtonUserUnlogged = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLogged(false);
+    logout();
     toggleConfirm(false);
     router.push('/');
   };
@@ -53,6 +46,11 @@ const ButtonUserUnlogged = () => {
   const cancelLogout = () => {
     toggleConfirm(false);
   };
+
+  // const isLogged = token !== '' && token !== null;
+  useEffect(() => {
+    setIsLogged(token !== '' && token !== null);
+  }, [token]);
 
   const handleUserIconClick = () => {
     if (isLogged) {
@@ -65,8 +63,8 @@ const ButtonUserUnlogged = () => {
   return (
     <div>
       <nav>
-        <div className="flex justify-between items-center">
-          {isLogged && <MdOutlineLogout onClick={confirmLogout} size="2em" />}
+        <div className="flex justify-between items-center space-x-1">
+          {isLogged && <MdOutlineLogout onClick={confirmLogout} size="1.5em" />}
           <div className="ml-4">
             <button
               className="rounded-full p-1 mr-4 border-2 border-white bg-black"
@@ -74,7 +72,7 @@ const ButtonUserUnlogged = () => {
             >
               <Image
                 src={isLogged ? iconUserGreen : iconUserRed}
-                alt="Icon utilisateur non connecté"
+                alt={isLogged ? "Icône utilisateur connecté" : "Icône utilisateur non connecté"}
               />
             </button>
           </div>

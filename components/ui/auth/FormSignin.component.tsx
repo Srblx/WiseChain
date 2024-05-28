@@ -14,21 +14,20 @@ import { IoMdMail } from 'react-icons/io';
 import { inputClassName } from './FormSignup.component';
 
 // Hooks
-import { useLocalStorage } from '@/hooks/useLocalStorage.hooks';
 import { FormSigninProps } from '@/interfaces/modal.interface';
 
 // Validators
+import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
+import useAuth from '@/hooks/useAuth.hooks';
 import { LoginSchema } from '@/validators/auth.validator';
 import * as Yup from 'yup';
 
 export default function FormSignin({ onSuccess }: FormSigninProps) {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
   const [errorMessage, setErrorMessage] = useState('');
-
-  const [token, setToken] = useLocalStorage<string | null>('token', null);
-  const [pseudo, setPseudo] = useLocalStorage<string | null>('pseudo', null);
+  const { login } = useAuth();
 
   const handleMailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMail(e.target.value);
@@ -36,10 +35,6 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const handleSubmitSignin = async (e: FormEvent<HTMLFormElement>) => {
@@ -57,12 +52,9 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
         }
       );
 
-      const { token, pseudo } = response.data;
+      const { token } = response.data;
+      login(token);
 
-      setToken(token);
-      setPseudo(pseudo);
-
-      console.log('Token:', token, pseudo);
       toast.success('Connexion réussie');
       onSuccess();
     } catch (error: any) {
@@ -73,7 +65,7 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
       } else {
         console.error(error);
         if (error.response) {
-          const { status, data } = error.response;
+          const { status } = error.response;
 
           if (status === 401) {
             toast.error('E-mail ou mot de passe incorrect.');

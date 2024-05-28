@@ -11,12 +11,13 @@ import { inputClassName } from './FormSignup.component';
 // Icons
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
-// Libs Next
+// Utils
+import usePasswordVisibility from "@/_utils/usePasswordVisibility.utils";
 
 const FormResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
 
   const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -24,10 +25,6 @@ const FormResetPassword = () => {
 
   const handleConfirmNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmNewPassword(e.target.value);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const handleSubmitNewPassword = async (

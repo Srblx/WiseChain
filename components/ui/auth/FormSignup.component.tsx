@@ -1,8 +1,17 @@
 // Utils
 import countries from '@/_utils/data/country';
+import {
+  SignupAction,
+  initialState,
+  signupReducer,
+} from '@/_utils/data/signupReducer';
+import usePasswordVisibility, {
+  useConfirmPasswordVisibility,
+} from '@/_utils/usePasswordVisibility.utils';
+
+// Components
 import Button from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
-import { SignupSchema } from '@/validators/auth.validator';
 
 // Libs React
 import { FormEvent, useEffect, useReducer, useState } from 'react';
@@ -15,18 +24,18 @@ import { FaFlag, FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
 
 // Validators
-import {
-  SignupAction,
-  initialState,
-  signupReducer,
-} from '@/_utils/data/signupReducer';
-import FormStep from '@/enums/formStep.emun';
-import { SignupValidator } from '@/interfaces/auth/auth.interface';
+import { SignupSchema } from '@/validators/auth.validator';
 import * as Yup from 'yup';
 
-// Axios
-import { useLocalStorage } from '@/hooks/useLocalStorage.hooks';
+// Interfaces
+import FormStep from '@/enums/formStep.emun';
+import { SignupValidator } from '@/interfaces/auth/auth.interface';
 import { FormSignupProps } from '@/interfaces/modal.interface';
+
+// Hooks
+
+// Axios
+import useAuth from '@/hooks/useAuth.hooks';
 import axios from 'axios';
 
 export const inputClassName = 'input input-bordered flex items-center gap-2';
@@ -37,14 +46,10 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
   >(signupReducer, initialState);
   const [countriesOptions, setCountriesOptions] = useState<JSX.Element[]>([]);
   const [currentStep, setCurrentStep] = useState(FormStep.CONDITION_OF_USE);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [token, setToken] = useLocalStorage<string | null>('token', null);
-  const [role, setRole] = useLocalStorage<string | null>('role', null);
-  const [storedPseudo, setStoredPseudo] = useLocalStorage<string | null>(
-    'pseudo',
-    null
-  );
+  const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
+  const { showConfirmPassword, toggleConfirmPasswordVisibility } =
+    useConfirmPasswordVisibility();
+    const { login } = useAuth();
 
   const signupData: SignupValidator = {
     firstname: state.firstname,
@@ -84,11 +89,10 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
       const response = await axios.post('/api/signup', signupData);
 
       if (response.status === 201) {
-        const { token, pseudo } = response.data;
-        setToken(token);
-        setStoredPseudo(pseudo);
+        const { token } = response.data;
+      login(token);
 
-        console.log('con : ', pseudo, token);
+
         toast.success('Inscription réussie');
         onSuccess();
       } else {
@@ -119,14 +123,6 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
       setCountriesOptions(options);
     }
   }, []);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
 
   return (
     <form

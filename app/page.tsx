@@ -1,3 +1,4 @@
+import TestUser from "@/components/test.component";
 
 export default function Home() {
   // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <>
       <h1>Hello, World!</h1>
+      <TestUser />
     </>
   );
 }

@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react';
 import { ModalProps } from '@/interfaces/modal.interface';
 
 // Utils
-import { disableScroll, enableScroll } from '@/_utils/disableScroll';
+import { disableScroll, enableScroll } from '@/_utils/disableScroll.utils';
 
 // Icons
 import React from 'react';
@@ -30,7 +30,9 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, onSuccess, children }) => {
           <FaWindowClose className="text-white text-2xl absolute z-20 right-2" />
         </button>
         <div className="rounded-lg p-8 max-w-md">
-          {React.cloneElement(children as React.ReactElement, { onSuccess: handleSuccess })}
+          {React.cloneElement(children as React.ReactElement, {
+            onSuccess: handleSuccess,
+          })}
         </div>
       </div>
     </div>

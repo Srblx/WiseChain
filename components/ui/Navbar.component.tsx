@@ -6,15 +6,12 @@ import ButtonUserUnlogged from '@/components/shared/auth/BtnUserUnlogged.compone
 import { memo, useMemo } from 'react';
 
 // Components
-import { MenuItemType } from '@/interfaces/navItems.interface';
+import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
 import LogoDetoured from '../shared/Logo.component';
 
 const navClasses =
   'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0';
 
-interface MenuProps {
-  menuItems: { label: string; href: string }[];
-}
 
 const Menu = ({ menuItems }: MenuProps) => {
   return (

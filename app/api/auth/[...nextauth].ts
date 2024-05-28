@@ -1,11 +1,8 @@
 //Libs Next
-
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/_utils/constante.utils';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-//Prisma Client
-const prisma = new PrismaClient();
 
 const googleId = process.env.GOOGLE_ID;
 const googleSecret = process.env.GOOGLE_SECRET;
@@ -26,7 +23,8 @@ export const authConfig = {
 } satisfies NextAuthOptions;
 
 export default NextAuth(authConfig);
-function PrismaAdapter(prisma: any): import("next-auth/adapters").Adapter | undefined {
+function PrismaAdapter(
+  prisma: any
+): import('next-auth/adapters').Adapter | undefined {
   throw new Error('Function not implemented.');
 }
-
