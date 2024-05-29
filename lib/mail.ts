@@ -8,7 +8,8 @@ import nodemailer from 'nodemailer';
 
 // Mail Template
 import * as handlebars from 'handlebars';
-import { resetPasswordTemplate } from './template/resetPassword';
+import { resetPasswordTemplate } from './templates/resetPassword';
+import { verifyMailTemplate } from './templates/verifyMail';
 
 export async function sendMail({ to, name, subject, body }: Mail) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
@@ -41,6 +42,14 @@ export async function sendMail({ to, name, subject, body }: Mail) {
 
 export async function compilerResetPasswordTemplate(url: string) {
   const template = handlebars.compile(resetPasswordTemplate);
+  const htmlBody = template({
+    url: url,
+  });
+  return htmlBody;
+}
+
+export async function compilerMailTemplate(url: string) {
+  const template = handlebars.compile(verifyMailTemplate);
   const htmlBody = template({
     url: url,
   });

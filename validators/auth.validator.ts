@@ -61,3 +61,18 @@ export const SignupSchema = Yup.object().shape({
     .oneOf([true], "Vous devez accepter les conditions d'utilisation")
     .required("Vous devez accepter les conditions d'utilisation"),
 });
+
+
+export const passwordResetSchema = Yup.object().shape({
+  newPassword: Yup.string()
+    .min(12, 'Le mot de passe doit avoir au moins 12 caractères')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/,
+      'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial'
+    )
+    .required('Le mot de passe est requis'),
+  confirmNewPassword: Yup.string()
+    .nullable()
+    .oneOf([Yup.ref('newPassword')], 'Les mots de passe ne correspondent pas')
+    .required('La confirmation du mot de passe est requise'),
+});

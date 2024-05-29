@@ -20,7 +20,6 @@ export const REQUIRED_FIELDS = [
     'is_revoice',
   ];
 
-// Google ID and Secret
-
+export const WEB_URL = process.env.WEB_URL;
 
 export const SALT_ROUNDS = 10;

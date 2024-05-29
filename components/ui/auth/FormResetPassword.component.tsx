@@ -1,6 +1,6 @@
-"use client"; 
+'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 
 // Components
@@ -13,13 +13,17 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
 import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
+import { passwordResetSchema } from '@/validators/auth.validator';
+import { ToastContainer, toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 const FormResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
-  const searchParams = useSearchParams(); 
-  const token = searchParams.get('token'); 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const token = searchParams.get('token');
 
   const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -29,11 +33,14 @@ const FormResetPassword = () => {
     setConfirmNewPassword(e.target.value);
   };
 
-  const handleSubmitNewPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitNewPassword = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     if (token) {
       try {
+        await passwordResetSchema.validate({ newPassword, confirmNewPassword }, { abortEarly: false });
         const response = await fetch('/api/resetPassword', {
           method: 'POST',
           headers: {
@@ -45,13 +52,22 @@ const FormResetPassword = () => {
         const data = await response.json();
 
         if (response.ok) {
-          console.log(data.message);
-          // Rediriger l'utilisateur ou effectuer d'autres actions après la réinitialisation réussie
+          toast.success(data.message);
+          setTimeout(() => {
+            router.push('/');
+          }, 5000);
         } else {
+          toast.error(data.error);
           console.error(data.error);
         }
-      } catch (error) {
-        console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+      } catch (error: string | any) {
+        if (error instanceof Yup.ValidationError) {
+          error.inner.forEach((err) => {
+            toast.error(err.message);
+          });
+        } else {
+          console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+        }
       }
     }
   };
@@ -83,6 +99,18 @@ const FormResetPassword = () => {
         </label>
         <ButtonSubmit>Réinitialiser le mot de passe</ButtonSubmit>
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

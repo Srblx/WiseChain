@@ -36,6 +36,7 @@ import { FormSignupProps } from '@/interfaces/modal.interface';
 
 // Axios
 import useAuth from '@/hooks/useAuth.hooks';
+import { compilerMailTemplate, sendMail } from '@/lib/mail';
 import axios from 'axios';
 
 export const inputClassName = 'input input-bordered flex items-center gap-2';
@@ -77,38 +78,54 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
 
     try {
-      await SignupSchema.validate(signupData, { abortEarly: true });
+      const responseSignup = await SignupSchema.validate(signupData, {
+        abortEarly: true,
+      });
+
+      try {
+        const responseSignin = await axios.post('/api/signup', signupData);
+        console.log('response : ', responseSignin);
+        if (responseSignin.status === 201) {
+          const { token } = responseSignin.data;
+          login(token);
+                    
+          const mail = responseSignup.mail;
+          const responseSenderMail = await axios.post('/api/generateToken', {
+            mail: mail,
+          });
+         
+          await sendMail({
+            to: `${mail}`,
+            name: 'Verification adresse mail',
+            subject: 'Verification adresse mail',
+            body: await compilerMailTemplate(
+              `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
+            ),
+          });
+
+          toast.success('Inscription réussie');
+          onSuccess();
+        } else {
+          throw new Error('Erreur lors de la soumission du formulaire.');
+        }
+      } catch (error) {
+        console.error(error);
+        let errorMessage = "Erreur lors de la création de l'utilisateur.";
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 400) {
+            errorMessage =
+              error.response.data.error || 'Erreur de validation des données.';
+          } else if (error.response.status === 409) {
+            errorMessage = "Le pseudo ou l'email est déjà utilisé.";
+          }
+        }
+        dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
+      }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         toast.error(error.message);
         return;
       }
-    }
-
-    try {
-      const response = await axios.post('/api/signup', signupData);
-
-      if (response.status === 201) {
-        const { token } = response.data;
-        login(token);
-
-        toast.success('Inscription réussie');
-        onSuccess();
-      } else {
-        throw new Error('Erreur lors de la soumission du formulaire.');
-      }
-    } catch (error) {
-      console.error(error);
-      let errorMessage = "Erreur lors de la création de l'utilisateur.";
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 400) {
-          errorMessage =
-            error.response.data.error || 'Erreur de validation des données.';
-        } else if (error.response.status === 409) {
-          errorMessage = "Le pseudo ou l'email est déjà utilisé.";
-        }
-      }
-      dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
     }
   };
 
