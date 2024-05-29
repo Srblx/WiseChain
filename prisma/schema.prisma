@@ -21,8 +21,8 @@ model User {
   date_of_birth DateTime @db.Date
   roles         String   @default("suscriber")
   profile_img   String?
+  is_verified   Boolean @default(false)
   is_revoice    Boolean
-  // is_verified   Boolean @default(false)
   created_at    DateTime @default(now())
   articles      Article[]
   realize_questionaries RealizeQuestionary[]

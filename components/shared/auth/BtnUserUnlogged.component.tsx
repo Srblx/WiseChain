@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // Libs React
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // Icons
 import iconUserGreen from '@/public/svg/icon-user-logged.svg';
 import iconUserRed from '@/public/svg/icon-user-unlogged.svg';
-import { MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout } from 'react-icons/md';
 
 // Components
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
@@ -23,7 +23,7 @@ const ButtonUserUnlogged = () => {
   const [isModalOpen, toggleModal] = useState(false);
   const [showConfirm, toggleConfirm] = useState(false);
   const { token, logout } = useAuth();
-  const [isLogged, setIsLogged] = useState(token !== '' && token !== null);
+  const isLogged = token !== null;
 
   const handleModalClose = () => {
     toggleModal(false);
@@ -47,11 +47,6 @@ const ButtonUserUnlogged = () => {
     toggleConfirm(false);
   };
 
-  // const isLogged = token !== '' && token !== null;
-  useEffect(() => {
-    setIsLogged(token !== '' && token !== null);
-  }, [token]);
-
   const handleUserIconClick = () => {
     if (isLogged) {
       router.push('/profile');
@@ -72,7 +67,11 @@ const ButtonUserUnlogged = () => {
             >
               <Image
                 src={isLogged ? iconUserGreen : iconUserRed}
-                alt={isLogged ? "Icône utilisateur connecté" : "Icône utilisateur non connecté"}
+                alt={
+                  isLogged
+                    ? 'Icône utilisateur connecté'
+                    : 'Icône utilisateur non connecté'
+                }
               />
             </button>
           </div>

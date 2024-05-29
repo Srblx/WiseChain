@@ -49,7 +49,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
   const { showConfirmPassword, toggleConfirmPasswordVisibility } =
     useConfirmPasswordVisibility();
-    const { login } = useAuth();
+  const { login } = useAuth();
 
   const signupData: SignupValidator = {
     firstname: state.firstname,
@@ -90,8 +90,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
 
       if (response.status === 201) {
         const { token } = response.data;
-      login(token);
-
+        login(token);
 
         toast.success('Inscription réussie');
         onSuccess();
