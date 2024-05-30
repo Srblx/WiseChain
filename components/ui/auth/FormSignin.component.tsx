@@ -18,6 +18,7 @@ import { FormSigninProps } from '@/interfaces/modal.interface';
 
 // Validators
 import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
+import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hooks';
 import { LoginSchema } from '@/validators/auth.validator';
 import * as Yup from 'yup';
@@ -43,7 +44,7 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
     try {
       await LoginSchema.validate({ mail, password }, { abortEarly: false });
       const response = await axios.post(
-        '/api/signin',
+        Routes.SIGNIN,
         { mail, password },
         {
           headers: {

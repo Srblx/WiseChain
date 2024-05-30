@@ -14,7 +14,7 @@ import formLoginImage from '@/public/img/form_img.jpeg';
 
 // Enums
 import StepText from '@/components/shared/auth/Paragraph.composent';
-import FormStep from '@/enums/formStep.emun';
+import FormStep from '@/enums/formStep.enum';
 import { ModalContentProps } from '@/interfaces/modal.interface';
 
 export default function ModalContent({ onSuccess }: ModalContentProps) {

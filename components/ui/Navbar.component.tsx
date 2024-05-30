@@ -6,6 +6,7 @@ import ButtonUserUnlogged from '@/components/shared/auth/BtnUserUnlogged.compone
 import { memo, useMemo } from 'react';
 
 // Components
+import Routes from '@/enums/routes.enum';
 import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
 import LogoDetoured from '../shared/Logo.component';
 
@@ -52,11 +53,11 @@ const Menu = ({ menuItems }: MenuProps) => {
 const Navbar = memo(() => {
   const menuItems: MenuItemType[] = useMemo(
     () => [
-      { label: 'Actualité', href: '/articles' },
-      { label: 'Investissement', href: '/courses/investment' },
-      { label: 'Crypto-Monnaie', href: '/courses/crypto' },
-      { label: 'Blockchain', href: '/courses/blockchain' },
-      { label: 'NFTs', href: '/courses/nft' },
+      { label: 'Actualité', href: Routes.ACTUALITY },
+      { label: 'Investissement', href: Routes.COURS_INVESTMENT },
+      { label: 'Crypto-Monnaie', href: Routes.COURS_CRYPTO },
+      { label: 'Blockchain', href: Routes.COURS_BLOCKCHAIN },
+      { label: 'NFTs', href: Routes.COURS_NFTS },
     ],
     []
   );

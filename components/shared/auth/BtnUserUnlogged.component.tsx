@@ -16,6 +16,7 @@ import { MdOutlineLogout } from 'react-icons/md';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/ui/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
+import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hooks';
 
 const ButtonUserUnlogged = () => {
@@ -40,7 +41,7 @@ const ButtonUserUnlogged = () => {
   const handleLogout = () => {
     logout();
     toggleConfirm(false);
-    router.push('/');
+    router.push(Routes.HOME);
   };
 
   const cancelLogout = () => {
@@ -49,7 +50,7 @@ const ButtonUserUnlogged = () => {
 
   const handleUserIconClick = () => {
     if (isLogged) {
-      router.push('/profile');
+      router.push(Routes.PROFILE);
     } else {
       toggleModal(true);
     }

@@ -1,5 +1,6 @@
 'use client';
 
+import Routes from '@/enums/routes.enum';
 // Images
 import logo from '@/public/img/logo-d.png';
 import axios from 'axios';
@@ -13,10 +14,10 @@ const VerifyMail = () => {
 
     const handleVerifyMail = async () => {
       try {
-        const response = await axios.patch('/api/sendVerifyEmail/verifyEmail');
-  
+        const response = await axios.patch(Routes.VERIFY_MAIL);
+        console.log('response : ', response);
         if (response.status === 200) {
-          router.push('/');
+          router.push(Routes.HOME);
         } else {
           console.error('Erreur lors de la vérification de l\'email');
         }

@@ -255,12 +255,3 @@ model Question {
   questionary_id String
   answers       Answer[]
 }
-
-  console.log('isLogged : ', isLogged);
-  const handleUserIconClick = () => {
-    if (isLogged) {
-      router.push('/profile');
-    } else {
-      toggleModal(true);
-    }
-  };

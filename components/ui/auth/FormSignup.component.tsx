@@ -28,13 +28,14 @@ import { SignupSchema } from '@/validators/auth.validator';
 import * as Yup from 'yup';
 
 // Interfaces
-import FormStep from '@/enums/formStep.emun';
+import FormStep from '@/enums/formStep.enum';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
 import { FormSignupProps } from '@/interfaces/modal.interface';
 
 // Hooks
 
 // Axios
+import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hooks';
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
 import axios from 'axios';
@@ -83,14 +84,14 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
       });
 
       try {
-        const responseSignin = await axios.post('/api/signup', signupData);
+        const responseSignin = await axios.post(Routes.SIGNUP, signupData);
         console.log('response : ', responseSignin);
         if (responseSignin.status === 201) {
           const { token } = responseSignin.data;
           login(token);
                     
           const mail = responseSignup.mail;
-          const responseSenderMail = await axios.post('/api/generateToken', {
+          const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
             mail: mail,
           });
          

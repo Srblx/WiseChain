@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 
@@ -13,6 +14,7 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
 import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
+import Routes from '@/enums/routes.enum';
 import { passwordResetSchema } from '@/validators/auth.validator';
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -41,30 +43,28 @@ const FormResetPassword = () => {
     if (token) {
       try {
         await passwordResetSchema.validate({ newPassword, confirmNewPassword }, { abortEarly: false });
-        const response = await fetch('/api/resetPassword', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ newPassword, token }),
+        
+        const response = await axios.post(Routes.RESET_PASSWORD, {
+          newPassword,
+          token
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
-          toast.success(data.message);
+        if (response.status === 200) {
+          toast.success(response.data.message);
           setTimeout(() => {
             router.push('/');
           }, 5000);
         } else {
-          toast.error(data.error);
-          console.error(data.error);
+          toast.error(response.data.error);
+          console.error(response.data.error);
         }
       } catch (error: string | any) {
         if (error instanceof Yup.ValidationError) {
           error.inner.forEach((err) => {
             toast.error(err.message);
           });
+        } else if (axios.isAxiosError(error)) {
+          console.error('Erreur lors de la réinitialisation du mot de passe :', error.message);
         } else {
           console.error('Erreur lors de la réinitialisation du mot de passe :', error);
         }

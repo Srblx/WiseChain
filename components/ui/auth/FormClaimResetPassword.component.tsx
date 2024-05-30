@@ -15,6 +15,7 @@ import { checkEmailExists } from '@/app/api/claimResetPassword/route';
 import axios from 'axios';
 
 // Lib
+import Routes from '@/enums/routes.enum';
 import { compilerResetPasswordTemplate, sendMail } from '@/lib/mail';
 
 function ClaimResetPasswordPage() {
@@ -33,7 +34,7 @@ function ClaimResetPasswordPage() {
         return;
       }
 
-      const response = await axios.post('/api/generateToken', { mail });
+      const response = await axios.post(Routes.GENERATE_TOKEN, { mail });
 
       await sendMail({
         to: `${mail}`,
