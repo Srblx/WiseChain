@@ -53,7 +53,7 @@ const FormResetPassword = () => {
           toast.success(response.data.message);
           setTimeout(() => {
             router.push('/');
-          }, 5000);
+          }, 2000);
         } else {
           toast.error(response.data.error);
           console.error(response.data.error);
@@ -101,7 +101,7 @@ const FormResetPassword = () => {
       </form>
       <ToastContainer
         position="top-center"
-        autoClose={4000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

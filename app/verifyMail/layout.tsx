@@ -1,4 +1,4 @@
-export default function ResetPasswordLayout({
+export default function MailAddressVerifiedLayout({
     children,
   }: {
     children: React.ReactNode;
