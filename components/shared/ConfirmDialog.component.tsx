@@ -31,6 +31,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
               Annuler
             </Button>
             <Button
+              id="btn-confirm-logout"
               onClick={onConfirm}
               className="bg-red-500 border-none text-black hover:text-white hover:bg-background"
             >

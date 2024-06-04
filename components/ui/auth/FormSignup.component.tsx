@@ -80,7 +80,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
 
     try {
       const responseSignup = await SignupSchema.validate(signupData, {
-        abortEarly: true,
+        abortEarly: false,
       });
 
       try {
@@ -124,7 +124,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        toast.error(error.message);
+        toast.error(error.inner[0].message);
         return;
       }
     }

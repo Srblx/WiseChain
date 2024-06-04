@@ -9,6 +9,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
+  name
 }) => {
   return (
     <input

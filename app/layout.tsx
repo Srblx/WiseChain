@@ -1,3 +1,6 @@
+// Helpers
+import setupLocatorUI from "@locator/runtime";
+
 // Libs Next
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -21,14 +24,21 @@ export const metadata: Metadata = {
   description: 'Learning blockchain and investment with WiseChain. Xiss',
 };
 
+
+if (process.env.NODE_ENV === "development") {
+  setupLocatorUI();
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+  
 }>) {
   return (
     <html lang='fr' className='bg-background'>
       <body className={`${inter.className} `}>
+        
         <Toaster richColors closeButton />
         {/* <SessionProvider session={pageProps.session}> */}
         <Navbar />

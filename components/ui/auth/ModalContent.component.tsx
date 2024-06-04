@@ -26,7 +26,7 @@ export default function ModalContent({ onSuccess }: ModalContentProps) {
         return (
           <>
             <FormSignin onSuccess={onSuccess} />
-            <div className="flex justify-between w-[88%] ">
+            <div className="flex justify-between w-[88%]">
               <StepText onClick={() => setCurrentStep(FormStep.SIGNUP)}>
                 Pas de compte ? Créez en un !
               </StepText>

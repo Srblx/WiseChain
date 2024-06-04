@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 // Libs React
-import ButtonUserUnlogged from '@/components/shared/auth/BtnUserUnlogged.component';
+import ButtonUserUnlogged from '@/components/shared/auth/BtnUser.component';
 import { memo, useMemo } from 'react';
 
 // Components
