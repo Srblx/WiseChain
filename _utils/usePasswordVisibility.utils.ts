@@ -1,8 +1,8 @@
-
+// Lib React
 import { useState } from 'react';
 
 const usePasswordVisibility = () => {
-    "use client";
+  'use client';
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -15,7 +15,7 @@ const usePasswordVisibility = () => {
 export default usePasswordVisibility;
 
 export const useConfirmPasswordVisibility = () => {
-    "use client";
+  'use client';
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const toggleConfirmPasswordVisibility = () => {
@@ -23,4 +23,15 @@ export const useConfirmPasswordVisibility = () => {
   };
 
   return { showConfirmPassword, toggleConfirmPasswordVisibility };
-}
+};
+
+export const useNewPasswordVisibility = () => {
+  'use client';
+  const [showNewPassword, setShowNewPassword] = useState(false);
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  return { showNewPassword, toggleNewPasswordVisibility };
+};

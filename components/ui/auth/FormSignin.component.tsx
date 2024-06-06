@@ -19,7 +19,7 @@ import { FormSigninProps } from '@/interfaces/modal.interface';
 // Validators
 import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
 import Routes from '@/enums/routes.enum';
-import useAuth from '@/hooks/useAuth.hooks';
+import useAuth from '@/hooks/useAuth.hook';
 import { LoginSchema } from '@/validators/auth.validator';
 import * as Yup from 'yup';
 
@@ -53,9 +53,11 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
         }
       );
 
-      const { token } = response.data;
-      login(token);
-
+      const { token, user } = response.data;
+      login(user, token);
+      // console.log('response.data : ', response.data);
+      // console.log('user storage : ', user  );
+      // console.log('token storage  : ', token);
       toast.success('Connexion réussie');
       onSuccess();
     } catch (error: any) {

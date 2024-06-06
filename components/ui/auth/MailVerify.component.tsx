@@ -18,8 +18,7 @@ const MailVerify = () => {
   const handleVerifyMail = async () => {
     try {
       const response = await axios.patch(Routes.VERIFY_MAIL, { token });
-      console.log('token : ', token);
-      console.log('response : ', response);
+      
       if (response.status === 200) {
         toast.success("Votre adresse e-mail a été vérifiée avec succès");
         setTimeout(() => {

@@ -17,6 +17,7 @@ enum Routes {
   GENERATE_TOKEN = '/api/generateToken',
   VERIFY_MAIL = '/api/sendVerifyEmail/verifyEmail',
   RESET_PASSWORD = '/api/claimResetPassword/resetPassword',
+  UPDATE_PASSWORD = '/api/userProfile/updatePassword',
 }
 
 export default Routes;

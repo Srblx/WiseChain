@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     const token = createToken(newUser.id, newUser.pseudo);
 
     return NextResponse.json(
-      { token, pseudo: newUser.pseudo },
+      { token, user: newUser},
       { status: 201 }
     );
   } catch (error) {

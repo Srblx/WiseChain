@@ -1,5 +1,5 @@
 // lib React
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const useLocalStorage = (key: string, defaultValue: any | (() => any)) => {
   const [value, setValue] = useState(() => {

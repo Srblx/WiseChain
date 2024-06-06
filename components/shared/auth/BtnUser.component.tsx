@@ -17,7 +17,7 @@ import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/ui/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
 import Routes from '@/enums/routes.enum';
-import useAuth from '@/hooks/useAuth.hooks';
+import useAuth from '@/hooks/useAuth.hook';
 
 const ButtonUserUnlogged = () => {
   const router = useRouter();

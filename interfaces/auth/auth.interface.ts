@@ -28,3 +28,16 @@ export interface LoginData {
   mail: string;
   password: string;
 }
+
+export interface User {
+  id: string;
+  lastname: string;
+  firstname: string;
+  pseudo: string;
+  mail: string;
+  password: string;
+  role: string;
+  country: string;
+  birthday: string;
+  is_verified: boolean;
+}

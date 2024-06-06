@@ -1,6 +1,12 @@
+// Helpers
 import axios from 'axios';
 
-axios.interceptors.request.use(
+// Utils
+import { WEB_URL } from './constante.utils';
+
+const ApiAxios = axios.create({ baseURL: WEB_URL });
+
+ApiAxios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -12,3 +18,5 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export default ApiAxios;

@@ -36,7 +36,7 @@ import { FormSignupProps } from '@/interfaces/modal.interface';
 
 // Axios
 import Routes from '@/enums/routes.enum';
-import useAuth from '@/hooks/useAuth.hooks';
+import useAuth from '@/hooks/useAuth.hook';
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
 import axios from 'axios';
 
@@ -85,16 +85,18 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
 
       try {
         const responseSignin = await axios.post(Routes.SIGNUP, signupData);
-        console.log('response : ', responseSignin);
+
         if (responseSignin.status === 201) {
-          const { token } = responseSignin.data;
-          login(token);
-                    
+          const { token, user } = responseSignin.data;
+          login(token, user);
+          // console.log('responseSignup', responseSignin.data);
+          console.log('user front : ', user);
+
           const mail = responseSignup.mail;
           const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
             mail: mail,
           });
-         
+
           await sendMail({
             to: `${mail}`,
             name: 'Verification adresse mail',

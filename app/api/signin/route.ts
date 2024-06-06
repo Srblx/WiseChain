@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-
+    console.log('user back : ', user);
     if (!(await isPasswordValid(password, user.password))) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
     const token = createToken(user.id, user.pseudo);
 
-    return NextResponse.json({ token, pseudo: user.pseudo });
+    return NextResponse.json({ token, user: user });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

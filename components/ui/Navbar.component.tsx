@@ -6,9 +6,9 @@ import ButtonUserUnlogged from '@/components/shared/auth/BtnUser.component';
 import { memo, useMemo } from 'react';
 
 // Components
+import LogoDetoured from '@/components/shared/Logo.component';
 import Routes from '@/enums/routes.enum';
 import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
-import LogoDetoured from '../shared/Logo.component';
 
 const navClasses =
   'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0';
