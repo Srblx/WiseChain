@@ -25,6 +25,7 @@ const ButtonUserUnlogged = () => {
   const [showConfirm, toggleConfirm] = useState(false);
   const { token, logout } = useAuth();
   const isLogged = token !== null;
+  console.log('token : ', token);
 
   const handleModalClose = () => {
     toggleModal(false);

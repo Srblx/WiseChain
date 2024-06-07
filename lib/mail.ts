@@ -24,7 +24,7 @@ export async function sendMail({ to, name, subject, body }: Mail) {
   try {
     await transport.verify();
   } catch (error) {
-    console.log('error : ', error);
+    console.error('error : ', error);
     return;
   }
 
@@ -36,7 +36,7 @@ export async function sendMail({ to, name, subject, body }: Mail) {
       html: body,
     });
   } catch (error) {
-    console.log('error : ', error);
+    console.error('error : ', error);
   }
 }
 

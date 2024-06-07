@@ -1,11 +1,12 @@
 'use client';
 
 import { Button } from '@/components/shared/Button.components';
-import { CompteUser } from '@/components/shared/profile/Compte.component';
-import { ConditionOfUse } from '@/components/shared/profile/Condition.component';
-import { DashboardUser } from '@/components/shared/profile/Dashboard.component';
-import { ProfileUser } from '@/components/shared/profile/Profile.component';
-import { RecompenseUser } from '@/components/shared/profile/Recompense.component';
+import { RecompenseUser } from '@/components/ui/profile/Recompense.component';
+
+import { CompteUser } from '@/components/ui/profile/Compte.component';
+import { ConditionOfUse } from '@/components/ui/profile/Condition.component';
+import { DashboardUser } from '@/components/ui/profile/Dashboard.component';
+import { ProfileUser } from '@/components/ui/profile/Profile.component';
 import Image from 'next/image';
 import { useState } from 'react';
 

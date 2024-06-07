@@ -22,7 +22,7 @@ import usePasswordVisibility, {
 import { passwordResetSchema } from '@/validators/auth.validator';
 
 // Components
-import InputProfile from './Input.component';
+import InputProfile from '../../shared/Input.component';
 
 // Helpers
 import axios from 'axios';

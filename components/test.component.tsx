@@ -16,7 +16,7 @@ export default function TestUser() {
           <p>Prénom : {user.firstname}</p>
           <p>Pseudo : {user.pseudo}</p>
           <p>Email : {user.mail}</p>
-          <p>Rôle : {user.role}</p>
+          <p>Rôle : {user.roles}</p>
           <p>Pays : {user.country}</p>
           <p>Date de naissance : {user.birthday}</p>
           <p>Vérifié : {user.is_verified ? 'Oui' : 'Non'}</p>

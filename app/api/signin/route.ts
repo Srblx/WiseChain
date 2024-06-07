@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    console.log('user back : ', user);
+
     if (!(await isPasswordValid(password, user.password))) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
@@ -73,6 +73,45 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
+    );
+  }
+}
+
+
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader) {
+    return NextResponse.json(
+      { error: 'Authorization header is required' },
+      { status: 401 }
+    );
+  }
+
+  const token = authHeader.split(' ')[1];
+  if (!token) {
+    return NextResponse.json(
+      { error: 'Token is required' },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET!) as { userId: string };
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ user });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Invalid token' },
+      { status: 401 }
     );
   }
 }

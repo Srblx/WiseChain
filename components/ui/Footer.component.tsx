@@ -66,9 +66,8 @@ export default function Footer() {
           <nav key={ title } className={`${navClass}`}>
             <h6 className="uppercase text-gray-500 mb-1">{title}</h6>
             {links.map((link) => (
-              <a key={link} className="link link-hover">
+              <a key={link} className="link link-hover" href={link === 'Nous contacter' ? "mailto:support@exemple.com?subject=Demande d'information&body=Bonjour,%0D%0AJe souhaite obtenir des informations sur..." : '#'}>
                  {link}
-                {/* rajoute un in footer en db pour appele que les in footer */}
                </a> 
              ))} 
           </nav>

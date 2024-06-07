@@ -11,7 +11,7 @@ import useAuth from '@/hooks/useAuth.hook';
 import ApiAxios from '@/_utils/interceptorAxios.utils';
 
 // Components
-import InputProfile from './Input.component';
+import InputProfile from '../../shared/Input.component';
 
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
 const classNameLabel = 'text-sm text-gray-400';
@@ -66,7 +66,7 @@ export const ProfileUser = () => {
         lastname,
         pseudo,
       });
-      console.log('response.status : ', response.status);
+      
       if (response.status === 200) {
         toast.success('Profil modifié avec succès');
         setEditInfoUser(false);

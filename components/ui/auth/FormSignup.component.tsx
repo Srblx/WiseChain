@@ -25,14 +25,11 @@ import { IoMdMail } from 'react-icons/io';
 
 // Validators
 import { SignupSchema } from '@/validators/auth.validator';
-import * as Yup from 'yup';
 
 // Interfaces
 import FormStep from '@/enums/formStep.enum';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
 import { FormSignupProps } from '@/interfaces/modal.interface';
-
-// Hooks
 
 // Axios
 import Routes from '@/enums/routes.enum';
@@ -79,56 +76,45 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
 
     try {
-      const responseSignup = await SignupSchema.validate(signupData, {
-        abortEarly: false,
-      });
+      await SignupSchema.validate(signupData, { abortEarly: false });
 
-      try {
-        const responseSignin = await axios.post(Routes.SIGNUP, signupData);
+      const response = await axios.post(Routes.SIGNUP, signupData);
 
-        if (responseSignin.status === 201) {
-          const { token, user } = responseSignin.data;
-          login(token, user);
-          // console.log('responseSignup', responseSignin.data);
-          console.log('user front : ', user);
+      if (response.status === 201) {
+        const { token, user } = response.data;
+        login(user, token);
 
-          const mail = responseSignup.mail;
-          const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
-            mail: mail,
-          });
+        const mail = signupData.mail;
+        const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
+          mail,
+        });
 
-          await sendMail({
-            to: `${mail}`,
-            name: 'Verification adresse mail',
-            subject: 'Verification adresse mail',
-            body: await compilerMailTemplate(
-              `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
-            ),
-          });
+        await sendMail({
+          to: `${mail}`,
+          name: 'Verification adresse mail',
+          subject: 'Verification adresse mail',
+          body: await compilerMailTemplate(
+            `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
+          ),
+        });
 
-          toast.success('Inscription réussie');
-          onSuccess();
-        } else {
-          throw new Error('Erreur lors de la soumission du formulaire.');
-        }
-      } catch (error) {
-        console.error(error);
-        let errorMessage = "Erreur lors de la création de l'utilisateur.";
-        if (axios.isAxiosError(error) && error.response) {
-          if (error.response.status === 400) {
-            errorMessage =
-              error.response.data.error || 'Erreur de validation des données.';
-          } else if (error.response.status === 409) {
-            errorMessage = "Le pseudo ou l'email est déjà utilisé.";
-          }
-        }
-        dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
+        toast.success('Inscription réussie');
+        onSuccess();
+      } else {
+        throw new Error('Erreur lors de la soumission du formulaire.');
       }
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        toast.error(error.inner[0].message);
-        return;
+      console.error(error);
+      let errorMessage = "Erreur lors de la création de l'utilisateur.";
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          errorMessage =
+            error.response.data.error || 'Erreur de validation des données.';
+        } else if (error.response.status === 409) {
+          errorMessage = "Le pseudo ou l'email est déjà utilisé.";
+        }
       }
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
     }
   };
 

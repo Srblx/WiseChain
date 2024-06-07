@@ -1,22 +1,56 @@
-// Lib React
+// hooks/useAuth.hook.ts
+"use client";
+
+import { useUser } from '@/context/user.context';
+import Routes from '@/enums/routes.enum';
+import { User } from '@/interfaces/auth/auth.interface';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// Interfaces
-import { User } from '@/interfaces/auth/auth.interface';
-
 function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useUser();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    setToken(storedToken !== null ? storedToken : null);
-    setUser(storedUser !== null ? JSON.parse(storedUser) : null);
+    if (storedToken) {
+      setToken(storedToken);
+      fetchUser(storedToken);
+    }
+
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem('token');
+      if (newToken) {
+        setToken(newToken);
+        fetchUser(newToken);
+      } else {
+        setToken(null);
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
+  const fetchUser = async (token: string) => {
+    try {
+      const response = await axios.get(Routes.SIGNIN, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data.user);
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+      setUser(null);
+    }
+  };
+
   const login = (newUser: User, newToken: string) => {
-    localStorage.setItem('user', JSON.stringify(newUser));
     localStorage.setItem('token', newToken);
     setUser(newUser);
     setToken(newToken);
@@ -25,7 +59,6 @@ function useAuth() {
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
     window.dispatchEvent(new Event('storage'));

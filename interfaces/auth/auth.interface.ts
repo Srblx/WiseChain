@@ -36,7 +36,7 @@ export interface User {
   pseudo: string;
   mail: string;
   password: string;
-  role: string;
+  roles: string;
   country: string;
   birthday: string;
   is_verified: boolean;

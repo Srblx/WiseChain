@@ -20,6 +20,8 @@ export const REQUIRED_FIELDS = [
     'is_revoice',
   ];
 
+  // Base URL 
 export const WEB_URL = process.env.WEB_URL;
 
+// Salt rounds
 export const SALT_ROUNDS = 10;

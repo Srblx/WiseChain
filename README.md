@@ -31,7 +31,7 @@ npm i prisma --save-dev
 npm i @prisma/client
 npm i @next-auth/prisma-adapter  
 npm migrate dev
-npx prisma migrate dev --name sync-schema ─╯
+npx prisma migrate dev --name sync-schema 
 npx prisma generate
 npm studio  
 npm install --save-dev cypress
