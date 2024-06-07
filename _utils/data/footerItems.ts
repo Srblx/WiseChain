@@ -2,14 +2,14 @@
 export const footerItems = [
   {
     title: 'Cours Crypto-monnaie',
-    links: ['Crypto', 'Crypto', 'Crypto', 'Crypto'],
+    links: ['Crypto1', 'Crypto2', 'Crypto3', 'Crypto4'],
   },
   {
     title: 'Cours Blockchain',
-    links: ['Blockchain', 'Blockchain', 'Blockchain', 'Blockchain'],
+    links: ['Blockchain1', 'Blockchain2', 'Blockchain3', 'Blockchain4'],
   },
   {
     title: 'Legal',
-    links: ['À Propos', "Condition d'utlisation", 'English | Francais'],
+    links: ['À Propos', "Condition d'utlisation", 'Nous contacter', 'English | Francais'],
   },
 ];

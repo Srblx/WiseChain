@@ -11,9 +11,18 @@ const useMediaQuery = () => {
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  const handleMobileChange = useCallback((e: MediaQueryListEvent) => setIsMobile(e.matches), []);
-  const handleTabletChange = useCallback((e: MediaQueryListEvent) => setIsTablet(e.matches), []);
-  const handleDesktopChange = useCallback((e: MediaQueryListEvent) => setIsDesktop(e.matches), []);
+  const handleMobileChange = useCallback(
+    (e: MediaQueryListEvent) => setIsMobile(e.matches),
+    []
+  );
+  const handleTabletChange = useCallback(
+    (e: MediaQueryListEvent) => setIsTablet(e.matches),
+    []
+  );
+  const handleDesktopChange = useCallback(
+    (e: MediaQueryListEvent) => setIsDesktop(e.matches),
+    []
+  );
 
   useEffect(() => {
     const mediaQueryMobile = window.matchMedia(breakpoints.mobile);

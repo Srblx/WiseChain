@@ -2,14 +2,15 @@
 import React from 'react';
 
 // Interfaces
-import { InputProps } from '@/interfaces/inputAuth.interface';
+import { InputAuthProps } from '@/interfaces/auth/input.interface';
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<InputAuthProps> = ({
   type,
   placeholder,
   value,
+  className,
   onChange,
-  // required = false,
+  name
 }) => {
   return (
     <input
@@ -18,7 +19,6 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      // required={required}
     />
   );
 };

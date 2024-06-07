@@ -1,11 +1,22 @@
 // Utils
 import countries from '@/_utils/data/country';
-import Button from '@/components/shared/auth/btn-submit.component';
-import Input from '@/components/shared/auth/input.component';
-import { notifySignup } from '@/validators/auth.validator';
+import {
+  SignupAction,
+  initialState,
+  signupReducer,
+} from '@/_utils/data/signupReducer';
+import usePasswordVisibility, {
+  useConfirmPasswordVisibility,
+} from '@/_utils/usePasswordVisibility.utils';
+
+// Components
+import Button from '@/components/shared/auth/BtnSubmit.component';
+import Input from '@/components/shared/auth/Input.component';
 
 // Libs React
 import { FormEvent, useEffect, useReducer, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Icons
 import { FaBirthdayCake, FaUser, FaUserSecret } from 'react-icons/fa';
@@ -13,47 +24,98 @@ import { FaFlag, FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
 
 // Validators
-import {
-  SignupAction,
-  initialState,
-  signupReducer,
-} from '@/_utils/data/signupReducer';
-import FormStep from '@/enums/formStep.emun';
+import { SignupSchema } from '@/validators/auth.validator';
+
+// Interfaces
+import FormStep from '@/enums/formStep.enum';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
+import { FormSignupProps } from '@/interfaces/modal.interface';
+
+// Axios
+import Routes from '@/enums/routes.enum';
+import useAuth from '@/hooks/useAuth.hook';
+import { compilerMailTemplate, sendMail } from '@/lib/mail';
+import axios from 'axios';
 
 export const inputClassName = 'input input-bordered flex items-center gap-2';
 
-const FormSignup: React.FC = () => {
+const FormSignup = ({ onSuccess }: FormSignupProps) => {
   const [state, dispatch] = useReducer<
     React.Reducer<SignupValidator, SignupAction>
   >(signupReducer, initialState);
   const [countriesOptions, setCountriesOptions] = useState<JSX.Element[]>([]);
   const [currentStep, setCurrentStep] = useState(FormStep.CONDITION_OF_USE);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
+  const { showConfirmPassword, toggleConfirmPasswordVisibility } =
+    useConfirmPasswordVisibility();
+  const { login } = useAuth();
 
   const signupData: SignupValidator = {
     firstname: state.firstname,
     lastname: state.lastname,
     pseudo: state.pseudo,
-    email: state.email,
+    mail: state.mail,
     password: state.password,
     confirmPassword: state.confirmPassword,
     dateOfBirth: state.dateOfBirth,
     country: state.country,
+    is_revoice: state.is_revoice,
     isTermsAccepted: state.isTermsAccepted,
     errorMessage: state.errorMessage,
   };
 
-  const handleSubmitSignup = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!state.isTermsAccepted) {
-      dispatch({ type: 'SET_ERROR_MESSAGE', payload: "Vous devez accepter les conditions d'utilisation." });
+      dispatch({
+        type: 'SET_ERROR_MESSAGE',
+        payload: "Vous devez accepter les conditions d'utilisation.",
+      });
       return;
     }
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
-    console.log('Form Data:', signupData);
-    notifySignup(signupData);
+
+    try {
+      await SignupSchema.validate(signupData, { abortEarly: false });
+
+      const response = await axios.post(Routes.SIGNUP, signupData);
+
+      if (response.status === 201) {
+        const { token, user } = response.data;
+        login(user, token);
+
+        const mail = signupData.mail;
+        const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
+          mail,
+        });
+
+        await sendMail({
+          to: `${mail}`,
+          name: 'Verification adresse mail',
+          subject: 'Verification adresse mail',
+          body: await compilerMailTemplate(
+            `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
+          ),
+        });
+
+        toast.success('Inscription réussie');
+        onSuccess();
+      } else {
+        throw new Error('Erreur lors de la soumission du formulaire.');
+      }
+    } catch (error) {
+      console.error(error);
+      let errorMessage = "Erreur lors de la création de l'utilisateur.";
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          errorMessage =
+            error.response.data.error || 'Erreur de validation des données.';
+        } else if (error.response.status === 409) {
+          errorMessage = "Le pseudo ou l'email est déjà utilisé.";
+        }
+      }
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
+    }
   };
 
   useEffect(() => {
@@ -66,14 +128,6 @@ const FormSignup: React.FC = () => {
       setCountriesOptions(options);
     }
   }, []);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
 
   return (
     <form
@@ -88,7 +142,9 @@ const FormSignup: React.FC = () => {
             type="text"
             placeholder="Nom"
             value={state.firstname}
-            onChange={(e) => dispatch({ type: 'SET_FIRSTNAME', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_FIRSTNAME', payload: e.target.value })
+            }
             required
           />
         </label>
@@ -98,7 +154,9 @@ const FormSignup: React.FC = () => {
             type="text"
             placeholder="Prénom"
             value={state.lastname}
-            onChange={(e) => dispatch({ type: 'SET_LASTNAME', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_LASTNAME', payload: e.target.value })
+            }
             required
           />
         </label>
@@ -108,7 +166,9 @@ const FormSignup: React.FC = () => {
             type="text"
             placeholder="Pseudo"
             value={state.pseudo}
-            onChange={(e) => dispatch({ type: 'SET_PSEUDO', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_PSEUDO', payload: e.target.value })
+            }
             required
           />
         </label>
@@ -117,18 +177,22 @@ const FormSignup: React.FC = () => {
           <Input
             type="text"
             placeholder="Email"
-            value={state.email}
-            onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })}
+            value={state.mail}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_EMAIL', payload: e.target.value })
+            }
             required
           />
         </label>
         <label className={inputClassName}>
           <FaKey />*
           <Input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Mot de passe"
             value={state.password}
-            onChange={(e) => dispatch({ type: 'SET_PASSWORD', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_PASSWORD', payload: e.target.value })
+            }
             required
           />
           <button type="button" onClick={togglePasswordVisibility}>
@@ -138,10 +202,15 @@ const FormSignup: React.FC = () => {
         <label className={inputClassName}>
           <FaKey />*
           <Input
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? 'text' : 'password'}
             placeholder="Confirmation mot de passe"
             value={state.confirmPassword}
-            onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({
+                type: 'SET_CONFIRM_PASSWORD',
+                payload: e.target.value,
+              })
+            }
             required
           />
           <button type="button" onClick={toggleConfirmPasswordVisibility}>
@@ -154,7 +223,9 @@ const FormSignup: React.FC = () => {
             type="date"
             placeholder="DD/MM/YYYY"
             value={state.dateOfBirth}
-            onChange={(e) => dispatch({ type: 'SET_BIRTHDAY', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_BIRTHDAY', payload: e.target.value })
+            }
             required
           />
         </label>
@@ -165,7 +236,9 @@ const FormSignup: React.FC = () => {
             id="country"
             className="w-full bg-background"
             value={state.country}
-            onChange={(e) => dispatch({ type: 'SET_COUNTRY', payload: e.target.value })}
+            onChange={(e: any) =>
+              dispatch({ type: 'SET_COUNTRY', payload: e.target.value })
+            }
           >
             <option>Sélectionnez un pays</option>
             {countriesOptions}
@@ -178,15 +251,21 @@ const FormSignup: React.FC = () => {
             type="checkbox"
             className="checkbox checkbox-xs"
             checked={state.isTermsAccepted}
-            onChange={(e) => dispatch({ type: 'SET_TERMS_ACCEPTED', payload: e.target.checked })}
+            onChange={(e: any) =>
+              dispatch({
+                type: 'SET_TERMS_ACCEPTED',
+                payload: e.target.checked,
+              })
+            }
           />
           <span
             onClick={() => setCurrentStep(FormStep.CONDITION_OF_USE)}
             className="label-text ml-2"
           >
-            Accepter les 
+            Accepter les
             <a href="/conditionOfUse" className="text-blue-400">
-              {" "}conditions d'utilisation
+              {' '}
+              conditions d'utilisation
             </a>
           </span>
         </label>
@@ -200,6 +279,18 @@ const FormSignup: React.FC = () => {
         * Champ requis
       </p>
       <Button>S'inscrire</Button>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </form>
   );
 };

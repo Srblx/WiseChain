@@ -2,19 +2,17 @@
 import Link from 'next/link';
 
 // Libs React
-import ButtonUserUnlogged from '@/components/shared/auth/btn-user-unlogged.component';
+import ButtonUserUnlogged from '@/components/shared/auth/BtnUser.component';
 import { memo, useMemo } from 'react';
 
 // Components
-import { MenuItemType } from '@/interfaces/navItems.interface';
-import LogoDetoured from '../shared/logo.component';
+import LogoDetoured from '@/components/shared/Logo.component';
+import Routes from '@/enums/routes.enum';
+import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
 
 const navClasses =
   'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0';
 
-interface MenuProps {
-  menuItems: { label: string; href: string }[];
-}
 
 const Menu = ({ menuItems }: MenuProps) => {
   return (
@@ -55,11 +53,11 @@ const Menu = ({ menuItems }: MenuProps) => {
 const Navbar = memo(() => {
   const menuItems: MenuItemType[] = useMemo(
     () => [
-      { label: 'Actualité', href: '/articles' },
-      { label: 'Investissement', href: '/courses/investment' },
-      { label: 'Crypto-Monnaie', href: '/courses/crypto' },
-      { label: 'Blockchain', href: '/courses/blockchain' },
-      { label: 'NFTs', href: '/courses/nft' },
+      { label: 'Actualité', href: Routes.ACTUALITY },
+      { label: 'Investissement', href: Routes.COURS_INVESTMENT },
+      { label: 'Crypto-Monnaie', href: Routes.COURS_CRYPTO },
+      { label: 'Blockchain', href: Routes.COURS_BLOCKCHAIN },
+      { label: 'NFTs', href: Routes.COURS_NFTS },
     ],
     []
   );
@@ -78,6 +76,5 @@ const Navbar = memo(() => {
     </nav>
   );
 });
-
 
 export default Navbar;
