@@ -5,7 +5,8 @@ import {
   REQUIRED_FIELDS,
   SALT_ROUNDS,
   prisma,
-} from '@/_utils/constante.utils';
+} from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 
   if (!validateFields(data)) {
     return NextResponse.json(
-      { error: 'Tous les champs sont requis.' },
+      { error: ERROR_MESSAGES.ALL_FIELDS_REQUIRED },
       { status: 400 }
     );
   }
@@ -59,14 +60,14 @@ export async function POST(req: NextRequest) {
   try {
     if (await isUserExists({ pseudo })) {
       return NextResponse.json(
-        { error: 'Le pseudo est déjà utilisé.' },
+        { error: ERROR_MESSAGES.PSEUDO_ALREADY_TAKEN },
         { status: 400 }
       );
     }
 
     if (await isUserExists({ mail })) {
       return NextResponse.json(
-        { error: "L'email est déjà utilisé." },
+        { error: ERROR_MESSAGES.EMAIL_ALREADY_TAKEN },
         { status: 400 }
       );
     }
@@ -89,14 +90,11 @@ export async function POST(req: NextRequest) {
 
     const token = createToken(newUser.id, newUser.pseudo);
 
-    return NextResponse.json(
-      { token, user: newUser},
-      { status: 201 }
-    );
+    return NextResponse.json({ token, user: newUser }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Erreur lors de la création de l'utilisateur." },
+      { error: ERROR_MESSAGES.USER_CREATION_ERROR },
       { status: 500 }
     );
   }

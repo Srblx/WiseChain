@@ -1,5 +1,6 @@
-// Utils 
-import { prisma } from '@/_utils/constante.utils';
+// Utils
+import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -14,17 +15,26 @@ export async function POST(request: Request) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
     if (!token) {
-      return NextResponse.json({ error: 'Token manquant' }, { status: 401 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.TOKEN_REQUIRED },
+        { status: 401 }
+      );
     }
-    
+
     let decodedToken;
     try {
       decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
       if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+        return NextResponse.json(
+          { error: ERROR_MESSAGES.INVALID_TOKEN },
+          { status: 401 }
+        );
       }
     } catch (error) {
-      return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.INVALID_TOKEN },
+        { status: 401 }
+      );
     }
 
     const userId = decodedToken.userId;
@@ -36,17 +46,29 @@ export async function POST(request: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { status: 404 }
+      );
     }
 
-    const isOldPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+    const isOldPasswordCorrect = await bcrypt.compare(
+      oldPassword,
+      user.password
+    );
 
     if (!isOldPasswordCorrect) {
-      return NextResponse.json({ error: 'Ancien mot de passe incorrect' }, { status: 400 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT },
+        { status: 400 }
+      );
     }
 
     if (newPassword !== confirmPassword) {
-      return NextResponse.json({ error: 'Le nouveau mot de passe et sa confirmation ne correspondent pas' }, { status: 400 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.NEW_PASSWORD_CONFIRM_PASSWORD_NOT_MATCH },
+        { status: 400 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -60,9 +82,12 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'Mot de passe modifié avec succès' });
+    return NextResponse.json({ message: SUCCESS_MESSAGES.UPDATE_PASSWORD });
   } catch (error) {
-    console.error('Erreur lors de la modification du mot de passe :', error);
-    return NextResponse.json({ error: 'Erreur lors de la modification du mot de passe' }, { status: 500 });
+    console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.UPDATE_PASSWORD },
+      { status: 500 }
+    );
   }
 }

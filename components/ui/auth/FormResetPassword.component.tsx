@@ -13,8 +13,9 @@ import { inputClassName } from './FormSignup.component';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
-import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
 import Routes from '@/enums/routes.enum';
+import usePasswordVisibility from '@/utils/auth/usePasswordVisibility.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 import { passwordResetSchema } from '@/validators/auth.validator';
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -42,11 +43,14 @@ const FormResetPassword = () => {
 
     if (token) {
       try {
-        await passwordResetSchema.validate({ newPassword, confirmNewPassword }, { abortEarly: false });
-        
+        await passwordResetSchema.validate(
+          { newPassword, confirmNewPassword },
+          { abortEarly: false }
+        );
+
         const response = await axios.post(Routes.RESET_PASSWORD, {
           newPassword,
-          token
+          token,
         });
 
         if (response.status === 200) {
@@ -56,7 +60,6 @@ const FormResetPassword = () => {
           }, 2000);
         } else {
           toast.error(response.data.error);
-          console.error(response.data.error);
         }
       } catch (error: string | any) {
         if (error instanceof Yup.ValidationError) {
@@ -64,9 +67,9 @@ const FormResetPassword = () => {
             toast.error(err.message);
           });
         } else if (axios.isAxiosError(error)) {
-          console.error('Erreur lors de la réinitialisation du mot de passe :', error.message);
+          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error.message);
         } else {
-          console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error);
         }
       }
     }

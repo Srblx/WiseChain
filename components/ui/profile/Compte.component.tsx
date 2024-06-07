@@ -12,11 +12,11 @@ import useAuth from '@/hooks/useAuth.hook';
 import Routes from '@/enums/routes.enum';
 
 // Utils
-import ApiAxios from '@/_utils/interceptorAxios.utils';
 import usePasswordVisibility, {
   useConfirmPasswordVisibility,
   useNewPasswordVisibility,
-} from '@/_utils/usePasswordVisibility.utils';
+} from '@/utils/auth/usePasswordVisibility.utils';
+import ApiAxios from '@/utils/interceptorAxios.utils';
 
 // Validators
 import { passwordResetSchema } from '@/validators/auth.validator';
@@ -25,6 +25,7 @@ import { passwordResetSchema } from '@/validators/auth.validator';
 import InputProfile from '../../shared/Input.component';
 
 // Helpers
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
 import * as Yup from 'yup';
 
@@ -93,19 +94,23 @@ export const CompteUser = () => {
       });
 
       if (response.status === 200) {
-        toast.success('Mot de passe modifié avec succès');
+        toast.success(SUCCESS_MESSAGES.UPDATE_PASSWORD);
         setEditInfoUser(false);
         setOldPassword('');
         setNewPassword('');
         setConfirmPassword('');
       } else if (response.status === 400) {
-        toast.error('Ancien mot de passe incorrect');
+        toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errorMessages = error.inner.map((err) => err.message);
-        if (errorMessages.includes('Les mots de passe ne correspondent pas')) {
-          toast.error('Les mots de passe ne correspondent pas');
+        if (
+          errorMessages.includes(
+            ERROR_MESSAGES.NEW_PASSWORD_CONFIRM_PASSWORD_NOT_MATCH
+          )
+        ) {
+          toast.error(ERROR_MESSAGES.NEW_PASSWORD_CONFIRM_PASSWORD_NOT_MATCH);
         } else {
           errorMessages.forEach((message) => {
             toast.error(message);
@@ -113,14 +118,10 @@ export const CompteUser = () => {
         }
       } else if (axios.isAxiosError(error)) {
         if (error.response && error.response.status === 400) {
-          toast.error('Ancien mot de passe incorrect');
+          toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
         }
       } else {
-        console.error(
-          'Erreur lors de la modification du mot de passe :',
-          error
-        );
-        toast.error('Erreur lors de la modification du mot de passe');
+        toast.error(ERROR_MESSAGES.UPDATE_PASSWORD);
       }
     }
 

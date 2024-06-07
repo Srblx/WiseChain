@@ -1,5 +1,6 @@
-// Utils 
-import { prisma } from '@/_utils/constante.utils';
+// Utils
+import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
 import jwt from 'jsonwebtoken';
@@ -15,7 +16,7 @@ export async function PUT(request: Request) {
     if (!token) {
       return NextResponse.json({ error: 'Token manquant' }, { status: 401 });
     }
-    
+
     let decodedToken;
     try {
       decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
@@ -35,7 +36,10 @@ export async function PUT(request: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { status: 404 }
+      );
     }
 
     const updatedUser = await prisma.user.update({
@@ -49,9 +53,15 @@ export async function PUT(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'Profil utilisateur modifié avec succès', user: updatedUser });
+    return NextResponse.json({
+      message: SUCCESS_MESSAGES.UPDATE_PROFILE,
+      user: updatedUser,
+    });
   } catch (error) {
-    console.error('Erreur lors de la modification du profil utilisateur :', error);
-    return NextResponse.json({ error: 'Erreur lors de la modification du profil utilisateur' }, { status: 500 });
+    console.error(ERROR_MESSAGES.UPDATE_PROFILE, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.UPDATE_PROFILE },
+      { status: 500 }
+    );
   }
 }

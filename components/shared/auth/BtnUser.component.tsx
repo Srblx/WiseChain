@@ -25,7 +25,6 @@ const ButtonUserUnlogged = () => {
   const [showConfirm, toggleConfirm] = useState(false);
   const { token, logout } = useAuth();
   const isLogged = token !== null;
-  console.log('token : ', token);
 
   const handleModalClose = () => {
     toggleModal(false);
@@ -61,10 +60,12 @@ const ButtonUserUnlogged = () => {
     <div>
       <nav>
         <div className="flex justify-between items-center space-x-1">
-          {isLogged && <MdOutlineLogout onClick={confirmLogout} size="1.5em" id='logout'/>}
+          {isLogged && (
+            <MdOutlineLogout onClick={confirmLogout} size="1.5em" id="logout" />
+          )}
           <div className="ml-4">
             <button
-              id='btn-user'
+              id="btn-user"
               className="rounded-full p-1 mr-4 border-2 border-white bg-black"
               onClick={handleUserIconClick}
             >

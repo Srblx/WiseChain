@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import useAuth from '@/hooks/useAuth.hook';
 
 export default function TestUser() {
@@ -18,7 +18,6 @@ export default function TestUser() {
           <p>Email : {user.mail}</p>
           <p>Rôle : {user.roles}</p>
           <p>Pays : {user.country}</p>
-          <p>Date de naissance : {user.birthday}</p>
           <p>Vérifié : {user.is_verified ? 'Oui' : 'Non'}</p>
         </>
       )}

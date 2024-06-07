@@ -1,6 +1,7 @@
-import jwt from "jsonwebtoken";
-import { NextResponse } from "next/server";
-import { getUserByMail } from "../claimResetPassword/route";
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import jwt from 'jsonwebtoken';
+import { NextResponse } from 'next/server';
+import { getUserByMail } from '../claimResetPassword/route';
 
 export async function POST(request: Request) {
   const { mail } = await request.json();
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "User not found" },
+        { error: ERROR_MESSAGES.USER_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -18,14 +19,14 @@ export async function POST(request: Request) {
     const token = jwt.sign(
       { userId: user.id, pseudo: user.pseudo },
       process.env.JWT_SECRET!,
-      { expiresIn: "5m" }
+      { expiresIn: '5m' }
     );
 
     return NextResponse.json({ token });
   } catch (error) {
-    console.error("Error generating reset token:", error);
+    console.error(ERROR_MESSAGES.GENERATE_TOKEN, error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR },
       { status: 500 }
     );
   }

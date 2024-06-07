@@ -5,9 +5,9 @@ enum Routes {
   // PAGES
   HOME = '/',
   ACTUALITY = '/articles',
-  COURS_BLOCKCHAIN = '/courses/investment',
+  COURS_BLOCKCHAIN = '/courses/blockchain',
   COURS_CRYPTO = '/courses/crypto',
-  COURS_INVESTMENT = '/courses/blockchain',
+  COURS_INVESTMENT = '/courses/investment',
   COURS_NFTS = '/courses/nft',
   PROFILE = '/profile',
 

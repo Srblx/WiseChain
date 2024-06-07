@@ -5,5 +5,5 @@ export const notifySucces = (message: string) => {
 };
 
 export const notifyError = (message: string) => {
-    return toast.error(message);
-  };
+  return toast.error(message);
+};

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import logo from '@/public/img/logo.jpg';
 
 // Utils
-import { footerItems } from '@/_utils/data/footerItems';
+import { footerItems } from '@/utils/data/footerItems';
 
 const navClass = 'sm:ml-10 max-md:block max-md:space-x-4 ';
 
@@ -63,13 +63,21 @@ export default function Footer() {
           <p className="text-base mx-auto">WISECHAIN</p>
         </aside>
         {footerItems.map(({ title, links }) => (
-          <nav key={ title } className={`${navClass}`}>
+          <nav key={title} className={`${navClass}`}>
             <h6 className="uppercase text-gray-500 mb-1">{title}</h6>
             {links.map((link) => (
-              <a key={link} className="link link-hover" href={link === 'Nous contacter' ? "mailto:support@exemple.com?subject=Demande d'information&body=Bonjour,%0D%0AJe souhaite obtenir des informations sur..." : '#'}>
-                 {link}
-               </a> 
-             ))} 
+              <a
+                key={link}
+                className="link link-hover"
+                href={
+                  link === 'Nous contacter'
+                    ? "mailto:wisechainnet@gmail.com?subject=Demande d'information&body=Bonjour,%0D%0AJe souhaite obtenir des informations sur..."
+                    : '#'
+                }
+              >
+                {link}
+              </a>
+            ))}
           </nav>
         ))}
       </footer>

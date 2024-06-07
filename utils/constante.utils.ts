@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
-// Prisma client 
+// Prisma client
 export const prisma = new PrismaClient();
 
 // JWT
@@ -11,16 +11,16 @@ export const JWT_EXPIRES_IN_5_DAYS = '5d';
 
 // Required fields for signup
 export const REQUIRED_FIELDS = [
-    'firstname',
-    'lastname',
-    'pseudo',
-    'mail',
-    'password',
-    'dateOfBirth',
-    'is_revoice',
-  ];
+  'firstname',
+  'lastname',
+  'pseudo',
+  'mail',
+  'password',
+  'dateOfBirth',
+  'is_revoice',
+];
 
-  // Base URL 
+// Base URL
 export const WEB_URL = process.env.WEB_URL;
 
 // Salt rounds

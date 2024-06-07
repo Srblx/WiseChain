@@ -8,9 +8,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '@/hooks/useAuth.hook';
 
 // Utils
-import ApiAxios from '@/_utils/interceptorAxios.utils';
+import ApiAxios from '@/utils/interceptorAxios.utils';
 
 // Components
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import InputProfile from '../../shared/Input.component';
 
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
@@ -66,18 +67,15 @@ export const ProfileUser = () => {
         lastname,
         pseudo,
       });
-      
+
       if (response.status === 200) {
-        toast.success('Profil modifié avec succès');
+        toast.success(SUCCESS_MESSAGES.UPDATE_PROFILE);
         setEditInfoUser(false);
       } else {
-        toast.error(
-          'Une erreur est survenue lors de la modification du profil'
-        );
+        toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
       }
     } catch (error) {
-      console.error('Erreur lors de la modification du profil :', error);
-      toast.error('Une erreur est survenue lors de la modification du profil');
+      toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
     }
 
     setIsSubmitting(false);

@@ -3,7 +3,8 @@ import {
   JWT_EXPIRES_IN_5_DAYS,
   JWT_SECRET,
   prisma,
-} from '@/_utils/constante.utils';
+} from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Interfaces
 import { LoginData } from '@/interfaces/auth/auth.interface';
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
 
   if (!validateLoginData(data)) {
     return NextResponse.json(
-      { error: 'Email and password are required' },
+      { error: ERROR_MESSAGES.EMAIL_PASSWORD_REQUIRED },
       { status: 400 }
     );
   }
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Invalid email or password' },
+        { error: ERROR_MESSAGES.INVALID_EMAIL_PASSWORD },
         { status: 401 }
       );
     }
@@ -71,37 +72,35 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR },
       { status: 500 }
     );
   }
 }
 
-
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('Authorization');
   if (!authHeader) {
     return NextResponse.json(
-      { error: 'Authorization header is required' },
+      { error: ERROR_MESSAGES.AUTH_HEADER_REQUIRED },
       { status: 401 }
     );
   }
 
   const token = authHeader.split(' ')[1];
   if (!token) {
-    return NextResponse.json(
-      { error: 'Token is required' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: ERROR_MESSAGES.TOKEN_REQUIRED });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET!) as { userId: string };
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+    });
 
     if (!user) {
       return NextResponse.json(
-        { error: 'User not found' },
+        { error: ERROR_MESSAGES.USER_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -110,7 +109,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: 'Invalid token' },
+      { error: ERROR_MESSAGES.INVALID_TOKEN },
       { status: 401 }
     );
   }

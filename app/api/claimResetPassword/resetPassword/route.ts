@@ -1,5 +1,6 @@
 // Utils
-import { prisma } from '@/_utils/constante.utils';
+import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
 
       if (!user) {
         return NextResponse.json(
-          { error: 'Utilisateur non trouvé' },
+          { error: ERROR_MESSAGES.USER_NOT_FOUND },
           { status: 404 }
         );
       }
@@ -43,18 +44,18 @@ export async function POST(request: Request) {
       });
 
       return NextResponse.json({
-        message: 'Mot de passe réinitialisé avec succès',
+        message: SUCCESS_MESSAGES.RESET_PASSWORD,
       });
     } else {
-      return NextResponse.json({ error: 'Token invalide' }, { status: 400 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.INVALID_TOKEN },
+        { status: 400 }
+      );
     }
   } catch (error) {
-    console.error(
-      'Erreur lors de la réinitialisation du mot de passe :',
-      error
-    );
+    console.error(ERROR_MESSAGES.RESET_PASSWORD, error);
     return NextResponse.json(
-      { error: 'Erreur lors de la réinitialisation du mot de passe' },
+      { error: ERROR_MESSAGES.RESET_PASSWORD },
       { status: 500 }
     );
   }

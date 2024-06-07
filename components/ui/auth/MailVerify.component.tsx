@@ -3,6 +3,7 @@
 import Routes from '@/enums/routes.enum';
 // Images
 import logo from '@/public/img/logo-d.png';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
 
 // Lib Next
@@ -18,25 +19,19 @@ const MailVerify = () => {
   const handleVerifyMail = async () => {
     try {
       const response = await axios.patch(Routes.VERIFY_MAIL, { token });
-      
+
       if (response.status === 200) {
-        toast.success("Votre adresse e-mail a été vérifiée avec succès");
+        toast.success(SUCCESS_MESSAGES.EMAIL_VERIFY);
         setTimeout(() => {
           router.push(Routes.HOME);
         }, 2000);
       } else {
-        toast.error("Erreur lors de la vérification de l'email veuillez contacter le support");
-        // console.error("Erreur lors de la vérification de l'email:", response);
+        toast.error(ERROR_MESSAGES.MAIL_VERIFY);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error("Erreur lors de la vérification de l'email veuillez contacter le support");
-        console.error(
-          "Erreur lors de la vérification de l'email:",
-          error.response?.data
-        );
-      } else {
-        console.error("Erreur lors de la vérification de l'email:", error);
+        toast.error(ERROR_MESSAGES.MAIL_VERIFY);
+        console.error(ERROR_MESSAGES.MAIL_VERIFY, error.response?.data);
       }
     }
   };

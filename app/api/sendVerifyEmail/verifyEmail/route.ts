@@ -1,5 +1,11 @@
-import { prisma } from '@/_utils/constante.utils';
+// Utils
+import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import jwt from 'jsonwebtoken';
+
+// Lib Next
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function PATCH(request: NextRequest) {
@@ -23,13 +29,13 @@ export async function PATCH(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: 'Email vérifié avec succès' },
+      { message: SUCCESS_MESSAGES.EMAIL_VERIFY },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Erreur lors de la vérification de l'email", error);
+    console.error(ERROR_MESSAGES.EMAIL_VERIFY, error);
     return NextResponse.json(
-      { error: "Erreur lors de la vérification de l'email" },
+      { error: ERROR_MESSAGES.EMAIL_VERIFY },
       { status: 500 }
     );
   }
