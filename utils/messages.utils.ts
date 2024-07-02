@@ -29,6 +29,8 @@ export const ERROR_MESSAGES = {
   VALIDATE_DATA_ERROR: 'Erreur de validation des données.',
   MAIL_VERIFY:
     "Erreur lors de la vérification de l'email veuillez contacter le support",
+  ERROR_DELETE_ACCOUNT: 'Erreur lors de la suppression du compte',
+  FAILED_DELETE_ACCOUNT: 'Échec de la suppression du compte',
 };
 
 export const SUCCESS_MESSAGES = {
@@ -39,6 +41,7 @@ export const SUCCESS_MESSAGES = {
   MAIL_SEND_RESET_PASSWORD:
     'Un email de réinitialisation de mot de passe a été envoyé',
   MAIL_VERIFY: 'Votre adresse e-mail a été vérifiée avec succès',
+  DELETE_ACCOUNT: 'Compte supprimé avec succès',
 };
 
 export const ERROR_MESSAGES_YUP = {

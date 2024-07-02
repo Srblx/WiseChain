@@ -11,7 +11,7 @@ import Routes from '@/enums/routes.enum';
 import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
 
 const navClasses =
-  'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0';
+  'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0 z-[1]';
 
 
 const Menu = ({ menuItems }: MenuProps) => {
@@ -27,7 +27,7 @@ const Menu = ({ menuItems }: MenuProps) => {
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu p-2 shadow bg-background rounded-box w-52"
+          className="dropdown-content  menu p-2 shadow bg-background rounded-box w-52"
         >
           {menuItems.map(({ label, href }) => (
             <li key={href}>

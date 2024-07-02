@@ -27,6 +27,8 @@ const config = {
         button: '#628799',
         grayDark: '#3B5368',
         grayBlue: '#628799',
+        blueDark: '#122636',
+        blueLight: '#00ACAC',
         backgroundTransparent: '#9bc3d87b',
         text: '#FFFFFF',
       },

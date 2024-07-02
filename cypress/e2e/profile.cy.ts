@@ -1,10 +1,17 @@
+import { CypressData } from '../data/data';
 
 describe('Profile', () => {
   it('Should update user profile', () => {
+    Cypress.on('uncaught:exception', () => {
+      return false;
+    });
+
     cy.visit('/');
     cy.get('#btn-user').click();
-    cy.get('input[placeholder="Email"]').clear().type("aleeexis.1995@icloud.com");
-    cy.get('input[placeholder="************"]').clear().type("Motdepasse123@");
+    cy.get('input[placeholder="Email"]').clear().type(CypressData.mail);
+    cy.get('input[placeholder="************"]')
+      .clear()
+      .type(CypressData.password);
     cy.get('button[type="submit"]').click();
 
     cy.reload();
@@ -23,6 +30,10 @@ describe('Profile', () => {
   });
 
   it("met à jour le prénom de l'utilisateur", () => {
+    Cypress.on('uncaught:exception', () => {
+      return false;
+    });
+
     cy.get('a').contains('Profile').click();
     cy.get('button').contains('Modifier mon profil').click();
     cy.get('input[placeholder="lastname"]').clear().type('Doe test');

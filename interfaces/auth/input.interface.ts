@@ -11,7 +11,7 @@ export interface InputAuthProps {
 export interface InputProfileProps {
   type: string;
   placeholder: string;
-  value: string;
+  value?: string;
   name?: string;
   className?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

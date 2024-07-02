@@ -38,6 +38,7 @@ export interface User {
   password: string;
   roles: string;
   country: string;
-  birthOfDate: string;
+  date_of_birth: string;
   is_verified: boolean;
+  created_at: string;
 }

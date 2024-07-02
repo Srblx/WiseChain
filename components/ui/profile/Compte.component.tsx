@@ -16,15 +16,17 @@ import usePasswordVisibility, {
   useConfirmPasswordVisibility,
   useNewPasswordVisibility,
 } from '@/utils/auth/usePasswordVisibility.utils';
+import dayjs from '@/utils/dayjs';
 import ApiAxios from '@/utils/interceptorAxios.utils';
 
 // Validators
 import { passwordResetSchema } from '@/validators/auth.validator';
 
 // Components
-import InputProfile from '../../shared/Input.component';
+import InputProfile from '@/components/shared/Input.component';
 
 // Helpers
+import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
 import * as Yup from 'yup';
@@ -38,20 +40,27 @@ export const CompteUser = () => {
   const [editInfoUser, setEditInfoUser] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('***********');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
+  const [isVerified, setIsVerified] = useState(false);
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
   const { showNewPassword, toggleNewPasswordVisibility } =
     useNewPasswordVisibility();
   const { showConfirmPassword, toggleConfirmPasswordVisibility } =
     useConfirmPasswordVisibility();
-  const { user } = useAuth();
+  const { user, logout, token } = useAuth();
+  const [showConfirm, toggleConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     if (user !== null) {
       setEmail(user.mail);
-      setOldPassword(user.password);
+      setRole(user.roles);
+      setIsVerified(user.is_verified);
+      setCreatedAt(user.created_at);
     }
   }, [user]);
 
@@ -73,7 +82,7 @@ export const CompteUser = () => {
 
   const handleCancelEdit = () => {
     setEditInfoUser(false);
-    setOldPassword('');
+    setOldPassword(oldPassword);
     setNewPassword('');
     setConfirmPassword('');
   };
@@ -128,10 +137,52 @@ export const CompteUser = () => {
     setIsSubmitting(false);
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await ApiAxios.delete(Routes.DELETE_ACCOUNT);
+
+      if (response.status === 200) {
+        toast.success('Compte supprimé avec succès');
+        logout();
+        cancelDeleteAccount();
+        window.location.href = '/';
+      } else {
+        toast.error('Échec de la suppression du compte');
+      }
+    } catch (error) {
+      toast.error('Erreur lors de la suppression du compte');
+    }
+  };
+
+  const confirmDeleteAccount = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const cancelDeleteAccount = () => {
+    setShowDeleteConfirm(false);
+  };
+
   return (
     <div className="space-y-4 mt-6">
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Confirmation de suppression de compte"
+        message={'Êtes-vous sûr de vouloir supprimer votre compte ?'}
+        infoMessage={'Toute votre progression sera perdue, cette action est irréversible.'}
+        onConfirm={handleDeleteAccount}
+        onCancel={cancelDeleteAccount}
+      />
       <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col space-y-6">
+          <label className={'text-md text-gray-300'}>
+            Inscrit depuis le {dayjs(user?.created_at).format('DD MMMM YYYY')}
+          </label>
+          <label className={'text-md text-gray-300 capitalize'}>
+            Role : {role}
+          </label>
+          <label className={'text-md text-gray-300'}>
+            Compte vérifié : {isVerified ? 'Oui' : 'Non'}
+          </label>
           <label className={`${classNameLabel}`}>
             Email
             <InputProfile
@@ -139,31 +190,30 @@ export const CompteUser = () => {
               placeholder="email"
               value={email}
               onChange={handleEmailChange}
-              className={`${classNameInputProfile}`}
+              className="w-full bg-gray-500 text-white py-1 px-2 rounded-lg "
               disabled={true}
             />
           </label>
-          <label className={`${classNameLabel}`}>
-            Ancien mot de passe
-            <InputProfile
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Ancien mot de passe"
-              value={oldPassword}
-              onChange={handleOldPasswordChange}
-              className={`${classNameInputProfile}`}
-              disabled={!editInfoUser}
-            >
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className={`${classNameFaEyes}`}
-              >
-                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-              </button>
-            </InputProfile>
-          </label>
           {editInfoUser && (
             <>
+              <label className={`${classNameLabel}`}>
+                Ancien mot de passe
+                <InputProfile
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Ancien mot de passe"
+                  value={oldPassword}
+                  onChange={handleOldPasswordChange}
+                  className={`${classNameInputProfile}`}
+                >
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className={`${classNameFaEyes}`}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                  </button>
+                </InputProfile>
+              </label>
               <label className={`${classNameLabel}`}>
                 Nouveau mot de passe
                 <InputProfile
@@ -208,7 +258,9 @@ export const CompteUser = () => {
             onClick={
               editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
             }
-            className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} border-2 rounded py-1 px-2`}
+            className={`${
+              editInfoUser ? 'bg-red-500' : 'bg-button'
+            } border-2 rounded py-1 px-2`}
           >
             {editInfoUser ? 'Annuler' : 'Modifier mon mot de passe'}
           </button>
@@ -217,36 +269,37 @@ export const CompteUser = () => {
               type="button"
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="bg-button border-2 rounded py-1 px-2"
+              className="bg-button border-2 rounded py-1 px-1 text-md"
             >
               {isSubmitting
                 ? 'Enregistrement...'
-                : 'Enregistrer le nouveau mot de passe'}
+                : 'Enregistrer le mot de passe'}
             </button>
           )}
         </div>
       </form>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div
         className="flex items-center hover:cursor-pointer"
-        onClick={() => console.log('Delete')}
+        onClick={confirmDeleteAccount} 
       >
         <FaTrashAlt className="inline-block mr-2 text-red-600" />
         <p className="text-red-600 underline inline-block">
-          Supprime mon compte
+          Supprimer mon compte
         </p>
       </div>
+      <ToastContainer
+          position="bottom-right"
+          autoClose={4000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          className={'z-50'}
+        />
     </div>
   );
 };

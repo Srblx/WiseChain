@@ -1,12 +1,13 @@
 // Libs Next
 import Image from 'next/image';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 // CSS Module
 import logo from '@/public/img/logo.jpg';
 
 // Utils
 import { footerItems } from '@/utils/data/footerItems';
+import Link from 'next/link';
 
 const navClass = 'sm:ml-10 max-md:block max-md:space-x-4 ';
 
@@ -66,17 +67,19 @@ export default function Footer() {
           <nav key={title} className={`${navClass}`}>
             <h6 className="uppercase text-gray-500 mb-1">{title}</h6>
             {links.map((link) => (
-              <a
-                key={link}
-                className="link link-hover"
-                href={
-                  link === 'Nous contacter'
-                    ? "mailto:wisechainnet@gmail.com?subject=Demande d'information&body=Bonjour,%0D%0AJe souhaite obtenir des informations sur..."
-                    : '#'
-                }
-              >
-                {link}
-              </a>
+              link.label === 'Nous contacter' ? (
+                <a 
+                  key={link.label}
+                  className="link link-hover"
+                  href="mailto:wisechainnet@gmail.com?subject=Demande d'information&body=Bonjour,%0D%0AJe souhaite obtenir des informations sur..."
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.label} href={link.path} className="link link-hover">
+                  {link.label}
+                </Link>
+              )
             ))}
           </nav>
         ))}

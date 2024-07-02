@@ -1,16 +1,13 @@
 'use client';
+import { FaUser } from 'react-icons/fa';
 
 // Libs Next
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // Libs React
 import { useState } from 'react';
 
 // Icons
-import iconUserGreen from '@/public/svg/icon-user-logged.svg';
-import iconUserRed from '@/public/svg/icon-user-unlogged.svg';
-import { MdOutlineLogout } from 'react-icons/md';
 
 // Components
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
@@ -18,6 +15,7 @@ import Modal from '@/components/ui/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
 import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hook';
+// import dynamic from 'next/dynamic';
 
 const ButtonUserUnlogged = () => {
   const router = useRouter();
@@ -60,22 +58,19 @@ const ButtonUserUnlogged = () => {
     <div>
       <nav>
         <div className="flex justify-between items-center space-x-1">
-          {isLogged && (
+          {/* {isLogged && (
             <MdOutlineLogout onClick={confirmLogout} size="1.5em" id="logout" />
-          )}
+          )} */}
           <div className="ml-4">
             <button
               id="btn-user"
               className="rounded-full p-1 mr-4 border-2 border-white bg-black"
               onClick={handleUserIconClick}
             >
-              <Image
-                src={isLogged ? iconUserGreen : iconUserRed}
-                alt={
-                  isLogged
-                    ? 'Icône utilisateur connecté'
-                    : 'Icône utilisateur non connecté'
-                }
+              <FaUser
+                color={isLogged ? '#48f309' : 'red'}
+                size={'30px'}
+                className="p-1"
               />
             </button>
           </div>

@@ -11,8 +11,10 @@ import useAuth from '@/hooks/useAuth.hook';
 import ApiAxios from '@/utils/interceptorAxios.utils';
 
 // Components
+import InputProfile from '@/components/shared/Input.component';
+import Routes from '@/enums/routes.enum';
+import dayjs from '@/utils/dayjs';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
-import InputProfile from '../../shared/Input.component';
 
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
 const classNameLabel = 'text-sm text-gray-400';
@@ -23,6 +25,7 @@ export const ProfileUser = () => {
   const [lastname, setLastname] = useState('');
   const [pseudo, setPseudo] = useState('');
   const [country, setCountry] = useState('');
+  const [birthOfDate, setBirthOfDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
 
@@ -32,6 +35,8 @@ export const ProfileUser = () => {
       setLastname(user.lastname);
       setPseudo(user.pseudo);
       setCountry(user.country);
+      const formatDateOfBirth = dayjs(user.date_of_birth).format('DD/MM/YYYY');
+      setBirthOfDate(formatDateOfBirth);
     }
   }, [user]);
 
@@ -53,16 +58,17 @@ export const ProfileUser = () => {
 
   const handleCancelEdit = () => {
     setEditInfoUser(false);
-    setFirstname('');
-    setLastname('');
-    setPseudo('');
+    setFirstname(firstname);
+    setLastname(lastname);
+    setPseudo(pseudo);
+    setBirthOfDate(birthOfDate);
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
-      const response = await ApiAxios.put('/api/userProfile/updateUserData', {
+      const response = await ApiAxios.put(Routes.UPDATE_PROFIL_USER, {
         firstname,
         lastname,
         pseudo,
@@ -123,10 +129,20 @@ export const ProfileUser = () => {
             />
           </label>
           <label className={`${classNameLabel}`}>
+            Date de naissance
+            <InputProfile
+              type="text"
+              placeholder="date de naissance"
+              value={birthOfDate}
+              className={'w-full bg-gray-500 text-white py-1 px-2 rounded-lg'}
+              disabled={true}
+            />
+          </label>
+          <label className={`${classNameLabel}`}>
             Pays
             <InputProfile
               type="text"
-              placeholder="country"
+              placeholder="pays"
               value={country}
               className={'w-full bg-gray-500 text-white py-1 px-2 rounded-lg'}
               disabled={true}
@@ -134,7 +150,7 @@ export const ProfileUser = () => {
           </label>
         </form>
         <ToastContainer
-          position="top-center"
+          position="bottom-right"
           autoClose={4000}
           hideProgressBar={true}
           newestOnTop={false}
@@ -144,6 +160,7 @@ export const ProfileUser = () => {
           draggable
           pauseOnHover
           theme="dark"
+          className={'z-50'}
         />
       </div>
       <div className="flex justify-center items-center space-x-2">
@@ -164,7 +181,7 @@ export const ProfileUser = () => {
           >
             {isSubmitting
               ? 'Enregistrement...'
-              : 'Enregistrer le nouveau mot de passe'}
+              : 'Enregistrer mes informations'}
           </button>
         )}
       </div>

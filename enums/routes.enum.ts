@@ -18,6 +18,8 @@ enum Routes {
   VERIFY_MAIL = '/api/sendVerifyEmail/verifyEmail',
   RESET_PASSWORD = '/api/claimResetPassword/resetPassword',
   UPDATE_PASSWORD = '/api/userProfile/updatePassword',
+  UPDATE_PROFIL_USER = '/api/userProfile/updateUserData',
+  DELETE_ACCOUNT = '/api/userProfile/deleteProfileUser',
 }
 
 export default Routes;

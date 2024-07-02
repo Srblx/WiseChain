@@ -103,7 +103,7 @@ const FormResetPassword = () => {
         <ButtonSubmit>Réinitialiser le mot de passe</ButtonSubmit>
       </form>
       <ToastContainer
-        position="top-center"
+        position="bottom-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
