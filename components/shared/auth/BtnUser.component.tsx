@@ -58,9 +58,6 @@ const ButtonUserUnlogged = () => {
     <div>
       <nav>
         <div className="flex justify-between items-center space-x-1">
-          {/* {isLogged && (
-            <MdOutlineLogout onClick={confirmLogout} size="1.5em" id="logout" />
-          )} */}
           <div className="ml-4">
             <button
               id="btn-user"

@@ -77,12 +77,13 @@ const Profile = () => {
             Informations et Paramètres
           </h1>
           <div className="space-x-2">
-            <Button
+            <button
+              id="btn-logout"
               className="bg-red-600 p-1 border-2 rounded"
               onClick={confirmLogout}
             >
               Se Déconnecter
-            </Button>
+            </button>
             <Button onClick={() => console.log('click')}>Backoffice</Button>
           </div>
         </div>

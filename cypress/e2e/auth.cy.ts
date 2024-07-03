@@ -109,8 +109,12 @@ describe('Auth', () => {
     cy.get('#country').select(CypressData.country);
     cy.get('button[type="submit"]').click();
 
-    cy.get('#logout').click();
-    cy.get('#btn-confirm-logout').click();
+    cy.get('#btn-user').click();
+    cy.wait(2000);
+    cy.get('#btn-logout').click();  
+    cy.get('#confirm-dialog').within(() => {
+      cy.contains('button', 'Confirmer').click();
+    });
   });
 
   it('Should login user', () => {
@@ -137,9 +141,9 @@ describe('Auth', () => {
       .type(CypressData.password);
     cy.get('button[type="submit"]').click();
     cy.wait(2000);
-    cy.get('#logout').click();
+    cy.get('#btn-user').click();
     cy.wait(2000);
-    cy.get('#btn-confirm-logout').click();
+    cy.get('#btn-logout').click();
   });
 
   it('Should send mail for new password', () => {

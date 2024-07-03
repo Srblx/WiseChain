@@ -14,7 +14,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   onCancel,
 }) => {
   return (
-    <div className="modal-container w-[50%] z-50">
+    <div className="modal-container w-[50%] z-50" id="confirm-dialog">
       <Modal
         open={isOpen}
         className="p-10 bg-gray-800 text-white rounded-sm overflow-hidden border-4 border-white"
@@ -32,13 +32,13 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             >
               Annuler
             </Button>
-            <Button
+            <button
               id="btn-confirm-logout"
               onClick={onConfirm}
-              className="bg-red-500 border-none text-black hover:text-white hover:bg-gray-700"
+              className="p-2 bg-red-500 border-none text-black rounded-lg hover:text-white hover:bg-gray-700"
             >
               Confirmer
-            </Button>
+            </button>
           </div>
         </Modal.Actions>
       </Modal>
