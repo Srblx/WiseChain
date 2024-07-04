@@ -8,8 +8,10 @@ import {
   initialState,
   signupReducer,
 } from '@/utils/data/signupReducer';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Components
+import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
 import Button from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
 
@@ -27,15 +29,22 @@ import { IoMdMail } from 'react-icons/io';
 import { SignupSchema } from '@/validators/auth.validator';
 
 // Interfaces
-import FormStep from '@/enums/formStep.enum';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
 import { FormSignupProps } from '@/interfaces/modal.interface';
 
 // Axios
+
+// Enums
+import FormStep from '@/enums/formStep.enum';
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Mail
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import axios from 'axios';
 import * as Yup from 'yup';
 
@@ -204,9 +213,9 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
             }
             required
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <ButtonIcon onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </ButtonIcon>
         </label>
         <label className={inputClassName}>
           <FaKey />*
@@ -222,9 +231,9 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
             }
             required
           />
-          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+          <ButtonIcon onClick={toggleConfirmPasswordVisibility}>
             {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </ButtonIcon>
         </label>
         <label className={inputClassName}>
           <FaBirthdayCake />*

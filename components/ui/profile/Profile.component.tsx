@@ -9,12 +9,17 @@ import useAuth from '@/hooks/useAuth.hook';
 
 // Utils
 import ApiAxios from '@/utils/interceptorAxios.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
+import dayjs from '@/utils/dayjs';
 
 // Components
+import { Button } from '@/components/shared/Button.components';
 import InputProfile from '@/components/shared/Input.component';
+
+// Enums
 import Routes from '@/enums/routes.enum';
-import dayjs from '@/utils/dayjs';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
 const classNameLabel = 'text-sm text-gray-400';
@@ -89,7 +94,7 @@ export const ProfileUser = () => {
 
   return (
     <div className="space-y-8 mt-6">
-      <div className=" space-y-6">
+      <div className=" space-y-6  xs:flex xs:justify-center">
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex flex-col space-y-6"
@@ -163,21 +168,20 @@ export const ProfileUser = () => {
           className={'z-50'}
         />
       </div>
-      <div className="flex justify-center items-center space-x-2">
-        <button
+      <div className="flex justify-start items-center space-x-2 xs:flex xs:justify-center">
+        <Button
           onClick={
             editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
           }
-          className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} border-2 rounded py-1 px-2`}
+          className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} py-2 px-3 rounded`}
         >
           {editInfoUser ? 'Annuler' : 'Modifier mon profil'}
-        </button>
+        </Button>
         {editInfoUser && (
           <button
-            type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-button border-2 rounded py-1 px-2"
+            className="bg-button rounded py-2 px-3"
           >
             {isSubmitting
               ? 'Enregistrement...'

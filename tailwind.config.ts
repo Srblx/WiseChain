@@ -19,11 +19,14 @@ const config = {
       '2xl': '1536px',
     },
     extend: {
+      boxShadow: {
+        'light': '0px 0px 10px 2px rgba(255,255,255,0.15)',
+      },
       colors: {
-        background: '#1E1E1E',
+        background: '#202127',
         primary: '#122636',
         secondary: '#C0D2DC',
-        tertiary: '#FFA374',
+        tertiary: '#00ACAC',
         button: '#628799',
         grayDark: '#3B5368',
         grayBlue: '#628799',

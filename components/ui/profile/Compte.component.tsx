@@ -2,8 +2,10 @@
 
 // Lib React
 import { ChangeEvent, useEffect, useState } from 'react';
-import { FaRegEye, FaRegEyeSlash, FaTrashAlt } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
+
+// Icons
+import { FaRegEye, FaRegEyeSlash, FaTrashAlt } from 'react-icons/fa';
 
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
@@ -26,6 +28,7 @@ import { passwordResetSchema } from '@/validators/auth.validator';
 import InputProfile from '@/components/shared/Input.component';
 
 // Helpers
+import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
@@ -51,7 +54,7 @@ export const CompteUser = () => {
     useNewPasswordVisibility();
   const { showConfirmPassword, toggleConfirmPasswordVisibility } =
     useConfirmPasswordVisibility();
-  const { user, logout, token } = useAuth();
+  const { user, logout } = useAuth();
   const [showConfirm, toggleConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -154,26 +157,14 @@ export const CompteUser = () => {
     }
   };
 
-  const confirmDeleteAccount = () => {
-    setShowDeleteConfirm(true);
-  };
-
   const cancelDeleteAccount = () => {
     setShowDeleteConfirm(false);
   };
 
   return (
-    <div className="space-y-4 mt-6">
-      <ConfirmDialog
-        isOpen={showDeleteConfirm}
-        title="Confirmation de suppression de compte"
-        message={'Êtes-vous sûr de vouloir supprimer votre compte ?'}
-        infoMessage={'Toute votre progression sera perdue, cette action est irréversible.'}
-        onConfirm={handleDeleteAccount}
-        onCancel={cancelDeleteAccount}
-      />
+    <div className="space-y-4 mt-6 xs:flex xs:flex-col">
       <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-        <div className="flex flex-col space-y-6">
+        <div className="flex flex-col space-y-6 xs:flex xs:items-center">
           <label className={'text-md text-gray-300'}>
             Inscrit depuis le {dayjs(user?.created_at).format('DD MMMM YYYY')}
           </label>
@@ -205,13 +196,12 @@ export const CompteUser = () => {
                   onChange={handleOldPasswordChange}
                   className={`${classNameInputProfile}`}
                 >
-                  <button
-                    type="button"
+                  <Button
                     onClick={togglePasswordVisibility}
                     className={`${classNameFaEyes}`}
                   >
                     {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                  </button>
+                  </Button>
                 </InputProfile>
               </label>
               <label className={`${classNameLabel}`}>
@@ -223,13 +213,12 @@ export const CompteUser = () => {
                   onChange={handleNewPasswordChange}
                   className={`${classNameInputProfile}`}
                 >
-                  <button
-                    type="button"
+                  <Button
                     onClick={toggleNewPasswordVisibility}
                     className={`${classNameFaEyes}`}
                   >
                     {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                  </button>
+                  </Button>
                 </InputProfile>
               </label>
               <label className={`${classNameLabel}`}>
@@ -241,35 +230,33 @@ export const CompteUser = () => {
                   onChange={handleConfirmPasswordChange}
                   className={`${classNameInputProfile}`}
                 >
-                  <button
-                    type="button"
+                  <Button
                     onClick={toggleConfirmPasswordVisibility}
                     className={`${classNameFaEyes}`}
                   >
                     {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                  </button>
+                  </Button>
                 </InputProfile>
               </label>
             </>
           )}
         </div>
-        <div className="flex justify-center items-center space-x-4">
-          <button
+        <div className="flex justify-start items-center space-x-4 xs:flex xs:justify-center">
+          <Button
             onClick={
               editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
             }
             className={`${
               editInfoUser ? 'bg-red-500' : 'bg-button'
-            } border-2 rounded py-1 px-2`}
+            }  rounded py-2 px-3`}
           >
             {editInfoUser ? 'Annuler' : 'Modifier mon mot de passe'}
-          </button>
+          </Button>
           {editInfoUser && (
             <button
-              type="button"
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="bg-button border-2 rounded py-1 px-1 text-md"
+              className="bg-button rounded py-2 px-3 text-md"
             >
               {isSubmitting
                 ? 'Enregistrement...'
@@ -279,27 +266,39 @@ export const CompteUser = () => {
         </div>
       </form>
       <div
-        className="flex items-center hover:cursor-pointer"
-        onClick={confirmDeleteAccount} 
+        className="flex justify-start items-center hover:cursor-pointer mt-60 xs:flex xs:justify-center"
+        onClick={() =>
+          (
+            document.getElementById('delete-account') as HTMLDialogElement
+          )?.showModal()
+        }
       >
         <FaTrashAlt className="inline-block mr-2 text-red-600" />
-        <p className="text-red-600 underline inline-block">
+        <p className="text-red-600 underline inline-block ">
           Supprimer mon compte
         </p>
       </div>
       <ToastContainer
-          position="bottom-right"
-          autoClose={4000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          className={'z-50'}
-        />
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        className={'z-50'}
+      />
+      <ConfirmDialog
+        id="delete-account"
+        title="Confirmation de suppression de compte"
+        message={'Êtes-vous sûr de vouloir supprimer votre compte ?'}
+        infoMessage={'Toute votre progression sera perdue.'}
+        onConfirm={handleDeleteAccount}
+        onCancel={cancelDeleteAccount}
+      />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 // Libs Next
 import Image from 'next/image';
 
-// CSS Module
+// Image
 import logo from '@/public/img/logo-d.png';
 
 const LogoDetoured = () => {
@@ -9,7 +9,7 @@ const LogoDetoured = () => {
     <Image
       src={logo}
       alt='Logo du site WiseChain'
-      className='w-[60px] h-[60px] ml-8'
+      className='w-[65px] h-[65px] ml-8 bg-white rounded-full p-1'
     />
   );
 };

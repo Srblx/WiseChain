@@ -70,25 +70,27 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 relative z-0">
-      <div className="flex flex-col w-full">
-        <div className="flex justify-between items-center">
-          <h1 className="text-lg font-black underline uppercase">
-            Informations et Paramètres
-          </h1>
-          <div className="space-x-2">
-            <button
-              id="btn-logout"
-              className="bg-red-600 p-1 border-2 rounded"
-              onClick={confirmLogout}
-            >
-              Se Déconnecter
-            </button>
-            <Button onClick={() => console.log('click')}>Backoffice</Button>
-          </div>
+    <div className="flex flex-col p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
+      <div className="flex flex-col lg:flex-row justify-between items-center w-full">
+        <h1 className="text-lg font-black underline uppercase">
+          Informations et Paramètres
+        </h1>
+        <div className="flex space-x-2 mt-4 lg:mt-0">
+          <Button
+            id="btn-logout"
+            className="bg-red-600 p-1 rounded"
+            onClick={() =>
+              (
+                document.getElementById('logout-account') as HTMLDialogElement
+              )?.showModal()
+            }
+          >
+            Se Déconnecter
+          </Button>
+          <Button onClick={() => console.log('click')}>Backoffice</Button>
         </div>
-        <div className="divider"></div>
       </div>
+      <div className="divider"></div>
       <div className="flex flex-col lg:flex-row w-full flex-grow">
         <div className="flex flex-col items-center lg:items-start lg:w-1/3">
           <Image
@@ -102,7 +104,7 @@ const Profile = () => {
             <li>
               <a
                 onClick={() => setActiveComponent('dashboard')}
-                className={`${classNameLink}`}
+                className={classNameLink}
               >
                 Dashboard
               </a>
@@ -110,7 +112,7 @@ const Profile = () => {
             <li>
               <a
                 onClick={() => setActiveComponent('profile')}
-                className={`${classNameLink}`}
+                className={classNameLink}
               >
                 Profile
               </a>
@@ -118,7 +120,7 @@ const Profile = () => {
             <li>
               <a
                 onClick={() => setActiveComponent('recompense')}
-                className={`${classNameLink}`}
+                className={classNameLink}
               >
                 Récompense
               </a>
@@ -126,7 +128,7 @@ const Profile = () => {
             <li>
               <a
                 onClick={() => setActiveComponent('compte')}
-                className={`${classNameLink}`}
+                className={classNameLink}
               >
                 Compte
               </a>
@@ -135,7 +137,7 @@ const Profile = () => {
         </div>
         <div className="divider lg:divider-horizontal"></div>
         <div className="flex-grow lg:w-2/3">
-          <h3 className="text-start text-lg underline">Mon Profil</h3>
+          <h3 className="text-start text-lg underline xs:flex xs:justify-center">Mon Profil</h3>
           {renderComponent()}
         </div>
       </div>
@@ -148,7 +150,7 @@ const Profile = () => {
           <ModalContent onSuccess={handleModalSuccess} />
         </Modal>
         <ConfirmDialog
-          isOpen={showConfirm}
+          id="logout-account"
           title="Confirmation de déconnexion"
           message="Êtes-vous sûr de vouloir vous déconnecter ?"
           onConfirm={handleLogout}

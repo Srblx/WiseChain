@@ -1,14 +1,16 @@
-import TestUser from "@/components/test.component";
+// Components
+import RecentArticles from "@/components/article.component";
+import ButtonGroup from "@/components/buttonGroup.component";
+import CourseList from "@/components/coursesHome.component";
+
 
 export default function Home() {
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  // return handleToastError('Error');
-  // };
-
   return (
     <>
-      <h1>Hello, World!</h1>
-      <TestUser />
+      {/* <TestUser /> */}
+      <RecentArticles />
+      <ButtonGroup />
+      <CourseList />
     </>
   );
 }

@@ -1,5 +1,7 @@
-// Interfaces
-import { StepTextProps } from '@/interfaces/auth/formStep.interface';
+interface StepTextProps {
+  children: React.ReactNode;
+  onClick: () => void;
+}
 
 const StepText = ({ children, onClick }: StepTextProps) => (
   <p

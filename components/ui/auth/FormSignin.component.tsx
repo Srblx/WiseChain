@@ -1,10 +1,11 @@
-// // Libs React
+// Libs React
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Helpers
 import axios from 'axios';
+import * as Yup from 'yup';
 
 // Components
 import Button from '@/components/shared/auth/BtnSubmit.component';
@@ -19,12 +20,22 @@ import { inputClassName } from './FormSignup.component';
 import { FormSigninProps } from '@/interfaces/modal.interface';
 
 // Validators
+import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
+
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Utils
 import usePasswordVisibility from '@/utils/auth/usePasswordVisibility.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Validators
 import { LoginSchema } from '@/validators/auth.validator';
-import * as Yup from 'yup';
+
+
 
 export default function FormSignin({ onSuccess }: FormSigninProps) {
   const [mail, setMail] = useState('');
@@ -103,9 +114,9 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
             onChange={handlePasswordChange}
             required
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <ButtonIcon onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </ButtonIcon>
         </label>
         <Button>Se connecter</Button>
       </form>

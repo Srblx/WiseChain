@@ -1,6 +1,8 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 

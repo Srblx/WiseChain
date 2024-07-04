@@ -70,6 +70,7 @@ model Course {
   id          String   @id @default(cuid())
   main_title  String
   description String?
+  img         String
   content     String   @db.Text
   created_at  DateTime @default(now())
   update_at   DateTime @updatedAt @db.Date

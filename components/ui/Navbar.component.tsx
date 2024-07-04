@@ -11,7 +11,7 @@ import Routes from '@/enums/routes.enum';
 import { MenuItemType, MenuProps } from '@/interfaces/navItems.interface';
 
 const navClasses =
-  'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16 fixed top-0 left-0 right-0 z-[1]';
+  'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-sm flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-20 fixed top-0 left-0 right-0 z-[1]';
 
 
 const Menu = ({ menuItems }: MenuProps) => {
@@ -49,7 +49,6 @@ const Menu = ({ menuItems }: MenuProps) => {
   );
 };
 
-// eslint-disable-next-line react/display-name
 const Navbar = memo(() => {
   const menuItems: MenuItemType[] = useMemo(
     () => [

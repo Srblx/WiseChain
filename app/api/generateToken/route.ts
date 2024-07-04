@@ -1,7 +1,14 @@
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
-import jwt from 'jsonwebtoken';
+// Lib Next
 import { NextResponse } from 'next/server';
+
+// Routes
 import { getUserByMail } from '../claimResetPassword/route';
+
+// Utils
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
+import jwt from 'jsonwebtoken';
 
 export async function POST(request: Request) {
   const { mail } = await request.json();

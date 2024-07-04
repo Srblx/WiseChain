@@ -51,9 +51,9 @@ export async function DELETE(request: Request) {
       message: SUCCESS_MESSAGES.DELETE_ACCOUNT,
     });
   } catch (error) {
-    console.error(ERROR_MESSAGES.DELETE_ACCOUNT, error);
+    console.error(ERROR_MESSAGES.ERROR_DELETE_ACCOUNT, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.DELETE_ACCOUNT },
+      { error: ERROR_MESSAGES.ERROR_DELETE_ACCOUNT },
       { status: 500 }
     );
   }

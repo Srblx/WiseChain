@@ -1,10 +1,16 @@
 'use client';
 
-import axios from 'axios';
+// Libs Next
 import { useRouter, useSearchParams } from 'next/navigation';
+
+// Libs React
 import { ChangeEvent, useState } from 'react';
 
+// Icons
+import { ToastContainer, toast } from 'react-toastify';
+
 // Components
+import { Button } from '@/components/shared/Button.components';
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
@@ -13,11 +19,17 @@ import { inputClassName } from './FormSignup.component';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
-import Routes from '@/enums/routes.enum';
 import usePasswordVisibility from '@/utils/auth/usePasswordVisibility.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Validators
 import { passwordResetSchema } from '@/validators/auth.validator';
-import { ToastContainer, toast } from 'react-toastify';
+
+// Enums
+import Routes from '@/enums/routes.enum';
+
+// Helpers
+import axios from 'axios';
 import * as Yup from 'yup';
 
 const FormResetPassword = () => {
@@ -85,9 +97,9 @@ const FormResetPassword = () => {
             value={newPassword}
             onChange={handleNewPasswordChange}
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <Button onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </Button>
         </label>
         <label className={inputClassName}>
           <Input
@@ -96,9 +108,9 @@ const FormResetPassword = () => {
             value={confirmNewPassword}
             onChange={handleConfirmNewPasswordChange}
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <Button onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </Button>
         </label>
         <ButtonSubmit>Réinitialiser le mot de passe</ButtonSubmit>
       </form>

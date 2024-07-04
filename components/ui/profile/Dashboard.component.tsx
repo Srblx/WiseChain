@@ -1,4 +1,7 @@
-// React icons
+// Components
+import { Button } from '@/components/shared/Button.components';
+
+// Libs Next
 import Image from 'next/image';
 
 const WIDTH_IMAGE = 200;
@@ -10,9 +13,9 @@ export const DashboardUser = () => {
       <div className="mb-14 mt-8">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-semibold">Questionnaire completé</h3>
-          <button className="bg-button xs:text-xs text-md px-2 py-1 rounded border-2">
+          <Button className="bg-button xs:text-xs text-md px-2 py-1 rounded border-2" onClick={() => console.log("Click NFT button")}>
             Réclamer vos NFT
-          </button>
+          </Button>
         </div>
         <div className="relative">
           <div className="carousel carousel-center bg-neutral rounded-box w-full space-x-4 p-4">
@@ -57,13 +60,13 @@ export const DashboardUser = () => {
           <h3 className="sm:text-md font-semibold text-lg">
             Moyenne des questionnaires
           </h3>
-          <p className="text-2xl font-bold text-black">16.25</p>
+          <p className="text-2xl font-bold text-white">16.25</p>
         </div>
         <div className="bg-tertiary p-2 rounded-lg text-center">
           <h3 className="sm:text-md font-semibold text-lg">
             Questionnaires réalisé
           </h3>
-          <p className="text-2xl font-bold text-black">7</p>
+          <p className="text-2xl font-bold text-white">7</p>
         </div>
       </div>
     </div>

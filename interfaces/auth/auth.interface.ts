@@ -37,6 +37,7 @@ export interface User {
   mail: string;
   password: string;
   roles: string;
+  img: string;
   country: string;
   date_of_birth: string;
   is_verified: boolean;

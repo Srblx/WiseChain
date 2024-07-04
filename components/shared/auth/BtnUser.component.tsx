@@ -1,5 +1,4 @@
 'use client';
-import { FaUser } from 'react-icons/fa';
 
 // Libs Next
 import { useRouter } from 'next/navigation';
@@ -8,20 +7,26 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 // Icons
+import { FaUser } from 'react-icons/fa';
 
 // Components
-import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/ui/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
+import { Button } from '../Button.components';
+
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Hooks
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import useAuth from '@/hooks/useAuth.hook';
-// import dynamic from 'next/dynamic';
+
 
 const ButtonUserUnlogged = () => {
   const router = useRouter();
   const [isModalOpen, toggleModal] = useState(false);
   const [showConfirm, toggleConfirm] = useState(false);
-  const { token, logout } = useAuth();
+  const { token, logout, user } = useAuth();
   const isLogged = token !== null;
 
   const handleModalClose = () => {
@@ -54,22 +59,26 @@ const ButtonUserUnlogged = () => {
     }
   };
 
+  const avatarSrc = isLogged && user?.img ? user.img : 'https://github.com/shadcn.png';
+
   return (
     <div>
       <nav>
         <div className="flex justify-between items-center space-x-1">
           <div className="ml-4">
-            <button
+          <Button
               id="btn-user"
-              className="rounded-full p-1 mr-4 border-2 border-white bg-black"
+              className="rounded-full p-2 mr-6 border-2 border-white bg-black"
               onClick={handleUserIconClick}
             >
-              <FaUser
-                color={isLogged ? '#48f309' : 'red'}
-                size={'30px'}
-                className="p-1"
-              />
-            </button>
+              {isLogged ? (
+                <Avatar>
+                  <AvatarImage src={avatarSrc} alt="@shadcn" />
+                </Avatar>
+              ) : (
+                <FaUser color="red" size={'30px'} className="p-1" />
+              )}
+            </Button>
           </div>
         </div>
       </nav>
@@ -81,13 +90,6 @@ const ButtonUserUnlogged = () => {
         >
           <ModalContent onSuccess={handleModalSuccess} />
         </Modal>
-        <ConfirmDialog
-          isOpen={showConfirm}
-          title="Confirmation de déconnexion"
-          message="Êtes-vous sûr de vouloir vous déconnecter ?"
-          onConfirm={handleLogout}
-          onCancel={cancelLogout}
-        />
       </div>
     </div>
   );
