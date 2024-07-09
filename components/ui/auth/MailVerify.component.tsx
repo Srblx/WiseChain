@@ -2,7 +2,7 @@
 
 import Routes from '@/enums/routes.enum';
 // Images
-import logo from '@/public/img/logo-d.png';
+import logo from '@/public/img/noDB/logo-d.png';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
 

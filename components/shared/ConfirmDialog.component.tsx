@@ -25,9 +25,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   return (
     <dialog
       id={id}
-      className="modal fixed inset-0 max-h-[100%] max-w-[100%] flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-60"
+      className="modal fixed inset-0 max-h-[100%] max-w-[100%] flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-60 m-0"
     >
-      <div className="modal-box bg-background max-w-[55rem] text-white p-10 xs:p-4 rounded-md border-4 border-grayBlue">
+      <div className="modal-box bg-background max-w-[55rem] text-white p-10 xs:p-4 rounded-md border-2 border-backgroundTransparent">
         <h3 className="font-bold text-2xl text-center">{title}</h3>
         <p className="pt-8 text-center">{message}</p>
         <p className="text-center">{infoMessage}</p>

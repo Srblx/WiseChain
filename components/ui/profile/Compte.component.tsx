@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 // Icons
-import { FaRegEye, FaRegEyeSlash, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
@@ -32,6 +32,7 @@ import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import * as Yup from 'yup';
 
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
@@ -164,7 +165,7 @@ export const CompteUser = () => {
   return (
     <div className="space-y-4 mt-6 xs:flex xs:flex-col">
       <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-        <div className="flex flex-col space-y-6 xs:flex xs:items-center">
+        <div className="flex flex-col lg:items-start space-y-6 items-center">
           <label className={'text-md text-gray-300'}>
             Inscrit depuis le {dayjs(user?.created_at).format('DD MMMM YYYY')}
           </label>
@@ -217,7 +218,7 @@ export const CompteUser = () => {
                     onClick={toggleNewPasswordVisibility}
                     className={`${classNameFaEyes}`}
                   >
-                    {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                    {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />} 
                   </Button>
                 </InputProfile>
               </label>
@@ -234,14 +235,14 @@ export const CompteUser = () => {
                     onClick={toggleConfirmPasswordVisibility}
                     className={`${classNameFaEyes}`}
                   >
-                    {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                    {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />} 
                   </Button>
                 </InputProfile>
               </label>
             </>
           )}
         </div>
-        <div className="flex justify-start items-center space-x-4 xs:flex xs:justify-center">
+        <div className="flex lg:justify-start items-center space-x-4 justify-center">
           <Button
             onClick={
               editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
@@ -266,7 +267,7 @@ export const CompteUser = () => {
         </div>
       </form>
       <div
-        className="flex justify-start items-center hover:cursor-pointer mt-60 xs:flex xs:justify-center"
+        className="flex lg:justify-start items-center hover:cursor-pointer mt-60 justify-center"
         onClick={() =>
           (
             document.getElementById('delete-account') as HTMLDialogElement

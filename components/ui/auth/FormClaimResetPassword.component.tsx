@@ -11,7 +11,7 @@ import Input from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
 
 // API
-import { checkEmailExists } from '@/app/api/claimResetPassword/route';
+import { checkEmailExists } from '@/app/api/claim-reset-password/route';
 import axios from 'axios';
 
 // Lib

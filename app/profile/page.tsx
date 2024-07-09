@@ -3,7 +3,7 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
-import Modal from '@/components/ui/Modal.component';
+import Modal from '@/components/shared/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
 import { CompteUser } from '@/components/ui/profile/Compte.component';
 import { DashboardUser } from '@/components/ui/profile/Dashboard.component';
@@ -137,7 +137,7 @@ const Profile = () => {
         </div>
         <div className="divider lg:divider-horizontal"></div>
         <div className="flex-grow lg:w-2/3">
-          <h3 className="text-start text-lg underline xs:flex xs:justify-center">Mon Profil</h3>
+          <h3 className="text-start text-lg underline flex lg:justify-start justify-center">Mon Profil</h3>
           {renderComponent()}
         </div>
       </div>

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 // Image
-import logo from '@/public/img/logo-d.png';
+import logo from '@/public/img/noDB/logo-d.png';
 
 const LogoDetoured = () => {
   return (

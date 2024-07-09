@@ -6,8 +6,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 // Components
-import Footer from '@/components/ui/Footer.component';
-import Navbar from '@/components/ui/Navbar.component';
+import Footer from '@/components/ui/footer/Footer.component';
+import Navbar from '@/components/ui/nav/Navbar.component';
 
 // CSS Module
 import { UserProvider } from "@/context/user.context";

@@ -10,7 +10,7 @@ import FormSignin from './FormSignin.component';
 import FormSignup from './FormSignup.component';
 
 // CSS Module
-import formLoginImage from '@/public/img/form_img.jpeg';
+import formLoginImage from '@/public/img/noDB/form_img.jpeg';
 
 // Enums
 import StepText from '@/components/shared/auth/Paragraph.composent';

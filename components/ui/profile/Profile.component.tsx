@@ -94,7 +94,7 @@ export const ProfileUser = () => {
 
   return (
     <div className="space-y-8 mt-6">
-      <div className=" space-y-6  xs:flex xs:justify-center">
+      <div className=" space-y-6 flex justify-center lg:justify-start">
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex flex-col space-y-6"
@@ -168,7 +168,7 @@ export const ProfileUser = () => {
           className={'z-50'}
         />
       </div>
-      <div className="flex justify-start items-center space-x-2 xs:flex xs:justify-center">
+      <div className="flex lg:justify-start items-center space-x-2  justify-center">
         <Button
           onClick={
             editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
