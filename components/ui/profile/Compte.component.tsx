@@ -249,7 +249,7 @@ export const CompteUser = () => {
             }
             className={`${
               editInfoUser ? 'bg-red-500' : 'bg-button'
-            }  rounded py-2 px-3`}
+            }  rounded-lg py-2 px-3`}
           >
             {editInfoUser ? 'Annuler' : 'Modifier mon mot de passe'}
           </Button>
@@ -257,7 +257,7 @@ export const CompteUser = () => {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="bg-button rounded py-2 px-3 text-md"
+              className="bg-button rounded-lg py-2 px-3 text-md"
             >
               {isSubmitting
                 ? 'Enregistrement...'

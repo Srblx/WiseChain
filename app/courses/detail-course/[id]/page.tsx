@@ -1,7 +1,7 @@
 'use client';
 
 // Interfaces
-import { Course } from '@/interfaces/course.interface';
+import { Course, Tool } from '@/interfaces/course.interface';
 
 // Libs Next
 import { useParams } from 'next/navigation';
@@ -18,6 +18,7 @@ const CourseDetailPage = () => {
   const params = useParams();
   const courseId = params.id as string;
   const [course, setCourse] = useState<Course | null>(null);
+  const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const CourseDetailPage = () => {
           });
           if (response.data && response.data.course) {
             setCourse(response.data.course);
+            setTools(response.data.tools || []);
           } else {
             console.error('Error fetching course:', response.data.error);
           }
@@ -61,7 +63,7 @@ const CourseDetailPage = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{course.main_title}</h1>
       <Image
-        src={course.img || '/img/logo.jpg'}
+        src={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
         alt={course.main_title}
         width={1500}
         height={700}
@@ -73,7 +75,7 @@ const CourseDetailPage = () => {
           {course.sequences.length} min de lecture
         </p>
       </div>
-      <div className="bg-blueDark p-3 rounded-xl mt-6 mb-10">
+      <div className="bg-blueDark p-3 rounded-lg mt-6 mb-10">
         <h2 className="text-xl font-bold mb-4 pl-4 underline underline-offset-4">
           Sommaire
         </h2>
@@ -134,7 +136,7 @@ const CourseDetailPage = () => {
             {sequence.img && (
               <div className="mt-4 flex justify-center items-center">
                 <Image
-                  src={sequence.img}
+                  src={sequence.img ? `/img/${sequence.img}` : '/img/logo.jpg'}
                   alt={`Image for sequence: ${sequence.title}`}
                   width={550}
                   height={350}
@@ -144,67 +146,37 @@ const CourseDetailPage = () => {
             )}
           </div>
         ))}
-        <div id="conclusion" className="mt-10">
-          <h3 className="text-2xl font-bold mb-4">Liste des outils</h3>
-          <div className="space-x-4 flex flex-wrap justify-between">
-            <Button
-              onClick={() => {
-                console.log('Outil 1');
-              }}
-            >
-              Outil 1
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 2');
-              }}
-            >
-              Outil 2
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 3');
-              }}
-            >
-              Outil 3
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 4');
-              }}
-            >
-              Outil 4
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 5');
-              }}
-            >
-              Outil 5
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 6');
-              }}
-            >
-              Outil 6
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 7');
-              }}
-            >
-              Outil 7
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('Outil 8');
-              }}
-            >
-              Outil 8
-            </Button>
+        {tools && tools.length > 0 && (
+          <div id="conclusion" className="mt-10">
+            <h3 className="text-2xl font-bold mb-4">Liste des outils</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+              {tools.map((tool) => (
+                <Button
+                  key={tool.id}
+                  onClick={() => {
+                    const newWindow = window.open(
+                      tool.link,
+                      '_blank',
+                      'noopener,noreferrer'
+                    );
+                    if (newWindow) newWindow.opener = null;
+                  }}
+                  className="flex flex-col items-center justify-center p-2 h-auto bg-button rounded-lg w-[10rem]"
+                >
+                  <div className="flex items-center justify-center space-x-4 ">
+                    <Image
+                      src={`/img/${tool.img}`}
+                      alt={tool.name}
+                      width={30}
+                      height={30}
+                    />
+                    <span className="text-center">{tool.name}</span>
+                  </div>
+                </Button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

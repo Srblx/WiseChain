@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
 import { Articles } from '@/interfaces/article.interface';
 import axios from 'axios';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ArticleDetailPage = () => {
-  const params = useParams();
-  const articleId = params.id as string;
+  const { id: articleId } = useParams();
   const [article, setArticle] = useState<Articles | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,9 +19,9 @@ const ArticleDetailPage = () => {
           const response = await axios.get(`/api/articles/detail-article`, {
             params: { id: articleId },
           });
-          if (response.data && response.data.article) {
+
+          if (response.data && response.data.article)
             setArticle(response.data.article);
-          }
         } catch (error) {
           console.error('Error fetching article:', error);
           setError(
@@ -37,6 +36,8 @@ const ArticleDetailPage = () => {
     }
   }, [articleId]);
 
+  useEffect(() => {}, [article]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -49,88 +50,52 @@ const ArticleDetailPage = () => {
     return <div>{error}</div>;
   }
 
-
-  const renderContentWithImages = () => {
-    if (!article?.summary) return null;
-
-    const paragraphs = article.summary.split('\n');
-
-    return paragraphs.map((paragraph, index) => {
-      let contentBeforeImage = '';
-      let contentAfterImage = '';
-      let imageComponent = null;
-
-      if (index === 0 && article.img) {
-        // Insérer au début du premier paragraphe
-        imageComponent = (
-          <div className="relative h-48 lg:h-[90%] mb-4">
-            <Image
-              src={article.img}
-              alt="Image de l'article"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-        );
-      } else if (index === paragraphs.length - 1 && article.img) {
-        // Insérer à la fin du dernier paragraphe
-        imageComponent = (
-          <div className="relative h-48 lg:h-[90%] mt-4 mb-4">
-            <Image
-              src={article.img}
-              alt="Image de l'article"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-        );
-      } else {
-        // Insérer au milieu des autres paragraphes
-        const splitIndex = Math.floor(paragraph.length / 2);
-        contentBeforeImage = paragraph.slice(0, splitIndex);
-        contentAfterImage = paragraph.slice(splitIndex);
-
-        imageComponent = (
-          <div className="relative h-48 lg:h-[90%] my-4">
-            <Image
-              src={article.img}
-              alt="Image de l'article"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-        );
-      }
-
-      return (
-        <Fragment key={index}>
-          {contentBeforeImage && <p>{contentBeforeImage}</p>}
-          {imageComponent}
-          {contentAfterImage && <p>{contentAfterImage}</p>}
-          {/* Ajouter un saut de ligne supplémentaire après chaque paragraphe */}
-          {index < paragraphs.length - 1 && <br />}
-        </Fragment>
-      );
-    });
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h3 className="text-3xl mb-4">{article?.title}</h3>
       {article ? (
         <div>
-          <div className="relative h-48 lg:h-[90%] shadow-xs-light">
+          <div className="relative h-48 lg:h-[90%] flex justify-center items-center">
             <Image
-              src={article.img || '/img/logo.jpg'}
+              src={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
               alt={article.title}
               width={1000}
               height={700}
               objectFit="cover"
+              className='shadow-xs-light rounded-lg'
             />
           </div>
           <div className="p-4">
-            {/* Appel de la fonction pour afficher les paragraphes avec gestion d'image */}
-            {renderContentWithImages()}
+            <div>
+              {article.sequence_article &&
+              article.sequence_article.length > 0 ? (
+                article.sequence_article.map((sequence) => (
+                  <div key={sequence.id} id={sequence.id} className="mb-8">
+                    <h3 className="text-2xl font-bold mb-4">
+                      {sequence.title}
+                    </h3>
+                    <p className="text-lg">{sequence.containt}</p>
+                    {sequence.img && (
+                      <div className="mt-4 flex justify-center items-center">
+                        <Image
+                          src={
+                            sequence.img
+                              ? `/img/${sequence.img}`
+                              : '/img/logo.jpg'
+                          }
+                          alt={`Image for sequence: ${sequence.title}`}
+                          width={550}
+                          height={350}
+                          className='rounded-lg'
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div>Aucune séquence trouvée.</div>
+              )}
+            </div>
           </div>
         </div>
       ) : (

@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 // Components
-import Routes from '@/enums/routes.enum';
 import { Button } from '../../shared/Button.components';
 
 interface ButtonProps {
@@ -20,7 +19,7 @@ const ButtonGroup: React.FC = () => {
   const router = useRouter();
 
   const handleNavigation = (category: string) => {
-    router.push(Routes.ALL_COURSES + `/${category}`);
+    router.push( `/courses/${category}`);
   };
 
   return (

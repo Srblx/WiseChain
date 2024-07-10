@@ -1,20 +1,22 @@
 export const footerItems = [
   {
-    title: 'Cours Crypto-monnaie',
+    title: 'Guide Investissement',
     links: [
-      { label: 'Crypto1', path: '/crypto1' },
-      { label: 'Crypto2', path: '/crypto2' },
-      { label: 'Crypto3', path: '/crypto3' },
-      { label: 'Crypto4', path: '/crypto4' },
+      { label: 'L\'Apprentissage Continu dans l\'Investissement', path: '/courses/detail-course/504bce70-3dd4-11ef-b3fd-0242ac140002' },
+      { label: 'Stratégies d\'Investissement Passives vs Actives ', path: '/courses/detail-course/79eaa88d-3dd3-11ef-b3fd-0242ac140002' },
+      { label: 'Gestion du Stress et de l\'Anxiété dans l\'Investissement', path: '/courses/detail-course/34a138ab-3dd4-11ef-b3fd-0242ac140002' },
+      { label: 'La création et la gestion d\'un portefeuille d\'investissement', path: '/courses/detail-course/0b620168-3eb5-11ef-b3fd-0242ac140002' },
+      { label: 'L\'investissement à long terme vs court terme', path: '/courses/detail-course/c30e9663-3eb2-11ef-b3fd-0242ac140002' },
     ],
   },
   {
-    title: 'Cours Blockchain',
+    title: 'Guide Crypto-monnaie',
     links: [
-      { label: 'Blockchain1', path: '/blockchain1' },
-      { label: 'Blockchain2', path: '/blockchain2' },
-      { label: 'Blockchain3', path: '/blockchain3' },
-      { label: 'Blockchain4', path: '/blockchain4' },
+      { label: 'Les Différentes Crypto-monnaies', path: '/courses/detail-course/01c7fdb9-3dd7-11ef-b3fd-0242ac140002' },
+      { label: 'Tokenomics : Étude de l\'Économie des Tokens', path: '/courses/detail-course/3c79a207-3de9-11ef-b3fd-0242ac140002' },
+      { label: 'Exchanges Centralisés vs Décentralisés', path: '/courses/detail-course/3c7d5544-3de9-11ef-b3fd-0242ac140002' },
+      { label: 'Processus de Minage des Crypto-monnaies', path: '/courses/detail-course/00c68329-3dea-11ef-b3fd-0242ac140002' },
+      { label: 'Concept de Staking et ses Avantages', path: '/courses/detail-course/00cc169d-3dea-11ef-b3fd-0242ac140002' },
     ],
   },
   {

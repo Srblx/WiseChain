@@ -10,10 +10,13 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Param not found' }, { status: 404 });
     }
 
-    const article = await prisma.article.findFirst({
-        where: {
-            id: articleId,
-            },
+    const article = await prisma.article.findUnique({
+      where: {
+        id: articleId,
+      },
+      include: {
+        sequence_article: true,
+      },
     });
 
     return NextResponse.json({ article });

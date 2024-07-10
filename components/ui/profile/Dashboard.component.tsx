@@ -13,7 +13,7 @@ export const DashboardUser = () => {
       <div className="mb-14 mt-8">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-semibold">Questionnaire completé</h3>
-          <Button className="bg-button xs:text-xs text-md px-2 py-1 rounded border-2" onClick={() => console.log("Click NFT button")}>
+          <Button className="bg-button xs:text-xs text-md px-2 py-1 rounded-lg border-2" onClick={() => console.log("Click NFT button")}>
             Réclamer vos NFT
           </Button>
         </div>

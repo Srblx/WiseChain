@@ -30,7 +30,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
         <div
           tabIndex={0}
           role="button"
-          className="btn m-1 text-black rounded-md border-2 border-black px-8 bg-white"
+          className="btn m-1 text-black rounded-lg border-2 border-black px-8 bg-white"
         >
           Menu
         </div>

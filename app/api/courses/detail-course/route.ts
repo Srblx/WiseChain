@@ -18,10 +18,27 @@ export async function GET(request: Request) {
       },
       include: {
         sequences: true,
+        tool_courses: {
+          include: {
+            tool: true,
+          },
+        },
       },
     });
 
-    return NextResponse.json({ course });
+    if (!course) {
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+    }
+
+    const tools = course.tool_courses.map((tc) => tc.tool);
+
+    return NextResponse.json({
+      course: {
+        ...course,
+        tool_courses: undefined,
+      },
+      tools,
+    });
   } catch (error) {
     console.error('Error fetching course:', error);
     return NextResponse.json(

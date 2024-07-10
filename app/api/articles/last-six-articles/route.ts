@@ -31,7 +31,6 @@ export async function GET() {
         { status: 404 }
       );
     }
-    console.log(recentArticles);
 
     return NextResponse.json({ recentArticles });
   } catch (error) {

@@ -173,7 +173,7 @@ export const ProfileUser = () => {
           onClick={
             editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
           }
-          className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} py-2 px-3 rounded`}
+          className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} py-2 px-3 rounded-lg`}
         >
           {editInfoUser ? 'Annuler' : 'Modifier mon profil'}
         </Button>
@@ -181,7 +181,7 @@ export const ProfileUser = () => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-button rounded py-2 px-3"
+            className="bg-button rounded-lg py-2 px-3"
           >
             {isSubmitting
               ? 'Enregistrement...'

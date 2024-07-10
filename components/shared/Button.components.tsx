@@ -13,7 +13,7 @@ interface ButtonProps {
 
 export const Button: FC<ButtonProps> = ({
   children,
-  className = 'bg-button rounded py-2 px-3',
+  className = 'bg-button rounded-lg py-2 px-3',
   onClick,
   id,
   disabled,

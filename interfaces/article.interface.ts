@@ -8,16 +8,16 @@ export interface Articles {
   img: string;
   created_at: string;
   user: User;
+  sequence_article: SequenceArticle[];
   category: {
     name: string;
   };
-  SequencesArticle: SequenceArticle[];
 }
 
 export interface SequenceArticle {
   id: string;
   index: number;
   title: string;
-  content: string;
+  containt: string;
   img: string;
 }

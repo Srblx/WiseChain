@@ -5,6 +5,7 @@ export interface Course {
   img: string;
   content: string;
   sequences: Sequence[];
+  tools: Tool[];
 }
 
 export interface Sequence {
@@ -13,4 +14,11 @@ export interface Sequence {
   title: string;
   containt: string;
   img: string | null;
+}
+
+export interface Tool {
+  id: string;
+  name: string;
+  link: string;
+  img: string;
 }

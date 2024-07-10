@@ -78,7 +78,7 @@ const Profile = () => {
         <div className="flex space-x-2 mt-4 lg:mt-0">
           <Button
             id="btn-logout"
-            className="bg-red-600 p-1 rounded"
+            className="bg-red-600 p-1 rounded-lg"
             onClick={() =>
               (
                 document.getElementById('logout-account') as HTMLDialogElement

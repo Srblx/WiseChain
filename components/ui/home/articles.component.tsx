@@ -44,19 +44,18 @@ const RecentArticles = () => {
 
   return (
     <>
-      <h2 className="text-xl font-bold mb-1">Actualité</h2>
       <div className="flex flex-col lg:flex-row">
         <div
           className="w-full lg:w-1/2 mr-6 cursor-pointer"
-          onClick={() => router.push(`/articles/${latestArticle.id}`)}
+          onClick={() => router.push(`/articles/detail-article/${latestArticle.id}`)}
         >
           <Image
             src={
               latestArticle.img ? `/img/${latestArticle.img}` : '/img/logo.jpg'
             }
             alt={latestArticle.title}
-            width={900}
-            height={200}
+            width={1000}
+            height={500}
             className="rounded-lg xl:mb-4"
           />
           <h2 className="text-2xl font-extrabold mb-2">
@@ -80,14 +79,14 @@ const RecentArticles = () => {
             <div
               key={article.id}
               className="flex items-center cursor-pointer"
-              onClick={() => router.push(`/articles/${article.id}`)}
+              onClick={() => router.push(`/articles/detail-article/${article.id}`)}
             >
               <Image
                 src={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
                 alt={article.title}
                 width={100}
                 height={100}
-                className="rounded-md mr-4"
+                className="rounded-lg mr-4"
               />
               <div>
                 <h3 className="font-extrabold">{article.title}</h3>

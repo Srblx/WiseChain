@@ -67,7 +67,7 @@ const AllArticles = () => {
                 >
                   <div className="relative h-48 lg:h-[90%]">
                     <Image
-                      src={articles[0].img || '/img/logo.jpg'}
+                      src={articles[0].img ? `/img/${articles[0].img}` : '/img/logo.jpg'}
                       alt={articles[0].title}
                       layout="fill"
                       objectFit="cover"
@@ -92,7 +92,7 @@ const AllArticles = () => {
                     >
                       <div className="relative h-48">
                         <Image
-                          src={article.img || '/img/placeholder.jpg'}
+                          src={article.img ? `/img/${article.img}` : '/img/placeholder.jpg'}
                           alt={article.title}
                           layout="fill"
                           objectFit="cover"
@@ -122,7 +122,7 @@ const AllArticles = () => {
               >
                 <div className="relative h-48">
                   <Image
-                    src={article.img || '/img/logo.jpg'}
+                    src={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
                     alt={article.title}
                     layout="fill"
                     objectFit="cover"
@@ -130,7 +130,7 @@ const AllArticles = () => {
                   />
                 </div>
                 <div className="p-3 flex flex-col flex-grow">
-                  <h2 className="text-white font-semibold mb-2">
+                  <h2 className="text-white font-semibold">
                     {article.title}
                   </h2>
                 </div>

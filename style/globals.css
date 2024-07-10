@@ -12,7 +12,7 @@
   }  
 
 #contentModal {
-  @apply rounded-xl;
+  @apply rounded-lg;
 }
 
 
