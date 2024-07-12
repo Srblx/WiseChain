@@ -38,6 +38,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
               <button
                 className="btn bg-red-600 text-white hover:bg-black border-none"
                 onClick={onConfirm}
+                id='confirm-dialog'
               >
                 Confirmer
               </button>

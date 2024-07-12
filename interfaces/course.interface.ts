@@ -5,6 +5,9 @@ export interface Course {
   img: string;
   content: string;
   sequences: Sequence[];
+  category: {
+    name: string;
+  };
   tools: Tool[];
 }
 

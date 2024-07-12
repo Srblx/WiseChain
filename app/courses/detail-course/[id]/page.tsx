@@ -4,14 +4,18 @@
 import { Course, Tool } from '@/interfaces/course.interface';
 
 // Libs Next
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 // Libs React
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-// Helpers
+// Components
 import { Button } from '@/components/shared/Button.components';
+
+// Helpers
+import CourseCarousel from '@/components/carousel/CourseCarousel.component';
+import Routes from '@/enums/routes.enum';
 import axios from 'axios';
 
 const CourseDetailPage = () => {
@@ -19,29 +23,41 @@ const CourseDetailPage = () => {
   const courseId = params.id as string;
   const [course, setCourse] = useState<Course | null>(null);
   const [tools, setTools] = useState<Tool[]>([]);
+  const [courseRelatedCategory, setCourseRelatedCategory] = useState<Course[]>(
+    []
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (courseId) {
-      const fetchCourse = async () => {
+      const fetchCourseAndRelated = async () => {
         try {
-          const response = await axios.get('/api/courses/detail-course', {
-            params: { id: courseId },
-          });
-          if (response.data && response.data.course) {
-            setCourse(response.data.course);
-            setTools(response.data.tools || []);
-          } else {
-            console.error('Error fetching course:', response.data.error);
+          const [courseResponse, relatedResponse] = await Promise.all([
+            axios.get(Routes.GET_ONE_COURSE, {
+              params: { id: courseId },
+            }),
+            axios.get(Routes.GET_RELATED_COURSES, {
+              params: { id: courseId },
+            }),
+          ]);
+          if (
+            courseResponse.data &&
+            courseResponse.data.course &&
+            relatedResponse.data &&
+            relatedResponse.data.courses
+          ) {
+            setCourse(courseResponse.data.course);
+            setTools(courseResponse.data.tools || []);
+            setCourseRelatedCategory(relatedResponse.data.courses || []);
           }
         } catch (error) {
-          console.error('Error fetching course:', error);
+          console.error('Error fetching course data:', error);
         } finally {
           setIsLoading(false);
         }
       };
 
-      fetchCourse();
+      fetchCourseAndRelated();
     }
   }, [courseId]);
 
@@ -71,9 +87,15 @@ const CourseDetailPage = () => {
       />
       <div className="text-lg">
         <p>{course.description}</p>
-        <p className="mt-2 text-gray-400">
-          {course.sequences.length} min de lecture
-        </p>
+        <div className="flex lg:justify-between items-center">
+          <p className="mt-2 text-gray-400">
+            {course.sequences.length} min de lecture
+          </p>
+          <div className="space-x-2 flex">
+            <div className="badge badge-info badge-outline text-">{course.category.name}</div>
+            <div className="badge badge-succes badge-outline text-green-600">facile</div>
+          </div>
+        </div>
       </div>
       <div className="bg-blueDark p-3 rounded-lg mt-6 mb-10">
         <h2 className="text-xl font-bold mb-4 pl-4 underline underline-offset-4">
@@ -146,10 +168,10 @@ const CourseDetailPage = () => {
             )}
           </div>
         ))}
-        {tools && tools.length > 0 && (
+        {tools.length > 0 && (
           <div id="conclusion" className="mt-10">
             <h3 className="text-2xl font-bold mb-4">Liste des outils</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {tools.map((tool) => (
                 <Button
                   key={tool.id}
@@ -161,9 +183,9 @@ const CourseDetailPage = () => {
                     );
                     if (newWindow) newWindow.opener = null;
                   }}
-                  className="flex flex-col items-center justify-center p-2 h-auto bg-button rounded-lg w-[10rem]"
+                  className="flex flex-col items-center justify-center p-2 h-auto bg-button rounded-lg"
                 >
-                  <div className="flex items-center justify-center space-x-4 ">
+                  <div className="flex items-center justify-center space-x-2">
                     <Image
                       src={`/img/${tool.img}`}
                       alt={tool.name}
@@ -178,6 +200,12 @@ const CourseDetailPage = () => {
           </div>
         )}
       </div>
+      {!isLoading && course && (
+        <CourseCarousel
+          courses={courseRelatedCategory}
+          title={`Plus de cours en ${course.category.name} à découvrir`}
+        />
+      )}
     </div>
   );
 };

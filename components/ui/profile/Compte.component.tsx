@@ -258,6 +258,7 @@ export const CompteUser = () => {
               onClick={handleSubmit}
               disabled={isSubmitting}
               className="bg-button rounded-lg py-2 px-3 text-md"
+              id='register-new-password'
             >
               {isSubmitting
                 ? 'Enregistrement...'

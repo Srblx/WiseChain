@@ -105,6 +105,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('dashboard')}
                 className={classNameLink}
+                id='dashboard-link'
               >
                 Dashboard
               </a>
@@ -113,6 +114,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('profile')}
                 className={classNameLink}
+                id='profile-link'
               >
                 Profile
               </a>
@@ -121,6 +123,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('recompense')}
                 className={classNameLink}
+                id='recompense-link'
               >
                 Récompense
               </a>
@@ -129,6 +132,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('compte')}
                 className={classNameLink}
+                id='compte-link'
               >
                 Compte
               </a>

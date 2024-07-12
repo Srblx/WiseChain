@@ -3,7 +3,7 @@ export const footerItems = [
     title: 'Guide Investissement',
     links: [
       { label: 'L\'Apprentissage Continu dans l\'Investissement', path: '/courses/detail-course/504bce70-3dd4-11ef-b3fd-0242ac140002' },
-      { label: 'Stratégies d\'Investissement Passives vs Actives ', path: '/courses/detail-course/79eaa88d-3dd3-11ef-b3fd-0242ac140002' },
+      { label: 'Stratégies d\'Investissement Passives vs Actives', path: '/courses/detail-course/79eaa88d-3dd3-11ef-b3fd-0242ac140002' },
       { label: 'Gestion du Stress et de l\'Anxiété dans l\'Investissement', path: '/courses/detail-course/34a138ab-3dd4-11ef-b3fd-0242ac140002' },
       { label: 'La création et la gestion d\'un portefeuille d\'investissement', path: '/courses/detail-course/0b620168-3eb5-11ef-b3fd-0242ac140002' },
       { label: 'L\'investissement à long terme vs court terme', path: '/courses/detail-course/c30e9663-3eb2-11ef-b3fd-0242ac140002' },

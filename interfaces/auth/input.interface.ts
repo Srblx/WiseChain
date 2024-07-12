@@ -19,4 +19,5 @@ export interface InputProfileProps {
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   children?: React.ReactNode;
+  id?: string;
 }

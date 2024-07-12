@@ -1,5 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Lib Next
 import { NextResponse } from 'next/server';
@@ -10,7 +11,7 @@ export async function GET(request: Request) {
 
   try {
     if (!category)
-      return NextResponse.json({ error: 'Param not found' }, { status: 404 });
+      return NextResponse.json({ error: ERROR_MESSAGES.NOT_PARAMS_FOUND }, { status: 404 });
 
     const courseCategory = await prisma.category.findFirst({
       where: {
@@ -20,7 +21,7 @@ export async function GET(request: Request) {
 
     if (!courseCategory) {
       return NextResponse.json(
-        { error: 'Category not found' },
+        { error: ERROR_MESSAGES.NOT_CATEGORY_FOUND },
         { status: 404 }
       );
     }
@@ -42,7 +43,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error fetching courses: 1', error);
     return NextResponse.json(
-      { error: 'Error fetching courses' },
+      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
       { status: 500 }
     );
   }

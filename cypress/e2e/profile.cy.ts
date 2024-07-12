@@ -7,6 +7,7 @@ describe('Profile', () => {
     });
 
     cy.visit('/');
+    cy.wait(5000);
     cy.get('#btn-user').click();
     cy.get('input[placeholder="Email"]').clear().type(CypressData.mail);
     cy.get('input[placeholder="************"]')
@@ -15,14 +16,13 @@ describe('Profile', () => {
     cy.get('button[type="submit"]').click();
 
     cy.reload();
+    cy.wait(2000);
     cy.get('#btn-user').click();
-    cy.get('a').contains('Profile').click();
-    cy.get('button').contains('Modifier mon profil').click();
-    cy.get('input[placeholder="firstname"]').clear().type('John test');
-    cy.get('button[type="button"]')
-      .contains('Enregistrer le nouveau mot de passe')
-      .click();
-    cy.get('input[placeholder="firstname"]').should('have.value', 'John test');
+    cy.get('#profile-link').click();
+  
+    cy.get('#input-firstname').clear().type('John test');
+    cy.get('#input-pseud').clear().type('johndoe_test');
+    cy.get('#btn-save-profile').click();
     cy.get('.Toastify__toast-body').should(
       'contain',
       'Profil modifié avec succès'
@@ -34,7 +34,7 @@ describe('Profile', () => {
       return false;
     });
 
-    cy.get('a').contains('Profile').click();
+    cy.get('#profile-link').click();
     cy.get('button').contains('Modifier mon profil').click();
     cy.get('input[placeholder="lastname"]').clear().type('Doe test');
     cy.get('button[type="button"]')

@@ -108,13 +108,14 @@ describe('Auth', () => {
 
     cy.get('#country').select(CypressData.country);
     cy.get('button[type="submit"]').click();
+    cy.wait(2000);
 
     cy.get('#btn-user').click();
     cy.wait(2000);
     cy.get('#btn-logout').click();  
-    cy.get('#confirm-dialog').within(() => {
+    cy.get('#confirm-dialog').click()/* within(() => {
       cy.contains('button', 'Confirmer').click();
-    });
+    }); */
   });
 
   it('Should login user', () => {

@@ -8,61 +8,25 @@ import { useState } from 'react';
 import { Button } from '../../shared/Button.components';
 import ConfirmDialog from '../../shared/ConfirmDialog.component';
 
+
+
 export default function InvestmentSensitivity() {
   const [showTooltip, setShowTooltip] = useState(false);
-
+  const tooltipContent = `Investir dans les marchés financiers, y compris les crypto-actifs, comporte des risques importants. Il est crucial de comprendre que vous pouvez perdre une partie, voire la totalité, de votre capital investi. La nature extrêmement volatile des crypto-monnaies les rend particulièrement sensibles aux fluctuations du marché ainsi qu'aux événements géopolitiques, économiques et réglementaires. \nLes produits à effet de levier, tels que les CFD (contrats sur la différence), amplifient considérablement les risques financiers. Les statistiques montrent qu'une grande majorité des investisseurs particuliers subissent des pertes en négociant des CFD. Avant de vous engager, assurez-vous de maîtriser le fonctionnement de ces instruments complexes et d'en accepter les risques inhérents. \nPlus d'information en cliquant sur Lire plus...`;
   return (
     <div className="bg-backgroundTransparent flex justify-center items-center p-6 border-y-2 border-white mt-20">
       <div className="text-center text-sm space-y-6">
         <div className="flex items-center space-x-4 ">
-          <TiWarningOutline
-            size={'2.4rem'}
-            color="red"
-            className="text-blueDark font-extrabold cursor-help"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          />
-          {showTooltip && (
-            <div className="absolute z-10 w-100 p-2 -mt-2 text-sm leading-tight text-white bg-gray-800 rounded-lg left-1/3 transform -translate-x-1/2 -translate-y-full">
-              <div className="max-h-58 overflow-y-auto text-left p-2">
-                <p>
-                  Investir dans les marchés financiers, y compris les
-                  crypto-actifs, comporte des risques importants. Il est crucial
-                  de comprendre que vous pouvez perdre une partie, voire la
-                  totalité, de votre capital investi. La nature extrêmement
-                  volatile des crypto-monnaies les rend particulièrement
-                  sensibles aux fluctuations du marché ainsi qu'aux événements
-                  géopolitiques, économiques et réglementaires.
-                </p>
-                <br />
-                <p>
-                  Les produits à effet de levier, tels que les CFD (contrats sur
-                  la différence), amplifient considérablement les risques
-                  financiers. Les statistiques montrent qu'une grande majorité
-                  des investisseurs particuliers subissent des pertes en
-                  négociant des CFD. Avant de vous engager, assurez-vous de
-                  maîtriser le fonctionnement de ces instruments complexes et
-                  d'en accepter les risques inhérents.
-                </p>
-                <p>
-                  Plus d'information en cliquant sur
-                  <Button
-                    className="text-blue-500 underline cursor-pointer"
-                    onClick={() =>
-                      (
-                        document.getElementById(
-                          'Investment-sensitivity'
-                        ) as HTMLDialogElement
-                      )?.showModal()
-                    }
-                  >
-                    Lire plus...
-                  </Button>
-                </p>
-              </div>
-              <div className="absolute w-3 h-3 bg-gray-800 transform rotate-45 -bottom-1.5 left-1/2 -translate-x-1/2"></div>
-            </div>
-          )}
+          <div
+            className="xl:tooltip tooltip tooltip-right"
+            data-tip={tooltipContent}
+          >
+            <TiWarningOutline
+              size={'2.4rem'}
+              color="red"
+              className="text-blueDark font-extrabold cursor-help"
+            />
+          </div>
           <p className="text-lg xs:text-sm sm:text-base font-extrabold ">
             {' '}
             Attention aux risques : L'investissement comporte des risques

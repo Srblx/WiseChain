@@ -1,20 +1,24 @@
-"use client";
-
-// Enums
-import Routes from '@/enums/routes.enum';
+'use client';
 
 // Interfaces
 import { Articles } from '@/interfaces/article.interface';
 
+// Enums
+import Routes from '@/enums/routes.enum';
+
 // Libs Next
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // Libs React
 import { useEffect, useState } from 'react';
 
+// Components
+import CardArticle from '@/components/card/CardArticle.composent';
+
 // Helpers
+import { ERROR_MESSAGES, FORMATAGE_DATE } from '@/utils/messages.utils';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const AllArticles = () => {
   const [articles, setArticles] = useState<Articles[]>([]);
@@ -32,7 +36,7 @@ const AllArticles = () => {
       } catch (error) {
         console.error('Error fetching articles:', error);
         setError(
-          'Une erreur est survenue lors de la récupération des articles.'
+          ERROR_MESSAGES.ERROR_FETCH_ARTICLES
         );
         setIsLoading(false);
       }
@@ -40,6 +44,10 @@ const AllArticles = () => {
 
     fetchArticles();
   }, []);
+
+  const formatDate = (date: string) => {
+    return dayjs(date).format(FORMATAGE_DATE.FORMAT_FRENCH_DATE);
+  };
 
   if (isLoading) {
     return (
@@ -53,94 +61,47 @@ const AllArticles = () => {
     return <div>{error}</div>;
   }
 
+  const firstArticles = articles.slice(0, 3);
+  const otherArticles = articles.slice(3);
+
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl mb-4">Articles Page</h3>
-      {articles?.length > 0 ? (
-        <>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {articles.length > 0 && (
-              <>
-                <div
-                  className="lg:col-span-1 lg:row-span-2 bg-blueDark bg-opacity-60 text-white rounded-lg shadow-lg overflow-hidden flex flex-col mb-6 cursor-pointer"
-                  onClick={() => router.push(`/articles/detail-article/${articles[0].id}`)}
-                >
-                  <div className="relative h-48 lg:h-[90%]">
-                    <Image
-                      src={articles[0].img ? `/img/${articles[0].img}` : '/img/logo.jpg'}
-                      alt={articles[0].title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-t-lg"
-                    />
-                  </div>
-                  <div className="p-3 flex flex-col flex-grow">
-                    <h2 className="text-white font-semibold mb-2">
-                      {articles[0].title}
-                    </h2>
-                    <p className="text-gray-400 text-xs flex-grow">
-                      {articles[0].summary.substring(0, 150)}...
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-1 lg:row-span-1 gap-6 cursor-pointer">
-                  {articles.slice(1, 3).map((article) => (
-                    <div
-                      key={article.id}
-                      className="bg-blueDark bg-opacity-60 text-white rounded-lg shadow-lg overflow-hidden flex flex-col w-full"
-                      onClick={() => router.push(`/articles/detail-article/${article.id}`)}
-                    >
-                      <div className="relative h-48">
-                        <Image
-                          src={article.img ? `/img/${article.img}` : '/img/placeholder.jpg'}
-                          alt={article.title}
-                          layout="fill"
-                          objectFit="cover"
-                          className="rounded-t-lg"
-                        />
-                      </div>
-                      <div className="p-3 flex flex-col flex-grow">
-                        <h2 className="text-white font-semibold mb-2">
-                          {article.title}
-                        </h2>
-                        <p className="text-gray-400 text-xs flex-grow">
-                          {article.summary.substring(0, 200)}...
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+      <h3 className="text-3xl mb-4">Articles </h3>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-y-6 lg:gap-y-0 gap-x-6">
+        {firstArticles.map((article, index) => (
+          <div
+            key={article.id}
+            className={`lg:col-span-${index === 0 ? 2 : 1} lg:row-span-2`}
+          >
+            <CardArticle
+              isLarge={index === 0}
+              title={article.title}
+              description={article.summary}
+              image={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
+              date={formatDate(article.created_at)}
+              onClick={() =>
+                router.push(`/articles/detail-article/${article.id}`)
+              }
+            />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {articles.slice(3).map((article) => (
-              <div
-                key={article.id}
-                className="bg-blueDark bg-opacity-60 text-white rounded-lg shadow-lg overflow-hidden flex flex-col"
-                onClick={() => router.push(`/articles/detail-article/${article.id}`)}
-              >
-                <div className="relative h-48">
-                  <Image
-                    src={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
-                    alt={article.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg"
-                  />
-                </div>
-                <div className="p-3 flex flex-col flex-grow">
-                  <h2 className="text-white font-semibold">
-                    {article.title}
-                  </h2>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p>Aucun article trouvé.</p>
-      )}
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        {otherArticles.map((article) => (
+          <CardArticle
+            key={article.id}
+            title={article.title}
+            description="" // Pas de description pour ces cartes
+            image={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
+            date={formatDate(article.created_at)}
+            onClick={() =>
+              router.push(`/articles/detail-article/${article.id}`)
+            }
+          />
+        ))}
+      </div>
     </div>
   );
 };

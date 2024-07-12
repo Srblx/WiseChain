@@ -1,12 +1,13 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
+import { CATEGORY, ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Lib Next
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const categories = ['Investissement', 'Crypto-monnaie', 'Blockchain'];
+    const categories = [CATEGORY.INVESTMENT, CATEGORY.CRYPTO, CATEGORY.BLOCKCHAIN, CATEGORY.NFT];
     const coursesData = await Promise.all(
       categories.map(async (categoryName) => {
         const category = await prisma.category.findFirst({
@@ -34,9 +35,9 @@ export async function GET() {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error fetching courses: 2', error);
+    console.error('Error fetching courses: ', error);
     return NextResponse.json(
-      { error: 'Error fetching courses' },
+      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
       { status: 500 }
     );
   }

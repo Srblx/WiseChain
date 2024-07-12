@@ -109,6 +109,7 @@ export const ProfileUser = () => {
               onChange={handlefirstnameChange}
               className={`${classNameInputProfile}`}
               disabled={!editInfoUser}
+              id='input-firstname'
             />
           </label>
           <label className={`${classNameLabel}`}>
@@ -120,6 +121,7 @@ export const ProfileUser = () => {
               onChange={handleLastnameChange}
               className={`${classNameInputProfile}`}
               disabled={!editInfoUser}
+              id='input-lastname'
             />
           </label>
           <label className={`${classNameLabel}`}>
@@ -131,6 +133,7 @@ export const ProfileUser = () => {
               onChange={handlePseudoChange}
               className={`${classNameInputProfile}`}
               disabled={!editInfoUser}
+              id='input-pseudo'
             />
           </label>
           <label className={`${classNameLabel}`}>
@@ -174,6 +177,7 @@ export const ProfileUser = () => {
             editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
           }
           className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} py-2 px-3 rounded-lg`}
+          id='btn-edit-profile'
         >
           {editInfoUser ? 'Annuler' : 'Modifier mon profil'}
         </Button>
@@ -182,6 +186,7 @@ export const ProfileUser = () => {
             onClick={handleSubmit}
             disabled={isSubmitting}
             className="bg-button rounded-lg py-2 px-3"
+            id='btn-save-profile'
           >
             {isSubmitting
               ? 'Enregistrement...'

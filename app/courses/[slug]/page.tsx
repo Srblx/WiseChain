@@ -3,15 +3,17 @@
 // Interfaces
 import { Course } from '@/interfaces/course.interface';
 
+// Components
+import CardCourse from '@/components/card/CardCourse.component';
+
 // Libs Next
 import { useParams, useRouter } from 'next/navigation';
 
 // Libs React
 import { useEffect, useState } from 'react';
 
-//Helpers
-import FlipCardOne from '@/components/animate/card/FilpCardOne.component';
-import FlipCard from '@/components/animate/card/FlipCard.component';
+// Helpers
+import Routes from '@/enums/routes.enum';
 import axios from 'axios';
 
 const CategoryCoursesPage = () => {
@@ -25,7 +27,7 @@ const CategoryCoursesPage = () => {
     if (category) {
       const fetchCourses = async () => {
         try {
-          const response = await axios.get(`/api/courses/all-courses`, {
+          const response = await axios.get(Routes.GET_ALL_COURSES, {
             params: { category },
           });
           if (response.data && response.data.course) {
@@ -50,50 +52,40 @@ const CategoryCoursesPage = () => {
     );
   }
 
+  const [firstThreeCourses, remainingCourses] =
+    courses.length >= 3
+      ? [courses.slice(0, 3), courses.slice(3)]
+      : [courses, []];
+
   return (
     <div>
       <h1 className="text-3xl mb-4">{category}</h1>
       <div className="min-h-screen">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {courses.length > 0 && (
-            <>
-              <FlipCardOne
-                image={
-                  courses[0].img ? `/img/${courses[0].img}` : '/img/logo.jpg'
-                }
-                title={courses[0].main_title}
-                description={courses[0].description}
-                sequenceCount={`${courses[0].sequences.length} min de lecture`}
-                onClick={() =>
-                  router.push(`/courses/detail-course/${courses[0].id}`)
-                }
-                isLarge={true}
-                rotate="y"
-              />
-              {courses.slice(1, 3).map((course) => (
-                <FlipCardOne
-                  key={course.id}
-                  image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
-                  title={course.main_title}
-                  description={course.description}
-                  sequenceCount={`${course.sequences.length} min de lecture`}
-                  onClick={() =>
-                    router.push(`/courses/detail-course/${course.id}`)
-                  }
-                  rotate="y"
-                />
-              ))}
-            </>
-          )}
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          {courses.slice(3).map((course) => (
-            <FlipCard
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 cursor-pointer">
+          {firstThreeCourses.map((course, index) => (
+            <CardCourse
+              key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
-              rotate="y"
-              subtitle={`${course.sequences.length} min de lecture`}
+              sequence={`${course.sequences.length} min de lecture`}
               title={course.main_title}
+              className={index === 0 ? 'lg:row-span-2' : ''}
+              isMainCard={index === 0}
+              isLarge={index > 0}
+              onClick={() => router.push(`/courses/detail-course/${course.id}`)}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6"
+        >
+          {remainingCourses.map((course) => (
+            <CardCourse
+              key={course.id}
+              description={course.description}
+              image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
+              sequence={`${course.sequences.length} min de lecture`}
+              title={course.main_title}
+              isLarge={true}
               onClick={() => router.push(`/courses/detail-course/${course.id}`)}
             />
           ))}

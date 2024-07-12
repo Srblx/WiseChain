@@ -16,18 +16,35 @@ enum RoutesEnum {
   ALL_COURSES_NFTS = '/courses/NFT',
   ALL_ARTICLES = '/articles/all-articles',
 
-  // API
+  //# API
+  
+  /*Auth */
   SIGNUP = '/api/signup',
   SIGNIN = '/api/signin',
   GENERATE_TOKEN = '/api/generate-token',
   VERIFY_MAIL = '/api/send-verify-email/verify-email',
   RESET_PASSWORD = '/api/claim-reset-password/reset-password',
+  /*Auth */
+
+  /*Setting user*/
   UPDATE_PASSWORD = '/api/user-profile/update-password',
   UPDATE_PROFIL_USER = '/api/user-profile/update-user-data',
   DELETE_ACCOUNT = '/api/user-profile/delete-profile-user',
-  GET_LAST_SIX_ARTICLES = '/api/articles/last-six-articles',
-  GET_LAST_SIX_COURSES = '/api/courses/last-six-coures',
+  /*setting user*/
+
+  /*Articles */
   GET_ALL_ARTICLES = '/api/articles/all-articles',
+  GET_LAST_SIX_ARTICLES = '/api/articles/last-six-articles',
+  GET_ONE_ARTICLE = '/api/articles/detail-article',
+  /*Articles */
+  
+  /*Courses */
+  GET_ALL_COURSES = '/api/courses/all-courses',
+  GET_LAST_SIX_COURSES = '/api/courses/last-six-coures',
+  GET_ONE_COURSE = '/api/courses/detail-course',
+  GET_RELATED_COURSES = '/api/courses/related-course',
+  /*Courses */
+
 }
 
 // FUNCTIONS PAGES WITH URL DYNAMIQUE

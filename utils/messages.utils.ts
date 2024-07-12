@@ -31,6 +31,12 @@ export const ERROR_MESSAGES = {
     "Erreur lors de la vérification de l'email veuillez contacter le support",
   ERROR_DELETE_ACCOUNT: 'Erreur lors de la suppression du compte',
   FAILED_DELETE_ACCOUNT: 'Échec de la suppression du compte',
+  ERROR_FETCH_ARTICLES: 'Erreur lors de la récupération des articles',
+  ERROR_FETCH_RELATED_COURSES: 'Error fetching related courses',
+  NOT_PARAMS_FOUND: 'Param not found',
+  NOT_COURSE_FOUND: 'Course not found',
+  ERROR_FETCHING_COURSE: 'Error fetching course',
+  NOT_CATEGORY_FOUND: 'Category not found',
 };
 
 export const SUCCESS_MESSAGES = {
@@ -76,4 +82,15 @@ export const ERROR_MESSAGES_YUP = {
   FORMAT_MAIL_INVALID: "Le format de l'email n'est pas valide",
 
   SEND_MAIL: 'Un email vous a été envoyé',
+};
+
+export const CATEGORY = {
+  INVESTMENT: 'Investissement',
+  CRYPTO: 'Crypto-monnaie',
+  BLOCKCHAIN: 'Blockchain',
+  NFT: 'NFT',
+};
+
+export const FORMATAGE_DATE = {
+  FORMAT_FRENCH_DATE: 'DD/MM/YY - HH:mm'
 };
