@@ -31,7 +31,7 @@ const Navbar = memo(() => {
   return (
     <nav className={navClasses}>
       <div className="flex justify-between items-center w-full">
-        <Link href="/">
+        <Link href="/" id='logo'>
           <LogoDetoured />
         </Link>
         <div className="flex items-center space-x-4 cursor-pointer">

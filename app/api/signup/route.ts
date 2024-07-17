@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(password); 
 
     const newUser = await prisma.user.create({
       data: {

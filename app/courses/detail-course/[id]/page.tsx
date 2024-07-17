@@ -209,5 +209,6 @@ const CourseDetailPage = () => {
     </div>
   );
 };
+//! education financier
 
 export default CourseDetailPage;

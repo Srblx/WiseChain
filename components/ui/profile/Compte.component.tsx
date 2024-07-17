@@ -196,6 +196,7 @@ export const CompteUser = () => {
                   value={oldPassword}
                   onChange={handleOldPasswordChange}
                   className={`${classNameInputProfile}`}
+                  id='input-old-password'
                 >
                   <Button
                     onClick={togglePasswordVisibility}
@@ -213,6 +214,7 @@ export const CompteUser = () => {
                   value={newPassword}
                   onChange={handleNewPasswordChange}
                   className={`${classNameInputProfile}`}
+                  id='input-new-password'
                 >
                   <Button
                     onClick={toggleNewPasswordVisibility}
@@ -226,10 +228,11 @@ export const CompteUser = () => {
                 Confirmation du mot de passe
                 <InputProfile
                   type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="Confirmation du mot de passe"
+                  placeholder="Confirmation mot de passe"
                   value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
                   className={`${classNameInputProfile}`}
+                  id='input-confirm-password'
                 >
                   <Button
                     onClick={toggleConfirmPasswordVisibility}
@@ -250,6 +253,7 @@ export const CompteUser = () => {
             className={`${
               editInfoUser ? 'bg-red-500' : 'bg-button'
             }  rounded-lg py-2 px-3`}
+            id='update-password-or-cancel'
           >
             {editInfoUser ? 'Annuler' : 'Modifier mon mot de passe'}
           </Button>
@@ -274,6 +278,7 @@ export const CompteUser = () => {
             document.getElementById('delete-account') as HTMLDialogElement
           )?.showModal()
         }
+        id='delete-account-button'
       >
         <FaTrashAlt className="inline-block mr-2 text-red-600" />
         <p className="text-red-600 underline inline-block ">
