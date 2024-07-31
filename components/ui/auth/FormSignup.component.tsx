@@ -1,6 +1,7 @@
 // Utils
-import usePasswordVisibility, {
+import {
   useConfirmPasswordVisibility,
+  usePasswordVisibility,
 } from '@/utils/auth/usePasswordVisibility.utils';
 import countries from '@/utils/data/country';
 import {

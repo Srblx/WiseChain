@@ -4,18 +4,18 @@
 import { useRouter } from 'next/navigation';
 
 // Libs React
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
 
 // Interfaces
 import { MenuItemType } from '@/interfaces/navItems.interface';
 
 const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
   const router = useRouter();
-  const [category, setCategory] = useState('');
+  // const [category, setCategory] = useState('');
 
   const handleNavigation = useCallback(
     (label: string, href: string) => {
-      if (label === 'Actualité') {
+      if (label === 'Actualité' || label === 'Lexique') {
         router.push(href);
       } else {
         router.push(`/courses/${label}`);

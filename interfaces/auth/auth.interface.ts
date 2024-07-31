@@ -43,3 +43,12 @@ export interface User {
   is_verified: boolean;
   created_at: string;
 }
+
+export interface UserInfo {
+  firstname: string;
+  lastname: string;
+  pseudo: string;
+  country: string;
+  birthOfDate: string;
+}
+

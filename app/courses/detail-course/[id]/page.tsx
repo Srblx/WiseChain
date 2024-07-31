@@ -5,7 +5,7 @@ import { Course, Tool } from '@/interfaces/course.interface';
 
 // Libs Next
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 // Libs React
 import { useEffect, useState } from 'react';
@@ -15,7 +15,9 @@ import { Button } from '@/components/shared/Button.components';
 
 // Helpers
 import CourseCarousel from '@/components/carousel/CourseCarousel.component';
+import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Routes from '@/enums/routes.enum';
+import useAuth from '@/hooks/useAuth.hook';
 import axios from 'axios';
 
 const CourseDetailPage = () => {
@@ -27,6 +29,8 @@ const CourseDetailPage = () => {
     []
   );
   const [isLoading, setIsLoading] = useState(true);
+  const { token } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (courseId) {
@@ -75,6 +79,30 @@ const CourseDetailPage = () => {
     );
   }
 
+  const handleNavigation = () => {
+    if (token) {
+      router.push(Routes.QUESTIONARY);
+    } else {
+      const modal = document.getElementById('login-required') as HTMLDialogElement;
+      if (modal) {
+        modal.showModal();
+      }
+    }
+  };
+
+  const getDifficultyClass = (difficulty: String) => {
+    switch (difficulty) {
+      case 'Facile':
+        return 'text-green-600';
+      case 'Technique':
+        return 'text-orange-600';
+      case 'Complexe':
+        return 'text-red-600';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{course.main_title}</h1>
@@ -87,13 +115,19 @@ const CourseDetailPage = () => {
       />
       <div className="text-lg">
         <p>{course.description}</p>
-        <div className="flex lg:justify-between items-center">
-          <p className="mt-2 text-gray-400">
+        <div className="flex lg:justify-between items-center mt-4">
+          <p className="text-gray-400">
             {course.sequences.length} min de lecture
           </p>
           <div className="space-x-2 flex">
-            <div className="badge badge-info badge-outline text-">{course.category.name}</div>
-            <div className="badge badge-succes badge-outline text-green-600">facile</div>
+            <div className="badge badge-info badge-outline">
+              {course.category.name}
+            </div>
+            <div
+              className={`badge badge-outline ${getDifficultyClass(course.difficulty)}`}
+            >
+              {course.difficulty}
+            </div>
           </div>
         </div>
       </div>
@@ -171,7 +205,7 @@ const CourseDetailPage = () => {
         {tools.length > 0 && (
           <div id="conclusion" className="mt-10">
             <h3 className="text-2xl font-bold mb-4">Liste des outils</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
               {tools.map((tool) => (
                 <Button
                   key={tool.id}
@@ -199,6 +233,14 @@ const CourseDetailPage = () => {
             </div>
           </div>
         )}
+        <div className="flex justify-center items-center w-full mb-6">
+          <Button
+            onClick={handleNavigation}
+            className="bg-secondary rounded-md py-2 px-4 text-black text-lg"
+          >
+            Tester ma compréhension du cours : {course.main_title}
+          </Button>
+        </div>
       </div>
       {!isLoading && course && (
         <CourseCarousel
@@ -206,9 +248,16 @@ const CourseDetailPage = () => {
           title={`Plus de cours en ${course.category.name} à découvrir`}
         />
       )}
+      <ConfirmDialog
+        id="login-required"
+        title="Connexion requise"
+        message="Vous devez être connecté pour répondre au questionnaire."
+        choice="Fermer"
+      />
     </div>
   );
 };
-//! education financier
+
+//! education financier 
 
 export default CourseDetailPage;

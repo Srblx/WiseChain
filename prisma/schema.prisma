@@ -86,6 +86,7 @@ model Course {
   update_at   DateTime @updatedAt @db.Date
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
+  difficulty      String @default("Facile")
   sequences   Sequence[]
   tool_courses ToolCourse[]
 }
@@ -183,5 +184,12 @@ model Question {
   questionary   Questionary @relation(fields: [questionary_id], references: [id])
   questionary_id String
   answers       Answer[]
+}
+
+model Glossary {
+  id         String   @id @default(cuid())
+  title       String
+  definition  String   @db.Text
+  created_at  DateTime @default(now())
 }
 

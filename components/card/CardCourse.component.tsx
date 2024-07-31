@@ -1,7 +1,8 @@
+
 type CardProsp = {
   image: string;
   title: string;
-  description: string;
+  description?: string;
   sequence: string;
   isLarge?: boolean;
   className?: string;
@@ -20,8 +21,10 @@ export default function CardCourse({
 }: CardProsp) {
   const heightValue = isLarge ? 'h-48' : 'flex-grow';
   return (
-    <div className={`${className} card card-compact bg-base-100 shadow-xl flex flex-col`}
-    onClick={onClick}>
+    <div
+      className={`${className} card card-compact bg-base-100 shadow-xl flex flex-col`}
+      onClick={onClick}
+    >
       <figure className={`${heightValue} overflow-hidden`}>
         <img src={image} alt={title} className={`w-full h-full object-cover`} />
       </figure>
@@ -30,8 +33,11 @@ export default function CardCourse({
           <h2 className="card-title text-lg font-semibold mb-2">{title}</h2>
           <p className="text-sm italic text-gray-400">{description}</p>
         </div>
-        <div className="card-actions justify-end mt-4">
+        <div className="card-actions justify-end mt-4 items-center">
           <div className="badge badge-outline">{sequence}</div>
+          {/* <div className="tooltip tooltip-left" data-tip={description}> */}
+            {/* <IoInformationCircleOutline size={'1.8rem'} /> */}
+          {/* </div> */}
         </div>
       </div>
     </div>

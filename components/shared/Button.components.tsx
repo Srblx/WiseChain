@@ -6,9 +6,9 @@ import { FC } from 'react';
 interface ButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick: () => void | undefined;
+  onClick:  () => void | Promise<void> | undefined;
   id?: string;
-  disabled?: boolean;
+  disabled?: boolean; 
 }
 
 export const Button: FC<ButtonProps> = ({

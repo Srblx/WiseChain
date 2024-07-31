@@ -5,10 +5,9 @@ import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/shared/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
-import { CompteUser } from '@/components/ui/profile/Compte.component';
 import { DashboardUser } from '@/components/ui/profile/Dashboard.component';
-import { ProfileUser } from '@/components/ui/profile/Profile.component';
 import { RecompenseUser } from '@/components/ui/profile/Recompense.component';
+import UserProfile from '@/components/ui/profile/compteUser.component';
 
 // Enums
 import Routes from '@/enums/routes.enum';
@@ -37,11 +36,10 @@ const Profile = () => {
       case 'dashboard':
         return <DashboardUser />;
       case 'profile':
-        return <ProfileUser />;
+        return <UserProfile />;
       case 'recompense':
         return <RecompenseUser />;
-      case 'compte':
-        return <CompteUser />;
+
       default:
         return null;
     }
@@ -116,7 +114,7 @@ const Profile = () => {
                 className={classNameLink}
                 id='profile-link'
               >
-                Profile
+                Profile utilisateur
               </a>
             </li>
             <li>
@@ -126,15 +124,6 @@ const Profile = () => {
                 id='recompense-link'
               >
                 Récompense
-              </a>
-            </li>
-            <li>
-              <a
-                onClick={() => setActiveComponent('compte')}
-                className={classNameLink}
-                id='compte-link'
-              >
-                Compte
               </a>
             </li>
           </ul>

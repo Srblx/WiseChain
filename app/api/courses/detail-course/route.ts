@@ -1,8 +1,5 @@
-// Utils
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
-
-// Lib Next
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

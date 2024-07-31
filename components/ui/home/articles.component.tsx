@@ -46,7 +46,7 @@ const RecentArticles = () => {
     <>
       <div className="flex flex-col lg:flex-row">
         <div
-          className="w-full lg:w-1/2 mr-6 cursor-pointer"
+          className="w-full lg:w-1/2 mr-6 cursor-pointer  sm:mb-0 mb-6"
           onClick={() => router.push(`/articles/detail-article/${latestArticle.id}`)}
         >
           <Image

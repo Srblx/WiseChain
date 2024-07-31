@@ -4,6 +4,7 @@ export interface Course {
   description: string;
   img: string;
   content: string;
+  difficulty: string;
   sequences: Sequence[];
   category: {
     name: string;

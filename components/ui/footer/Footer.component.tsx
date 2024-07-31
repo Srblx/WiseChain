@@ -54,10 +54,9 @@ export default function Footer() {
             </nav>
           ))}
         </div>
-        <div className="bg-button py-2 text-center text-white">
+        <div className="bg-backgroundTransparent py-2 text-center text-white">
           <p className="mb-2 text-sm md:text-base">
-            Wisechain votre partenaire pour un avenir d'investissement et de
-            crypto intelligent !
+            Wisechain votre partenaire pour investir sur votre avenir !
           </p>
           <p className="text-sm md:text-base">
             <span className="text-red-500 font-extrabold">

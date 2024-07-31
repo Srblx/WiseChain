@@ -3,18 +3,27 @@ enum RoutesEnum {
   WEB_URL = 'http://localhost:3000/',
 
   // PAGES
+  /* Navigation */
   HOME = '/',
   ACTUALITY = '/articles',
-  COURS_BLOCKCHAIN = '/courses/blockchain',
-  COURS_CRYPTO = '/courses/crypto',
-  COURS_INVESTMENT = '/courses/investment',
-  COURS_NFTS = '/courses/nft',
   PROFILE = '/profile',
+  GLOSSARY = '/glossary',
+  
+  /* Course */
   ALL_COURSES_INVESTMENT = '/courses/Investment',
   ALL_COURSES_BLOCKCHAIN = '/courses/Blockchain',
   ALL_COURSES_CRYPTO = '/courses/Crypto-Monnaie',
   ALL_COURSES_NFTS = '/courses/NFT',
   ALL_ARTICLES = '/articles/all-articles',
+  COURS_BLOCKCHAIN = '/courses/blockchain',
+  COURS_CRYPTO = '/courses/crypto',
+  COURS_INVESTMENT = '/courses/investment',
+  COURS_NFTS = '/courses/nft',
+
+  /* Questionary */
+  QUESTIONARY = '/questionary',
+  /* Questionary */
+
 
   //# API
   
@@ -45,6 +54,12 @@ enum RoutesEnum {
   GET_RELATED_COURSES = '/api/courses/related-course',
   /*Courses */
 
+  /* Glossary */
+  GET_GLOSSARY = '/api/glossary',
+  /* Glossary */
+
+
+  
 }
 
 // FUNCTIONS PAGES WITH URL DYNAMIQUE

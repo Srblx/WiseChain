@@ -29,7 +29,7 @@ const CardArticle: FC<CardArticleProps> = ({
         <img src={image} alt={title} className="object-cover w-full h-full" />
       </figure>
       <div className="card-body ">
-        <h2 className="card-title text-white font-semibold mb-2">{title}</h2>
+        <h2 className="card-title text-white text-sm md:text-lg font-semibold mb-2">{title}</h2>
         <p className="text-gray-400 text-xs flex-grow ">
           {description.length > 150
             ? description

@@ -66,9 +66,9 @@ const AllArticles = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl mb-4">Articles </h3>
+      <h3 className="text-3xl mb-4">Les Articles</h3>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-y-6 lg:gap-y-0 gap-x-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-6 lg:gap-y-0 gap-x-6">
         {firstArticles.map((article, index) => (
           <div
             key={article.id}
@@ -88,12 +88,12 @@ const AllArticles = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
         {otherArticles.map((article) => (
           <CardArticle
             key={article.id}
             title={article.title}
-            description="" // Pas de description pour ces cartes
+            description=""
             image={article.img ? `/img/${article.img}` : '/img/logo.jpg'}
             date={formatDate(article.created_at)}
             onClick={() =>

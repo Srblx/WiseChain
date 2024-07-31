@@ -36,6 +36,8 @@ export const ERROR_MESSAGES = {
   NOT_PARAMS_FOUND: 'Param not found',
   NOT_COURSE_FOUND: 'Course not found',
   ERROR_FETCHING_COURSE: 'Error fetching course',
+  ERROR_FETCHING_GLOSSARY: 'Error fetching glossary',
+  NO_GLOSSARY_FOUND: 'No glossary found',
   NOT_CATEGORY_FOUND: 'Category not found',
 };
 

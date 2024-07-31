@@ -1,3 +1,5 @@
+'use client';
+
 // Libs React
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,13 +31,11 @@ import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hook';
 
 // Utils
-import usePasswordVisibility from '@/utils/auth/usePasswordVisibility.utils';
+import { usePasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Validators
 import { LoginSchema } from '@/validators/auth.validator';
-
-
 
 export default function FormSignin({ onSuccess }: FormSigninProps) {
   const [mail, setMail] = useState('');
@@ -52,8 +52,10 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
     setPassword(e.target.value);
   };
 
-  const handleSubmitSignin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmitSignin = async (e: FormEvent<HTMLFormElement> | null, isAutoSubmit = false) => {
+    if (e && !isAutoSubmit) {
+      e.preventDefault();
+    }
 
     try {
       await LoginSchema.validate({ mail, password }, { abortEarly: false });
@@ -91,10 +93,17 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
     }
   };
 
+  const autoFillAndSubmit = () => {
+    setMail('example@test.fr');
+    setPassword('Motdepasse123@');
+  };
+
   return (
     <>
-      <form onSubmit={handleSubmitSignin} className="space-y-6 w-[90%]">
-        <p className="text-tertiary text-xl">Connexion</p>
+      <form onSubmit={(e) => handleSubmitSignin(e)} className="space-y-6 w-[90%]">
+        <p className="text-tertiary text-xl cursor-pointer" onClick={autoFillAndSubmit}>
+          Connexion
+        </p>
         <label className={inputClassName}>
           <IoMdMail />
           <Input

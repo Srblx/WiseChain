@@ -1,7 +1,7 @@
 // Lib React
 import { useState } from 'react';
 
-const usePasswordVisibility = () => {
+export const usePasswordVisibility = () => {
   'use client';
   const [showPassword, setShowPassword] = useState(false);
 
@@ -12,7 +12,7 @@ const usePasswordVisibility = () => {
   return { showPassword, togglePasswordVisibility };
 };
 
-export default usePasswordVisibility;
+
 
 export const useConfirmPasswordVisibility = () => {
   'use client';

@@ -36,7 +36,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <form method="dialog" className="space-x-4">
             {!choice && (
               <button
-                className="btn bg-red-600 text-white hover:bg-black border-none"
+                className='btn bg-red-600 text-white hover:bg-black border-none'
                 onClick={onConfirm}
                 id='confirm-dialog'
               >
@@ -44,7 +44,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
               </button>
             )}
             <button
-              className="btn text-white font-extrabold bg-background hover:bg-black border-none"
+              className="btn text-white font-extrabold bg-background hover:bg-gray-700 border-none"
               onClick={onCancel}
             >
               {choice ? choice : 'Annuler'}

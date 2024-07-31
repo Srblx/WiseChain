@@ -19,7 +19,7 @@ import { inputClassName } from './FormSignup.component';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
-import usePasswordVisibility from '@/utils/auth/usePasswordVisibility.utils';
+import { usePasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Validators
