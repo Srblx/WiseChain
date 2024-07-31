@@ -1,7 +1,10 @@
-'use client';
-
+// Components
 import { Button } from '@/components/shared/Button.components';
+
+// Interfaces
 import { Sequence, Tool } from '@/interfaces/course.interface';
+
+// Next Libs
 import Image from 'next/image';
 
 interface CourseContentProps {

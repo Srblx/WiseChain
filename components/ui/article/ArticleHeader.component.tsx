@@ -1,5 +1,4 @@
-'use client';
-
+// Next Libs
 import Image from 'next/image';
 
 interface ArticleHeaderProps {

@@ -1,6 +1,7 @@
-'use client';
-
+// Interfaces
 import { SequenceArticle } from '@/interfaces/article.interface';
+
+// Next Libs
 import Image from 'next/image';
 
 interface ArticleContentProps {

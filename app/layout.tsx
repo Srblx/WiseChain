@@ -36,9 +36,9 @@ export default function RootLayout({
   children: React.ReactNode;
   
 }>) {
+  {/* <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"></link> */}
   return (
     <html lang='fr' className='bg-background'>
-      <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"></link>
       <body className={`${inter.className} `}>
 
         <Toaster richColors closeButton />
