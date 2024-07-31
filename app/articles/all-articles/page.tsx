@@ -34,10 +34,8 @@ const AllArticles = () => {
         setArticles(response.data.articles);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching articles:', error);
-        setError(
-          ERROR_MESSAGES.ERROR_FETCH_ARTICLES
-        );
+        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
+        setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
         setIsLoading(false);
       }
     };
@@ -66,7 +64,7 @@ const AllArticles = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl mb-4">Les Articles</h3>
+      <h3 className="text-3xl mb-4">Articles</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-6 lg:gap-y-0 gap-x-6">
         {firstArticles.map((article, index) => (

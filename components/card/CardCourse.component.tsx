@@ -1,4 +1,3 @@
-
 type CardProsp = {
   image: string;
   title: string;
@@ -35,9 +34,6 @@ export default function CardCourse({
         </div>
         <div className="card-actions justify-end mt-4 items-center">
           <div className="badge badge-outline">{sequence}</div>
-          {/* <div className="tooltip tooltip-left" data-tip={description}> */}
-            {/* <IoInformationCircleOutline size={'1.8rem'} /> */}
-          {/* </div> */}
         </div>
       </div>
     </div>

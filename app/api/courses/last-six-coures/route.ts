@@ -7,7 +7,12 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const categories = [CATEGORY.INVESTMENT, CATEGORY.CRYPTO, CATEGORY.BLOCKCHAIN, CATEGORY.NFT];
+    const categories = [
+      CATEGORY.INVESTMENT,
+      CATEGORY.CRYPTO,
+      CATEGORY.BLOCKCHAIN,
+      CATEGORY.NFT,
+    ];
     const coursesData = await Promise.all(
       categories.map(async (categoryName) => {
         const category = await prisma.category.findFirst({
@@ -35,7 +40,7 @@ export async function GET() {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error fetching courses: ', error);
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
       { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
       { status: 500 }

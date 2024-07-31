@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 // Helpers
 import { PrismaClient } from '@prisma/client';

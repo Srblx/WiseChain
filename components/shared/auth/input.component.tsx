@@ -10,7 +10,7 @@ const Input: React.FC<InputAuthProps> = ({
   value,
   className,
   onChange,
-  name
+  name,
 }) => {
   return (
     <input

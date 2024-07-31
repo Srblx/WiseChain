@@ -1,6 +1,9 @@
 'use client';
 
+// Interfaces
 import { Course } from '@/interfaces/course.interface';
+
+// Next Libs
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 

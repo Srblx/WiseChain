@@ -63,17 +63,6 @@ const About = () => {
             réponses aux questions fréquemment posées et des définitions des
             termes clés du domaine.
           </li>
-          {/*   <li>
-          <span className="italic">Convertisseur de Devises et Simulateur de Trading :</span>{' '}
-          Utilisez nos outils pour convertir des devises et simuler des
-          transactions de trading, que ce soit pour les crypto-monnaies, les
-          indices ou les actions.
-        </li> */}
-          {/*  <li>
-          <span className="italic">Forum Communautaire :</span> Participez à des discussions
-          avec d'autres passionnés de la blockchain, des crypto-monnaies, des
-          indices et des actions.
-        </li> */}
         </ul>
         <h2 className={classNameTitle}>Notre Vision</h2>
         <p>

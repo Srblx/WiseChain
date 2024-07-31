@@ -47,7 +47,9 @@ const RecentArticles = () => {
       <div className="flex flex-col lg:flex-row">
         <div
           className="w-full lg:w-1/2 mr-6 cursor-pointer  sm:mb-0 mb-6"
-          onClick={() => router.push(`/articles/detail-article/${latestArticle.id}`)}
+          onClick={() =>
+            router.push(`/articles/detail-article/${latestArticle.id}`)
+          }
         >
           <Image
             src={
@@ -79,7 +81,9 @@ const RecentArticles = () => {
             <div
               key={article.id}
               className="flex items-center cursor-pointer"
-              onClick={() => router.push(`/articles/detail-article/${article.id}`)}
+              onClick={() =>
+                router.push(`/articles/detail-article/${article.id}`)
+              }
             >
               <Image
                 src={article.img ? `/img/${article.img}` : '/img/logo.jpg'}

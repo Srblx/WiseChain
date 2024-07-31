@@ -51,4 +51,3 @@ export interface UserInfo {
   country: string;
   birthOfDate: string;
 }
-

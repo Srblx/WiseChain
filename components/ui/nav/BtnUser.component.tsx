@@ -18,7 +18,11 @@ import Routes from '@/enums/routes.enum';
 
 // Hooks
 import { Button } from '@/components/shared/Button.components';
+
+// Images
 import { Avatar, AvatarImage } from '@/components/ui/profile/Avatar';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
 
 const ButtonUserUnlogged = () => {

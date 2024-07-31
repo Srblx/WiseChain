@@ -1,5 +1,5 @@
-// Interfaces 
-import { User } from "./auth/auth.interface";
+// Interfaces
+import { User } from './auth/auth.interface';
 
 export interface Articles {
   id: string;

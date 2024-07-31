@@ -12,8 +12,13 @@ import { useParams, useRouter } from 'next/navigation';
 // Libs React
 import { useEffect, useState } from 'react';
 
-// Helpers
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Utils
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import axios from 'axios';
 
 const CategoryCoursesPage = () => {
@@ -34,7 +39,7 @@ const CategoryCoursesPage = () => {
             setCourses(response.data.course);
           }
         } catch (error) {
-          console.error('Error fetching courses:', error);
+          console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
         } finally {
           setIsLoading(false);
         }
@@ -76,8 +81,7 @@ const CategoryCoursesPage = () => {
             />
           ))}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6">
           {remainingCourses.map((course) => (
             <CardCourse
               key={course.id}

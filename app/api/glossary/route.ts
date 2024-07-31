@@ -1,5 +1,8 @@
+// Utils
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -19,7 +22,7 @@ export async function GET() {
 
     return NextResponse.json({ glossary });
   } catch (error) {
-    console.error('Error fetching glossary:', error);
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY, error);
     return NextResponse.json(
       { error: ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY },
       { status: 500 }

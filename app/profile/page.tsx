@@ -103,7 +103,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('dashboard')}
                 className={classNameLink}
-                id='dashboard-link'
+                id="dashboard-link"
               >
                 Dashboard
               </a>
@@ -112,7 +112,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('profile')}
                 className={classNameLink}
-                id='profile-link'
+                id="profile-link"
               >
                 Profile utilisateur
               </a>
@@ -121,7 +121,7 @@ const Profile = () => {
               <a
                 onClick={() => setActiveComponent('recompense')}
                 className={classNameLink}
-                id='recompense-link'
+                id="recompense-link"
               >
                 Récompense
               </a>
@@ -130,7 +130,9 @@ const Profile = () => {
         </div>
         <div className="divider lg:divider-horizontal"></div>
         <div className="flex-grow lg:w-2/3">
-          <h3 className="text-start text-lg underline flex lg:justify-start justify-center">Mon Profil</h3>
+          <h3 className="text-start text-lg underline flex lg:justify-start justify-center">
+            Mon Profil
+          </h3>
           {renderComponent()}
         </div>
       </div>

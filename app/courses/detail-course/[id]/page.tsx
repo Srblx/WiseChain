@@ -11,13 +11,17 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Components
+import CourseCarousel from '@/components/carousel/CourseCarousel.component';
 import { Button } from '@/components/shared/Button.components';
+import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
+
+// Enums
+import Routes from '@/enums/routes.enum';
+
+// Hooks
+import useAuth from '@/hooks/useAuth.hook';
 
 // Helpers
-import CourseCarousel from '@/components/carousel/CourseCarousel.component';
-import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
-import Routes from '@/enums/routes.enum';
-import useAuth from '@/hooks/useAuth.hook';
 import axios from 'axios';
 
 const CourseDetailPage = () => {
@@ -83,7 +87,9 @@ const CourseDetailPage = () => {
     if (token) {
       router.push(Routes.QUESTIONARY);
     } else {
-      const modal = document.getElementById('login-required') as HTMLDialogElement;
+      const modal = document.getElementById(
+        'login-required'
+      ) as HTMLDialogElement;
       if (modal) {
         modal.showModal();
       }
@@ -115,16 +121,16 @@ const CourseDetailPage = () => {
       />
       <div className="text-lg">
         <p>{course.description}</p>
-        <div className="flex lg:justify-between items-center mt-4">
-          <p className="text-gray-400">
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-gray-400 text-sm md:text-base">
             {course.sequences.length} min de lecture
           </p>
           <div className="space-x-2 flex">
-            <div className="badge badge-info badge-outline">
+            <div className="badge badge-info badge-outline text-sm md:text-base">
               {course.category.name}
             </div>
             <div
-              className={`badge badge-outline ${getDifficultyClass(course.difficulty)}`}
+              className={`badge badge-outline text-sm md:text-base ${getDifficultyClass(course.difficulty)}`}
             >
               {course.difficulty}
             </div>
@@ -258,6 +264,6 @@ const CourseDetailPage = () => {
   );
 };
 
-//! education financier 
+//! education financier
 
 export default CourseDetailPage;

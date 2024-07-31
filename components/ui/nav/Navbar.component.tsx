@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { memo, useMemo } from 'react';
 
 // Components
-import LogoDetoured from '@/components/shared/Logo.component';
+import LogoDetoured from '@/components/shared/logo.component';
 import ButtonUserUnlogged from '@/components/ui/nav/BtnUser.component';
 import ClientMenu from './Menu.component';
 
 // Interfaces
-import Routes from '@/enums/routes.enum';
 import { MenuItemType } from '@/interfaces/navItems.interface';
+
+// Enums
+import Routes from '@/enums/routes.enum';
 
 const navClasses =
   'bg-backgroundTransparent bg-opacity-40 backdrop-filter backdrop-blur-md flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-20 fixed top-0 left-0 right-0 z-[1]';

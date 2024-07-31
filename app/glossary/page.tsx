@@ -1,11 +1,25 @@
 'use client';
 
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Interfaces
 import { Articles } from '@/interfaces/article.interface';
+
+// Utils
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import axios from 'axios';
+
+// Next Libs
 import { useRouter } from 'next/navigation';
+
+// React Libs
 import { useEffect, useState } from 'react';
+
+// Icon
+import { FaCircleArrowUp } from 'react-icons/fa6';
 
 const classNameLetterList = 'inline-block cursor-pointer text-sm md:text-lg';
 const classNameLetterListIsSelect = 'bg-secondary text-black p-1 rounded-md px-3';
@@ -23,6 +37,7 @@ const Glossary = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string>('A-B');
   const [articles, setArticles] = useState<Articles[]>([]);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,7 +48,7 @@ const Glossary = () => {
         setGlossary(response.data.glossary);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching glossary:', error);
+        console.error(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY, error);
         setError(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY);
         setIsLoading(false);
       }
@@ -50,11 +65,26 @@ const Glossary = () => {
         );
         setArticles(response.data.recentArticles);
       } catch (error) {
-        console.error('Error fetching recent articles:', error);
+        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
       }
     };
 
     fetchArticles();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleSectionClick = (section: string) => {
@@ -69,10 +99,13 @@ const Glossary = () => {
     const element = document.getElementById(id);
     if (element) {
       const yOffset = -100;
-      const y =
-        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const filteredGlossary = glossary.filter((term) => {
@@ -120,7 +153,7 @@ const Glossary = () => {
       <div className="flex flex-col w-full">
         <div className="bg-blueDark rounded-md p-4 shadow-xs-light">
           <div className="text-md">
-            <ul className="flex space-x-8 px-4 py-2">
+            <ul className="flex space-x-6 md:space-x-8 px-4 py-2">
               <li
                 className={`${selectedSection === 'A-B' ? classNameLetterListIsSelect : ''} ${classNameLetterList}`}
               >
@@ -187,6 +220,14 @@ const Glossary = () => {
           </div>
         </div>
       ))}
+      {showScrollToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-4 right-4 bg-button text-white p-2 rounded-full shadow-lg"
+        >
+          <FaCircleArrowUp size={30} />
+        </button>
+      )}
     </>
   );
 };

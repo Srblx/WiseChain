@@ -1,5 +1,8 @@
+// Utils
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -7,7 +10,10 @@ export async function GET(request: Request) {
   const courseId = searchParams.get('id');
 
   if (!courseId) {
-    return NextResponse.json({ error: 'Course ID is required' }, { status: 400 });
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.ID_COURSE_REQUIRED },
+      { status: 400 }
+    );
   }
 
   try {
@@ -25,13 +31,16 @@ export async function GET(request: Request) {
     });
 
     if (!course) {
-      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.NOT_COURSE_FOUND },
+        { status: 404 }
+      );
     }
 
     const relatedCourses = await prisma.course.findMany({
       where: {
         category_id: course.category_id,
-        id: { not: courseId }
+        id: { not: courseId },
       },
       take: 6,
       orderBy: { created_at: 'desc' },
@@ -42,32 +51,33 @@ export async function GET(request: Request) {
         description: true,
         created_at: true,
         sequences: {
-          select: { id: true }
+          select: { id: true },
         },
         category: {
-          select: { name: true }
-        }
-      }
+          select: { name: true },
+        },
+      },
     });
 
     if (relatedCourses.length === 0) {
       return NextResponse.json({ message: ERROR_MESSAGES }, { status: 200 });
     }
 
-    const formattedCourses = relatedCourses.map(course => ({
+    const formattedCourses = relatedCourses.map((course) => ({
       ...course,
       sequences: course.sequences.length,
-      category_name: course.category.name
+      category_name: course.category.name,
     }));
 
-    console.log('relatedCourses:', formattedCourses[0].category);
-
-    return NextResponse.json({ 
+    return NextResponse.json({
       courses: formattedCourses,
       category_name: course.category.name,
     });
   } catch (error) {
-    console.error('Error fetching related courses:', error);
-    return NextResponse.json({ error:  ERROR_MESSAGES.ERROR_FETCH_RELATED_COURSES}, { status: 500 });
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.ERROR_FETCH_RELATED_COURSES },
+      { status: 500 }
+    );
   }
 }

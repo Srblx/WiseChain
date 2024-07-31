@@ -52,7 +52,10 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
     setPassword(e.target.value);
   };
 
-  const handleSubmitSignin = async (e: FormEvent<HTMLFormElement> | null, isAutoSubmit = false) => {
+  const handleSubmitSignin = async (
+    e: FormEvent<HTMLFormElement> | null,
+    isAutoSubmit = false
+  ) => {
     if (e && !isAutoSubmit) {
       e.preventDefault();
     }
@@ -100,8 +103,14 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
 
   return (
     <>
-      <form onSubmit={(e) => handleSubmitSignin(e)} className="space-y-6 w-[90%]">
-        <p className="text-tertiary text-xl cursor-pointer" onClick={autoFillAndSubmit}>
+      <form
+        onSubmit={(e) => handleSubmitSignin(e)}
+        className="space-y-6 w-[90%]"
+      >
+        <p
+          className="text-tertiary text-xl cursor-pointer"
+          onClick={autoFillAndSubmit}
+        >
           Connexion
         </p>
         <label className={inputClassName}>

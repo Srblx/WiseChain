@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await hashPassword(password); 
+    const hashedPassword = await hashPassword(password);
 
     const newUser = await prisma.user.create({
       data: {
@@ -84,7 +84,6 @@ export async function POST(req: NextRequest) {
         date_of_birth: new Date(dateOfBirth),
         country,
         is_revoice,
-        // role: DEFAULT_ROLE,
       },
     });
 

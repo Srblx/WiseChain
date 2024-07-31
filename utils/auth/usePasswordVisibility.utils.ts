@@ -12,8 +12,6 @@ export const usePasswordVisibility = () => {
   return { showPassword, togglePasswordVisibility };
 };
 
-
-
 export const useConfirmPasswordVisibility = () => {
   'use client';
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

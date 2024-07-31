@@ -2,6 +2,7 @@
 
 import CourseCarousel from '@/components/carousel/CourseCarousel.component';
 import Routes from '@/enums/routes.enum';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -19,7 +20,7 @@ function CourseList() {
         const response = await axios.get(Routes.GET_LAST_SIX_COURSES);
         setCourses(response.data);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
       } finally {
         setIsLoading(false);
       }

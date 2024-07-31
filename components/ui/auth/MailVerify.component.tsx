@@ -1,14 +1,19 @@
 'use client';
 
 import Routes from '@/enums/routes.enum';
+
 // Images
 import logo from '@/public/img/noDB/logo-d.png';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+
+// Helpers
 import axios from 'axios';
 
 // Lib Next
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+// React Libs
 import { ToastContainer, toast } from 'react-toastify';
 
 const MailVerify = () => {

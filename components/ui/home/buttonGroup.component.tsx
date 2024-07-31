@@ -9,17 +9,17 @@ import React from 'react';
 // Components
 import { Button } from '../../shared/Button.components';
 
-interface ButtonProps {
-  content: string;
-  // color: string;
-  onClick?: () => void;
-}
+// interface ButtonProps {
+//   content: string;
+
+//   onClick?: () => void;
+// }
 
 const ButtonGroup: React.FC = () => {
   const router = useRouter();
 
   const handleNavigation = (category: string) => {
-    router.push( `/courses/${category}`);
+    router.push(`/courses/${category}`);
   };
 
   return (
@@ -38,7 +38,7 @@ const ButtonGroup: React.FC = () => {
 
         <Button onClick={() => handleNavigation('NFT')}>Guide NFTs</Button>
       </div>
-      <div className='divider bg-tertiary h-2 mb-10 mt-10'></div>
+      <div className="divider bg-tertiary h-2 mb-10 mt-10"></div>
     </>
   );
 };

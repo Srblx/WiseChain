@@ -11,7 +11,10 @@ export async function GET(request: Request) {
 
   try {
     if (!category)
-      return NextResponse.json({ error: ERROR_MESSAGES.NOT_PARAMS_FOUND }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.NOT_PARAMS_FOUND },
+        { status: 404 }
+      );
 
     const courseCategory = await prisma.category.findFirst({
       where: {
@@ -41,7 +44,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ course });
   } catch (error) {
-    console.error('Error fetching courses: 1', error);
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
       { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
       { status: 500 }

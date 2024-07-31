@@ -3,15 +3,13 @@
 // Icons
 import { TiWarningOutline } from 'react-icons/ti';
 
+// React Libs
+
 // Components
-import { useState } from 'react';
 import { Button } from '../../shared/Button.components';
 import ConfirmDialog from '../../shared/ConfirmDialog.component';
 
-
-
 export default function InvestmentSensitivity() {
-  const [showTooltip, setShowTooltip] = useState(false);
   const tooltipContent = `Investir dans les marchés financiers, y compris les crypto-actifs, comporte des risques importants. Il est crucial de comprendre que vous pouvez perdre une partie, voire la totalité, de votre capital investi. La nature extrêmement volatile des crypto-monnaies les rend particulièrement sensibles aux fluctuations du marché ainsi qu'aux événements géopolitiques, économiques et réglementaires. \nLes produits à effet de levier, tels que les CFD (contrats sur la différence), amplifient considérablement les risques financiers. Les statistiques montrent qu'une grande majorité des investisseurs particuliers subissent des pertes en négociant des CFD. Avant de vous engager, assurez-vous de maîtriser le fonctionnement de ces instruments complexes et d'en accepter les risques inhérents. \nPlus d'information en cliquant sur Lire plus...`;
   return (
     <div className="bg-backgroundTransparent flex justify-center items-center p-6 border-y-2 border-white mt-20">

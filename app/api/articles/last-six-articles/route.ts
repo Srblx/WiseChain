@@ -1,5 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Lib Next
 import { NextResponse } from 'next/server';
@@ -11,13 +12,13 @@ export async function GET() {
         user: {
           select: {
             pseudo: true,
-          }
+          },
         },
         category: {
           select: {
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
       take: 6,
       orderBy: {
@@ -27,16 +28,16 @@ export async function GET() {
 
     if (!recentArticles || recentArticles.length === 0) {
       return NextResponse.json(
-        { error: 'No articles found' },
+        { error: ERROR_MESSAGES.ARTICLE_NOT_FOUND },
         { status: 404 }
       );
     }
 
     return NextResponse.json({ recentArticles });
   } catch (error) {
-    console.error('Error fetching articles:', error);
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
     return NextResponse.json(
-      { error: 'Error fetching articles' },
+      { error: ERROR_MESSAGES.ERROR_FETCHING_ARTICLE },
       { status: 500 }
     );
   }

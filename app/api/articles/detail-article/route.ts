@@ -1,4 +1,8 @@
+// Utils
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -7,7 +11,10 @@ export async function GET(request: Request) {
 
   try {
     if (!articleId) {
-      return NextResponse.json({ error: 'Param not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.NOT_PARAMS_FOUND },
+        { status: 404 }
+      );
     }
 
     const article = await prisma.article.findUnique({
@@ -21,9 +28,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ article });
   } catch (error) {
-    console.error('Error fetching article:', error);
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
     return NextResponse.json(
-      { error: 'Error fetching article' },
+      { error: ERROR_MESSAGES.ERROR_FETCHING_ARTICLE },
       { status: 500 }
     );
   }

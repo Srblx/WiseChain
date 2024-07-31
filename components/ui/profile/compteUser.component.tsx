@@ -1,38 +1,54 @@
 'use client';
 
-// Imports
+// Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Input from '@/components/shared/Input.component';
 import Label from '@/components/shared/Label.component';
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
+
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Interfaces
 import { UserInfo } from '@/interfaces/auth/auth.interface';
+
+// Validators
 import {
-    useConfirmPasswordVisibility,
-    useNewPasswordVisibility,
-    usePasswordVisibility,
+  useConfirmPasswordVisibility,
+  useNewPasswordVisibility,
+  usePasswordVisibility,
 } from '@/utils/auth/usePasswordVisibility.utils';
+import { passwordResetSchema } from '@/validators/auth.validator';
+
+// Helpers
 import dayjs from '@/utils/dayjs';
+import axios from 'axios';
+import * as Yup from 'yup';
+
+// Utils
 import ApiAxios from '@/utils/interceptorAxios.utils';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
-import { passwordResetSchema } from '@/validators/auth.validator';
-import axios from 'axios';
+
+// React Libs
 import { ChangeEvent, useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
+// Icons
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { MdOutlineEdit } from 'react-icons/md';
-import { ToastContainer, toast } from 'react-toastify';
-import * as Yup from 'yup';
 
 // CSS classes
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
@@ -67,7 +83,6 @@ export const UserProfile = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
-
   // Hooks
   const { user, login, token, logout } = useAuth();
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
@@ -375,15 +390,19 @@ export const UserProfile = () => {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={handleSubmitPassword} disabled={isSubmitting} className='bg-button rounded-md p-2'>
+                <Button
+                  onClick={handleSubmitPassword}
+                  disabled={isSubmitting}
+                  className="bg-button rounded-md p-2"
+                >
                   {isSubmitting
                     ? 'Enregistrement...'
                     : 'Enregistrer le mot de passe'}
                 </Button>
                 <Button
                   onClick={() => setIsPasswordDialogOpen(false)}
-                  className="bg-red-600 rounded-md p-2"
-                  >
+                  className="bg-red-600 rounded-md p-2 mb-3 sm:mb-0"
+                >
                   Annuler
                 </Button>
               </DialogFooter>

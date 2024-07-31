@@ -14,17 +14,26 @@ export async function PUT(request: Request) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
     if (!token) {
-      return NextResponse.json({ error: 'Token manquant' }, { status: 401 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.MISSING_TOKEN },
+        { status: 401 }
+      );
     }
 
     let decodedToken;
     try {
       decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
       if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+        return NextResponse.json(
+          { error: ERROR_MESSAGES.INVALID_TOKEN },
+          { status: 401 }
+        );
       }
     } catch (error) {
-      return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.INVALID_TOKEN },
+        { status: 401 }
+      );
     }
 
     const userId = decodedToken.userId;

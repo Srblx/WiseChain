@@ -34,7 +34,7 @@ const ArticleDetailPage = () => {
           setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
         }
       } catch (error) {
-        console.error('Error fetching article:', error);
+        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
         setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
       } finally {
         setIsLoading(false);
@@ -76,7 +76,7 @@ const ArticleDetailPage = () => {
           width={1000}
           height={700}
           objectFit="cover"
-          className='shadow-xs-light rounded-lg'
+          className="shadow-xs-light rounded-lg"
         />
       </div>
       <div className="p-4">
@@ -88,11 +88,13 @@ const ArticleDetailPage = () => {
               {sequence.img && (
                 <div className="mt-4 flex justify-center items-center">
                   <Image
-                    src={sequence.img ? `/img/${sequence.img}` : '/img/logo.jpg'}
+                    src={
+                      sequence.img ? `/img/${sequence.img}` : '/img/logo.jpg'
+                    }
                     alt={`Image for sequence: ${sequence.title}`}
                     width={550}
                     height={350}
-                    className='rounded-lg'
+                    className="rounded-lg"
                   />
                 </div>
               )}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 // Components
+import StepText from '@/components/shared/auth/paragraph.composent';
 import FormResetPassword from './FormClaimResetPassword.component';
 import FormSignin from './FormSignin.component';
 import FormSignup from './FormSignup.component';
@@ -13,8 +14,9 @@ import FormSignup from './FormSignup.component';
 import formLoginImage from '@/public/img/noDB/form_img.jpeg';
 
 // Enums
-import StepText from '@/components/shared/auth/Paragraph.composent';
 import FormStep from '@/enums/formStep.enum';
+
+// Interfaces
 import { ModalContentProps } from '@/interfaces/modal.interface';
 
 export default function ModalContent({ onSuccess }: ModalContentProps) {

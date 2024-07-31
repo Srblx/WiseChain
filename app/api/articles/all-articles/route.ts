@@ -1,4 +1,8 @@
+// Utils
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -28,7 +32,10 @@ export async function GET() {
     const totalArticles = await prisma.article.count();
 
     if (!articles || articles.length === 0) {
-      return NextResponse.json({ error: 'No articles found' }, { status: 404 });
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.ARTICLE_NOT_FOUND },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
@@ -42,7 +49,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Error fetching articles' },
+      { error: ERROR_MESSAGES.ERROR_FETCHING_ARTICLE },
       { status: 500 }
     );
   }

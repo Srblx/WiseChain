@@ -8,7 +8,9 @@ export default function Home() {
     <>
       <div className="w-1/2 mx-auto flex flex-col items-center mb-12">
         <h1 className="text-7xl text-center font-oswald">WiseChain.</h1>
-        <p className="text-end w-72 text-tertiary font-extrabold text-xl font-oswald">L'invstissement pour tous !</p>
+        <p className="text-end w-72 text-tertiary font-extrabold text-xl font-oswald">
+          L'invstissement pour tous !
+        </p>
       </div>
 
       {/* <TestUser /> */}

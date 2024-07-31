@@ -1,4 +1,5 @@
-const classNameDivContentQuestion = 'collapse collapse-arrow join-item border-2 border-grayBlue mb-4 shadow-light';
+const classNameDivContentQuestion =
+  'collapse collapse-arrow join-item border-2 border-grayBlue mb-4 shadow-light';
 
 const Faq = () => {
   return (
@@ -7,11 +8,11 @@ const Faq = () => {
       <div className="join join-vertical w-full z-0">
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" defaultChecked />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl font-medium">
             Qu'est-ce que WiseChain ?
           </div>
           <div className="collapse-content">
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               WiseChain est une plateforme d'apprentissage dédiée aux
               différentes possibilités d'investissement dans le monde économique
               actuel.
@@ -20,12 +21,12 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl  font-medium">
             Comment utiliser WiseChain pour améliorer ses connaissances en
             investissement ?
           </div>
           <div className="collapse-content">
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               Parcourez les différents articles mis à jour pour rester informé
               des derniers événements, suivez les cours proposés par thématique
               et complétez les questionnaires pour tester votre compréhension.
@@ -34,11 +35,11 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl  font-medium">
             Quels types de cours sont disponibles sur WiseChain ?
           </div>
           <div className="collapse-content">
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               WiseChain propose des cours sur divers sujets tels que les bases
               de l'investissement, les stratégies avancées, la gestion des
               risques, et les tendances actuelles du marché. Les cours couvrent
@@ -49,11 +50,11 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl font-medium">
             Comment puis-je m'inscrire à un cours sur WiseChain ?
           </div>
           <div className="collapse-content">
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               Pour vous inscrire à un cours, créez un compte sur WiseChain,
               parcourez le catalogue de cours, et sélectionnez celui qui vous
               intéresse. Suivez ensuite les instructions pour vous inscrire.
@@ -62,11 +63,11 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl font-medium">
             Y a-t-il des frais pour utiliser WiseChain ?
           </div>
           <div className="collapse-content">
-            <p className="text-white text-lg">
+            <p className="text-white text-sm md:text-lg">
               WiseChain propose à la fois des contenus gratuits et payants.
               Certains cours et articles sont accessibles gratuitement, tandis
               que d'autres nécessitent un abonnement ou un paiement unique.
@@ -75,7 +76,7 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl font-medium">
             Comment puis-je suivre mes progrès sur WiseChain ?
           </div>
           <div className="collapse-content">
@@ -88,7 +89,7 @@ const Faq = () => {
         </div>
         <div className={classNameDivContentQuestion}>
           <input type="radio" name="my-accordion-4" />
-          <div className="collapse-title text-2xl font-medium">
+          <div className="collapse-title text-lg md:text-2xl font-medium">
             Comment puis-je contacter le support client de WiseChain ?
           </div>
           <div className="collapse-content">

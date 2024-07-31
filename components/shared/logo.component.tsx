@@ -7,10 +7,10 @@ import logo from '@/public/img/noDB/logo-d.png';
 const LogoDetoured = () => {
   return (
     <Image
-      id='logo'
+      id="logo"
       src={logo}
-      alt='Logo du site WiseChain'
-      className='w-[65px] h-[65px] ml-8 bg-white rounded-full p-1'
+      alt="Logo du site WiseChain"
+      className="w-[65px] h-[65px] ml-8 bg-white rounded-full p-1"
     />
   );
 };
