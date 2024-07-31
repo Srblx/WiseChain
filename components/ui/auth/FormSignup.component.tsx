@@ -1,15 +1,18 @@
 // Utils
-import countries from '@/_utils/data/country';
+import {
+  useConfirmPasswordVisibility,
+  usePasswordVisibility,
+} from '@/utils/auth/usePasswordVisibility.utils';
+import countries from '@/utils/data/country';
 import {
   SignupAction,
   initialState,
   signupReducer,
-} from '@/_utils/data/signupReducer';
-import usePasswordVisibility, {
-  useConfirmPasswordVisibility,
-} from '@/_utils/usePasswordVisibility.utils';
+} from '@/utils/data/signupReducer';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Components
+import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
 import Button from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
 
@@ -27,15 +30,24 @@ import { IoMdMail } from 'react-icons/io';
 import { SignupSchema } from '@/validators/auth.validator';
 
 // Interfaces
-import FormStep from '@/enums/formStep.enum';
 import { SignupValidator } from '@/interfaces/auth/auth.interface';
 import { FormSignupProps } from '@/interfaces/modal.interface';
 
 // Axios
+
+// Enums
+import FormStep from '@/enums/formStep.enum';
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Mail
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
+
+// Helpers
 import axios from 'axios';
+import * as Yup from 'yup';
 
 export const inputClassName = 'input input-bordered flex items-center gap-2';
 
@@ -78,43 +90,50 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
     try {
       await SignupSchema.validate(signupData, { abortEarly: false });
 
-      const response = await axios.post(Routes.SIGNUP, signupData);
+      try {
+        const response = await axios.post(Routes.SIGNUP, signupData);
 
-      if (response.status === 201) {
-        const { token, user } = response.data;
-        login(user, token);
+        if (response.status === 201) {
+          const { token, user } = response.data;
+          login(user, token);
 
-        const mail = signupData.mail;
-        const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
-          mail,
-        });
+          const mail = signupData.mail;
+          const responseSenderMail = await axios.post(Routes.GENERATE_TOKEN, {
+            mail,
+          });
 
-        await sendMail({
-          to: `${mail}`,
-          name: 'Verification adresse mail',
-          subject: 'Verification adresse mail',
-          body: await compilerMailTemplate(
-            `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
-          ),
-        });
+          await sendMail({
+            to: `${mail}`,
+            name: 'Verification adresse mail',
+            subject: 'Verification adresse mail',
+            body: await compilerMailTemplate(
+              `http://localhost:3000/verifyMail?token=${responseSenderMail.data.token}`
+            ),
+          });
 
-        toast.success('Inscription réussie');
-        onSuccess();
-      } else {
-        throw new Error('Erreur lors de la soumission du formulaire.');
+          toast.success('Inscription réussie');
+          onSuccess();
+        } else {
+          throw new Error(ERROR_MESSAGES.SIGNUP_FAILED);
+        }
+      } catch (error) {
+        console.error(error);
+        let errorMessage = ERROR_MESSAGES.USER_CREATION_ERROR;
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 400) {
+            errorMessage =
+              error.response.data.error || ERROR_MESSAGES.VALIDATE_DATA_ERROR;
+          } else if (error.response.status === 409) {
+            errorMessage = ERROR_MESSAGES.PSEUDO_OR_MAIL_ALREADY_TAKEN;
+          }
+        }
+        dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
       }
     } catch (error) {
-      console.error(error);
-      let errorMessage = "Erreur lors de la création de l'utilisateur.";
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 400) {
-          errorMessage =
-            error.response.data.error || 'Erreur de validation des données.';
-        } else if (error.response.status === 409) {
-          errorMessage = "Le pseudo ou l'email est déjà utilisé.";
-        }
+      if (error instanceof Yup.ValidationError) {
+        toast.error(error.inner[0].message);
+        return;
       }
-      dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
     }
   };
 
@@ -195,9 +214,9 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
             }
             required
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <ButtonIcon onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </ButtonIcon>
         </label>
         <label className={inputClassName}>
           <FaKey />*
@@ -213,9 +232,9 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
             }
             required
           />
-          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+          <ButtonIcon onClick={toggleConfirmPasswordVisibility}>
             {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </ButtonIcon>
         </label>
         <label className={inputClassName}>
           <FaBirthdayCake />*

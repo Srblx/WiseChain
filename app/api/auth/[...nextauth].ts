@@ -1,5 +1,5 @@
 //Libs Next
-import { prisma } from '@/_utils/constante.utils';
+import { prisma } from '@/utils/constante.utils';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 

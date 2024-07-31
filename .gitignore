@@ -45,3 +45,6 @@ next.config.js
 # coverage
 
 .env
+README_PERSO.md
+
+/sql/Wisechain.sql

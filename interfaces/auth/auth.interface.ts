@@ -37,7 +37,18 @@ export interface User {
   mail: string;
   password: string;
   roles: string;
+  img: string;
   country: string;
-  birthday: string;
+  date_of_birth: string;
   is_verified: boolean;
+  created_at: string;
 }
+
+export interface UserInfo {
+  firstname: string;
+  lastname: string;
+  pseudo: string;
+  country: string;
+  birthOfDate: string;
+}
+

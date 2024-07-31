@@ -1,0 +1,98 @@
+'use client';
+
+// Interfaces
+import { Course } from '@/interfaces/course.interface';
+
+// Components
+import CardCourse from '@/components/card/CardCourse.component';
+
+// Libs Next
+import { useParams, useRouter } from 'next/navigation';
+
+// Libs React
+import { useEffect, useState } from 'react';
+
+// Helpers
+import Routes from '@/enums/routes.enum';
+import axios from 'axios';
+
+const CategoryCoursesPage = () => {
+  const params = useParams();
+  const category = params.slug as string;
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (category) {
+      const fetchCourses = async () => {
+        try {
+          const response = await axios.get(Routes.GET_ALL_COURSES, {
+            params: { category },
+          });
+          if (response.data && response.data.course) {
+            setCourses(response.data.course);
+          }
+        } catch (error) {
+          console.error('Error fetching courses:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchCourses();
+    }
+  }, [category]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-ring loading-lg"></span>
+      </div>
+    );
+  }
+
+  const [firstThreeCourses, remainingCourses] =
+    courses.length >= 3
+      ? [courses.slice(0, 3), courses.slice(3)]
+      : [courses, []];
+
+  return (
+    <div>
+      <h1 className="text-3xl mb-4">{category}</h1>
+      <div className="min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 cursor-pointer">
+          {firstThreeCourses.map((course, index) => (
+            <CardCourse
+              key={course.id}
+              description={course.description}
+              image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
+              sequence={`${course.sequences.length} min de lecture`}
+              title={course.main_title}
+              className={index === 0 ? 'lg:row-span-2' : ''}
+              isMainCard={index === 0}
+              isLarge={index > 0}
+              onClick={() => router.push(`/courses/detail-course/${course.id}`)}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6"
+        >
+          {remainingCourses.map((course) => (
+            <CardCourse
+              key={course.id}
+              description={course.description}
+              image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
+              sequence={`${course.sequences.length} min de lecture`}
+              title={course.main_title}
+              isLarge={true}
+              onClick={() => router.push(`/courses/detail-course/${course.id}`)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryCoursesPage;

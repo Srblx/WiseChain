@@ -1,10 +1,16 @@
 'use client';
 
-import axios from 'axios';
+// Libs Next
 import { useRouter, useSearchParams } from 'next/navigation';
+
+// Libs React
 import { ChangeEvent, useState } from 'react';
 
+// Icons
+import { ToastContainer, toast } from 'react-toastify';
+
 // Components
+import { Button } from '@/components/shared/Button.components';
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
 import Input from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
@@ -13,10 +19,17 @@ import { inputClassName } from './FormSignup.component';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
-import usePasswordVisibility from '@/_utils/usePasswordVisibility.utils';
-import Routes from '@/enums/routes.enum';
+import { usePasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Validators
 import { passwordResetSchema } from '@/validators/auth.validator';
-import { ToastContainer, toast } from 'react-toastify';
+
+// Enums
+import Routes from '@/enums/routes.enum';
+
+// Helpers
+import axios from 'axios';
 import * as Yup from 'yup';
 
 const FormResetPassword = () => {
@@ -42,11 +55,14 @@ const FormResetPassword = () => {
 
     if (token) {
       try {
-        await passwordResetSchema.validate({ newPassword, confirmNewPassword }, { abortEarly: false });
-        
+        await passwordResetSchema.validate(
+          { newPassword, confirmNewPassword },
+          { abortEarly: false }
+        );
+
         const response = await axios.post(Routes.RESET_PASSWORD, {
           newPassword,
-          token
+          token,
         });
 
         if (response.status === 200) {
@@ -56,7 +72,6 @@ const FormResetPassword = () => {
           }, 2000);
         } else {
           toast.error(response.data.error);
-          console.error(response.data.error);
         }
       } catch (error: string | any) {
         if (error instanceof Yup.ValidationError) {
@@ -64,9 +79,9 @@ const FormResetPassword = () => {
             toast.error(err.message);
           });
         } else if (axios.isAxiosError(error)) {
-          console.error('Erreur lors de la réinitialisation du mot de passe :', error.message);
+          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error.message);
         } else {
-          console.error('Erreur lors de la réinitialisation du mot de passe :', error);
+          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error);
         }
       }
     }
@@ -82,9 +97,9 @@ const FormResetPassword = () => {
             value={newPassword}
             onChange={handleNewPasswordChange}
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <Button onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </Button>
         </label>
         <label className={inputClassName}>
           <Input
@@ -93,14 +108,14 @@ const FormResetPassword = () => {
             value={confirmNewPassword}
             onChange={handleConfirmNewPasswordChange}
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <Button onClick={togglePasswordVisibility}>
             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
+          </Button>
         </label>
         <ButtonSubmit>Réinitialiser le mot de passe</ButtonSubmit>
       </form>
       <ToastContainer
-        position="top-center"
+        position="bottom-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}

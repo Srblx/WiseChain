@@ -1,67 +1,50 @@
-// hooks/useAuth.hook.ts
-"use client";
+'use client';
 
+// Context
 import { useUser } from '@/context/user.context';
-import Routes from '@/enums/routes.enum';
+
+// Interfaces
 import { User } from '@/interfaces/auth/auth.interface';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+
+// Utils
+import { fetchUserFromToken } from '@/utils/auth/auth.utils';
+
+// Hooks
+import useToken from './useToken.hook';
+
+// Libs React
+import { useCallback, useEffect } from 'react';
 
 function useAuth() {
   const { user, setUser } = useUser();
-  const [token, setToken] = useState<string | null>(null);
+  const { token, saveToken, clearToken } = useToken();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-      fetchUser(storedToken);
-    }
-
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('token');
-      if (newToken) {
-        setToken(newToken);
-        fetchUser(newToken);
-      } else {
-        setToken(null);
+  const fetchUser = useCallback(
+    async (token: string) => {
+      try {
+        const user = await fetchUserFromToken(token);
+        setUser(user);
+      } catch (error) {
         setUser(null);
       }
-    };
+    },
+    [setUser]
+  );
 
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
-  const fetchUser = async (token: string) => {
-    try {
-      const response = await axios.get(Routes.SIGNIN, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(response.data.user);
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-      setUser(null);
+  useEffect(() => {
+    if (token) {
+      fetchUser(token);
     }
-  };
+  }, [token, fetchUser]);
 
   const login = (newUser: User, newToken: string) => {
-    localStorage.setItem('token', newToken);
+    saveToken(newToken);
     setUser(newUser);
-    setToken(newToken);
-    window.dispatchEvent(new Event('storage'));
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
+    clearToken();
     setUser(null);
-    window.dispatchEvent(new Event('storage'));
   };
 
   return {

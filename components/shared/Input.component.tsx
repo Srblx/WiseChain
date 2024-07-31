@@ -1,6 +1,8 @@
 // Lib React
-import { InputProfileProps } from '@/interfaces/auth/input.interface';
 import React from 'react';
+
+// Interfaces
+import { InputProfileProps } from '@/interfaces/auth/input.interface';
 
 const InputProfile: React.FC<InputProfileProps> = ({
   type,
@@ -14,7 +16,7 @@ const InputProfile: React.FC<InputProfileProps> = ({
   children,
 }) => {
   return (
-    <div className="relative">
+    <div className="relative w-[25dvh]">
       <input
         type={type}
         placeholder={placeholder}

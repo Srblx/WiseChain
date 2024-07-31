@@ -1,8 +1,11 @@
 // Lib React
 import React from 'react';
 
-// Interfaces
-import { ButtonProps } from '@/interfaces/auth/buttonSubmit.interface';
+export interface ButtonProps {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+}
 
 const ButtonSubmit: React.FC<ButtonProps> = ({
   children,
@@ -11,7 +14,7 @@ const ButtonSubmit: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-    type="submit"
+      type="submit"
       className={`btn w-full bg-button hover:!bg-green-500 text-white font-semibold text-lg ${className}`}
       onClick={onClick}
     >

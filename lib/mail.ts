@@ -1,8 +1,5 @@
 'use server';
 
-// Interfaces
-import { Mail } from '@/interfaces/mail/mail.interface';
-
 // NodeMailer
 import nodemailer from 'nodemailer';
 
@@ -10,6 +7,13 @@ import nodemailer from 'nodemailer';
 import * as handlebars from 'handlebars';
 import { resetPasswordTemplate } from './templates/resetPassword';
 import { verifyMailTemplate } from './templates/verifyMail';
+
+interface Mail {
+  to: string;
+  name: string;
+  subject: string;
+  body: string;
+}
 
 export async function sendMail({ to, name, subject, body }: Mail) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;

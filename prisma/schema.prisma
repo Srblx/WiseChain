@@ -35,14 +35,24 @@ model User {
 model Article {
   id         String   @id @default(cuid())
   title      String
-  content    String   @db.Text
-  cover_img  String
-  img        String?
+  summary    String   @db.Text
+  img  String
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
   category   Category @relation(fields: [category_id], references: [id])
   category_id String
+  sequence_article SequenceArticle[]
+}
+
+model SequenceArticle {
+  id        String @id @default(cuid())
+  index     Int    @unique
+  title     String @db.Text
+  containt  String @db.Text
+  img       String? @db.Text
+  article    Article @relation(fields: [article_id], references: [id])
+  article_id String
 }
 
 model RealizeQuestionary {
@@ -70,11 +80,13 @@ model Course {
   id          String   @id @default(cuid())
   main_title  String
   description String?
+  img         String
   content     String   @db.Text
   created_at  DateTime @default(now())
   update_at   DateTime @updatedAt @db.Date
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
+  difficulty      String @default("Facile")
   sequences   Sequence[]
   tool_courses ToolCourse[]
 }
@@ -172,5 +184,12 @@ model Question {
   questionary   Questionary @relation(fields: [questionary_id], references: [id])
   questionary_id String
   answers       Answer[]
+}
+
+model Glossary {
+  id         String   @id @default(cuid())
+  title       String
+  definition  String   @db.Text
+  created_at  DateTime @default(now())
 }
 

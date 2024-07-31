@@ -1,36 +1,70 @@
 'use client';
 
-// Lib React
-import { ChangeEvent, useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+// Components
+import { Button } from '@/components/shared/Button.components';
+import Input from '@/components/shared/Input.component';
+import Label from '@/components/shared/Label.component';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
+// Enums
+import Routes from '@/enums/routes.enum';
 
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
 
+// Interfaces
+import { UserInfo } from '@/interfaces/auth/auth.interface';
+
 // Utils
-import ApiAxios from '@/_utils/interceptorAxios.utils';
+import dayjs from '@/utils/dayjs';
+import ApiAxios from '@/utils/interceptorAxios.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
-// Components
-import InputProfile from '../../shared/Input.component';
+// Lib React
+import { ChangeEvent, useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
+// CSS classes
 const classNameInputProfile = 'w-full bg-white text-black py-1 px-2 rounded-lg';
 const classNameLabel = 'text-sm text-gray-400';
 
+type UserInfoKeys =
+  | 'firstname'
+  | 'lastname'
+  | 'pseudo'
+  | 'country'
+  | 'birthOfDate';
+
 export const ProfileUser = () => {
   const [editInfoUser, setEditInfoUser] = useState(false);
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [pseudo, setPseudo] = useState('');
-  const [country, setCountry] = useState('');
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    firstname: '',
+    lastname: '',
+    pseudo: '',
+    country: '',
+    birthOfDate: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { user } = useAuth();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { user, login, token } = useAuth();
 
   useEffect(() => {
     if (user !== null) {
-      setFirstname(user.firstname);
-      setLastname(user.lastname);
-      setPseudo(user.pseudo);
-      setCountry(user.country);
+      setUserInfo({
+        firstname: user.firstname,
+        lastname: user.lastname,
+        pseudo: user.pseudo,
+        country: user.country,
+        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+      });
     }
   }, [user]);
 
@@ -38,46 +72,53 @@ export const ProfileUser = () => {
     setEditInfoUser(!editInfoUser);
   };
 
-  const handlefirstnameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFirstname(e.target.value);
-  };
-
-  const handleLastnameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLastname(e.target.value);
-  };
-
-  const handlePseudoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPseudo(e.target.value);
-  };
+  const handleInputChange =
+    (field: UserInfoKeys) => (e: ChangeEvent<HTMLInputElement>) => {
+      setUserInfo((prev) => ({ ...prev, [field]: e.target.value }));
+    };
 
   const handleCancelEdit = () => {
     setEditInfoUser(false);
-    setFirstname('');
-    setLastname('');
-    setPseudo('');
+    if (user) {
+      setUserInfo({
+        firstname: user.firstname,
+        lastname: user.lastname,
+        pseudo: user.pseudo,
+        country: user.country,
+        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+      });
+    }
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
-      const response = await ApiAxios.put('/api/userProfile/updateUserData', {
-        firstname,
-        lastname,
-        pseudo,
+      const response = await ApiAxios.put(Routes.UPDATE_PROFIL_USER, {
+        firstname: userInfo.firstname,
+        lastname: userInfo.lastname,
+        pseudo: userInfo.pseudo,
       });
-      
+
       if (response.status === 200) {
-        toast.success('Profil modifié avec succès');
+        toast.success(SUCCESS_MESSAGES.UPDATE_PROFILE);
         setEditInfoUser(false);
+        setIsDialogOpen(false);
+
+        if (user) {
+          const updatedUser = {
+            ...user,
+            firstname: userInfo.firstname,
+            lastname: userInfo.lastname,
+            pseudo: userInfo.pseudo,
+          };
+          login(updatedUser, token!);
+        }
       } else {
-        toast.error(
-          'Une erreur est survenue lors de la modification du profil'
-        );
+        toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
       }
     } catch (error) {
-      console.error('Erreur lors de la modification du profil :', error);
-      toast.error('Une erreur est survenue lors de la modification du profil');
+      toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
     }
 
     setIsSubmitting(false);
@@ -85,91 +126,79 @@ export const ProfileUser = () => {
 
   return (
     <div className="space-y-8 mt-6">
-      <div className=" space-y-6">
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="flex flex-col space-y-6"
-        >
-          <label className={`${classNameLabel}`}>
-            {' '}
-            Nom
-            <InputProfile
-              type="text"
-              placeholder="firstname"
-              value={firstname}
-              onChange={handlefirstnameChange}
-              className={`${classNameInputProfile}`}
-              disabled={!editInfoUser}
-            />
-          </label>
-          <label className={`${classNameLabel}`}>
-            Prénom
-            <InputProfile
-              type="text"
-              placeholder="lastname"
-              value={lastname}
-              onChange={handleLastnameChange}
-              className={`${classNameInputProfile}`}
-              disabled={!editInfoUser}
-            />
-          </label>
-          <label className={`${classNameLabel}`}>
-            Pseudo
-            <InputProfile
-              type="text"
-              placeholder="pseudo"
-              value={pseudo}
-              onChange={handlePseudoChange}
-              className={`${classNameInputProfile}`}
-              disabled={!editInfoUser}
-            />
-          </label>
-          <label className={`${classNameLabel}`}>
-            Pays
-            <InputProfile
-              type="text"
-              placeholder="country"
-              value={country}
-              className={'w-full bg-gray-500 text-white py-1 px-2 rounded-lg'}
-              disabled={true}
-            />
-          </label>
-        </form>
-        <ToastContainer
-          position="top-center"
-          autoClose={4000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
+      <div className="space-y-2">
+        <p>Nom: {userInfo.lastname}</p>
+        <p>Prenom: {userInfo.firstname}</p>
+        <p>Pseudo: {userInfo.pseudo}</p>
+        <p>Anniversaire le {userInfo.birthOfDate}</p>
       </div>
-      <div className="flex justify-center items-center space-x-2">
-        <button
-          onClick={
-            editInfoUser ? handleCancelEdit : () => setEditInfoUser(true)
-          }
-          className={`${editInfoUser ? 'bg-red-500' : 'bg-button'} border-2 rounded py-1 px-2`}
-        >
-          {editInfoUser ? 'Annuler' : 'Modifier mon profil'}
-        </button>
-        {editInfoUser && (
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="bg-button border-2 rounded py-1 px-2"
-          >
-            {isSubmitting
-              ? 'Enregistrement...'
-              : 'Enregistrer le nouveau mot de passe'}
-          </button>
-        )}
-      </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button onClick={() => setIsDialogOpen(true)}>
+            Modifier mon profil
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Modifier le profil</DialogTitle>
+            <DialogDescription>
+              Faites des modifications à votre profil ici. Cliquez sur
+              enregistrer lorsque vous avez terminé.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {['firstname', 'lastname', 'pseudo', 'birthOfDate', 'country'].map(
+              (field) => (
+                <div
+                  key={field}
+                  className="grid grid-cols-4 items-center gap-4"
+                >
+                  <Label htmlFor={field} className="text-right">
+                    {field === 'firstname'
+                      ? 'Prénom'
+                      : field === 'lastname'
+                        ? 'Nom'
+                        : field === 'pseudo'
+                          ? 'Pseudo'
+                          : field === 'birthOfDate'
+                            ? 'Date de naissance'
+                            : 'Pays'}
+                  </Label>
+                  <Input
+                    id={field}
+                    value={userInfo[field as UserInfoKeys]}
+                    onChange={handleInputChange(field as UserInfoKeys)}
+                    className={`col-span-3 p-2 ${field === 'birthOfDate' || field === 'country' ? 'bg-gray-950 text-white' : 'bg-white text-gray-950'}`}
+                    placeholder={field}
+                    disabled={field === 'birthOfDate' || field === 'country'}
+                  />
+                </div>
+              )
+            )}
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSubmit} disabled={isSubmitting}>
+              {isSubmitting
+                ? 'Enregistrement...'
+                : 'Enregistrer les modifications'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        className={'z-50'}
+      />
     </div>
   );
 };

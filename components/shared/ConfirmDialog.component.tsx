@@ -1,46 +1,58 @@
 // Lib React
 import React from 'react';
-import { Button, Modal } from 'react-daisyui';
 
-// Interfaces
-import { ConfirmDialogProps } from '@/interfaces/auth/dialogAlert.interface';
+interface ConfirmDialogProps {
+  id: string;
+  title: string;
+  message?: string;
+  text?: React.ReactNode;
+  infoMessage?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  choice?: string;
+}
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
-  isOpen,
+  id,
   title,
   message,
+  text,
+  infoMessage,
   onConfirm,
   onCancel,
+  choice,
 }) => {
   return (
-    <div>
-      <Modal
-        open={isOpen}
-        className="p-10 bg-background text-white rounded-sm overflow-hidden border-4 border-white"
-      >
-        <Modal.Header className="font-bold py-4">{title}</Modal.Header>
-        <Modal.Body>
-          <p>{message}</p>
-        </Modal.Body>
-        <Modal.Actions>
-          <div className="flex justify-between mt-4">
-            <Button
+    <dialog
+      id={id}
+      className="modal fixed inset-0 max-h-[100%] max-w-[100%] flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-60 m-0"
+    >
+      <div className="modal-box bg-background max-w-[55rem] text-white p-10 xs:p-4 rounded-lg border-2 border-backgroundTransparent">
+        <h3 className="font-bold text-2xl text-center">{title}</h3>
+        <p className="pt-8 text-center">{message}</p>
+        <p className="text-center">{infoMessage}</p>
+        {text}
+        <div className="modal-action flex justify-center items-center">
+          <form method="dialog" className="space-x-4">
+            {!choice && (
+              <button
+                className='btn bg-red-600 text-white hover:bg-black border-none'
+                onClick={onConfirm}
+                id='confirm-dialog'
+              >
+                Confirmer
+              </button>
+            )}
+            <button
+              className="btn text-white font-extrabold bg-background hover:bg-gray-700 border-none"
               onClick={onCancel}
-              className="bg-green-400 border-none text-black hover:text-white hover:bg-background"
             >
-              Annuler
-            </Button>
-            <Button
-              id="btn-confirm-logout"
-              onClick={onConfirm}
-              className="bg-red-500 border-none text-black hover:text-white hover:bg-background"
-            >
-              Confirmer
-            </Button>
-          </div>
-        </Modal.Actions>
-      </Modal>
-    </div>
+              {choice ? choice : 'Annuler'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   );
 };
 

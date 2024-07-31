@@ -11,12 +11,13 @@ import Input from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
 
 // API
-import { checkEmailExists } from '@/app/api/claimResetPassword/route';
+import { checkEmailExists } from '@/app/api/claim-reset-password/route';
 import axios from 'axios';
 
 // Lib
 import Routes from '@/enums/routes.enum';
 import { compilerResetPasswordTemplate, sendMail } from '@/lib/mail';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 function ClaimResetPasswordPage() {
   const [mail, setMail] = useState('');
@@ -30,7 +31,7 @@ function ClaimResetPasswordPage() {
       const emailExists = await checkEmailExists(mail);
 
       if (!emailExists) {
-        toast.error("Cette adresse e-mail n'est pas enregistrée.");
+        toast.error(ERROR_MESSAGES.MAIL_NOT_FOUND);
         return;
       }
 
@@ -40,14 +41,15 @@ function ClaimResetPasswordPage() {
         to: `${mail}`,
         name: 'Réinitialisation de mot de passe',
         subject: 'Réinitialisation de mot de passe WiseChain',
-        body: await compilerResetPasswordTemplate(`http://localhost:3000/resetPassword?token=${response.data.token}`),
+        body: await compilerResetPasswordTemplate(
+          `http://localhost:3000/resetPassword?token=${response.data.token}`
+        ),
       });
 
-      toast.success('E-mail envoyé avec succès');
+      toast.success(SUCCESS_MESSAGES.MAIL_SEND_RESET_PASSWORD);
       setMail('');
     } catch (error) {
-      console.error('Error sending email:', error);
-      toast.error("Erreur lors de l'envoi de l'email");
+      toast.error(ERROR_MESSAGES.MAIL_NOT_FOUND);
     }
   };
 

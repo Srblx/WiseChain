@@ -1,3 +1,4 @@
+// Components
 import FormResetPassword from '@/components/ui/auth/FormResetPassword.component';
 
 const ResetPassword = () => {
