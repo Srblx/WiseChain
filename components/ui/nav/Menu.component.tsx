@@ -15,7 +15,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
 
   const handleNavigation = useCallback(
     (label: string, href: string) => {
-      if (label === 'Actualité' || label === 'Lexique') {
+      if (label === 'Actualité' || label === 'Lexique' || label === 'Marché') {
         router.push(href);
       } else {
         router.push(`/courses/${label}`);

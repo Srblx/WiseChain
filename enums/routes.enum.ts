@@ -7,6 +7,7 @@ enum RoutesEnum {
   ACTUALITY = '/articles',
   PROFILE = '/profile',
   GLOSSARY = '/glossary',
+  MARKET = '/market',
 
   /* Course */
   ALL_COURSES_INVESTMENT = '/courses/Investment',

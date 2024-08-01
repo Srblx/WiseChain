@@ -44,7 +44,7 @@ export default function RootLayout({
         <Toaster richColors closeButton />
         <UserProvider>
           <Navbar />
-          <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-36 mt-4'>
+          <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-32 mt-4'>
             {children}
           </main>
           <Footer />
