@@ -50,7 +50,7 @@ const GlossaryList: React.FC<GlossaryListProps> = ({
     <div className="flex flex-col w-full">
       <div className="bg-blueDark rounded-md p-4 shadow-xs-light">
         <div className="text-md">
-          <ul className="flex space-x-6 md:space-x-8 px-4 py-2">
+          <ul className="flex space-x-6 md:space-x-8 px-4 py-2 items-center">
             <li
               className={`${selectedSection === 'A-B' ? classNameLetterListIsSelect : ''} ${classNameLetterList}`}
             >

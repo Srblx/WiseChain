@@ -38,11 +38,11 @@ const CourseSummary: React.FC<CourseSummaryProps> = ({ course }) => {
           {course.sequences.length} min de lecture
         </p>
         <div className="space-x-2 flex">
-          <div className="badge badge-info badge-outline text-sm md:text-base">
+          <div className="badge badge-info badge-outline text-sm md:text-base p-4">
             {course.category.name}
           </div>
           <div
-            className={`badge badge-outline text-sm md:text-base ${getDifficultyClass(course.difficulty)}`}
+            className={`badge badge-outline text-sm md:text-base p-4 ${getDifficultyClass(course.difficulty)}`}
           >
             {course.difficulty}
           </div>

@@ -19,6 +19,7 @@ import Routes from '@/enums/routes.enum';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import axios from 'axios';
 
 const CategoryCoursesPage = () => {
@@ -50,11 +51,7 @@ const CategoryCoursesPage = () => {
   }, [category]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const [firstThreeCourses, remainingCourses] =

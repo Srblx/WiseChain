@@ -33,7 +33,7 @@ export default function CardCourse({
           <p className="text-sm italic text-gray-400">{description}</p>
         </div>
         <div className="card-actions justify-end mt-4 items-center">
-          <div className="badge badge-outline">{sequence}</div>
+          <div className="badge badge-outline p-4">{sequence}</div>
         </div>
       </div>
     </div>

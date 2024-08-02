@@ -8,7 +8,7 @@ export const ERROR_MESSAGES = {
   TOKEN_REQUIRED: 'Le token est requis',
   INVALID_TOKEN: 'Token invalide',
   ERROR_PASSWORD_OR_MAIL: 'Invalid email or password',
-  MISSING_TOKEN: 'Token manquant',
+  JWT_ERROR: 'JWT verification error:',
 
   // User-related Errors
   PSEUDO_ALREADY_TAKEN: 'Le pseudo est déjà utilisé.',
@@ -42,6 +42,7 @@ export const ERROR_MESSAGES = {
   ERROR_FETCHING_COURSE: 'Error fetching course',
   ERROR_FETCHING_GLOSSARY: 'Error fetching glossary',
   ERROR_FETCHING_ARTICLE: 'Error fetching article',
+  ERROR_FETCHING_QUESTIONNARY: 'Erreur fetching questions:',
 
   // Not found errors
   NOT_PARAMS_FOUND: 'Param not found',
@@ -49,13 +50,22 @@ export const ERROR_MESSAGES = {
   NO_GLOSSARY_FOUND: 'No glossary found',
   NOT_CATEGORY_FOUND: 'Category not found',
   ARTICLE_NOT_FOUND: 'Article not found',
+  QUESTIONARY_NOT_FOUND: 'Questionary not found',
+  
+  // Missing fields
+  MISSING_COURSE_ID: 'Missing course id',
+  MISSING_FIELDS: 'Missing or invalid fields',
+  MISSING_TOKEN: 'Token manquant',
+  ALL_FIELDS_REQUIRED: 'Tous les champs sont requis',
 
   // Other errors
   GENERATE_TOKEN: 'Error generating reset token:',
   RESET_PASSWORD: 'Erreur lors de la réinitialisation du mot de passe :',
   ERROR_SENDING_MAIL: "Erreur lors de l'envoi de l'email de vérification :",
   METHOD_NOT_ALLOWED: 'Méthode non autorisée',
+  INTERNAL_ERROR: 'Erreur interne',
   ID_COURSE_REQUIRED: 'Id course required',
+  NOT_SAVING: 'Error saving results:',
 };
 
 export const SUCCESS_MESSAGES = {
@@ -69,6 +79,7 @@ export const SUCCESS_MESSAGES = {
   MAIL_VERIFY: 'Votre adresse e-mail a été vérifiée avec succès',
   DELETE_ACCOUNT: 'Compte supprimé avec succès',
   MAIL_SEND: 'Email de vérification envoyé',
+  RESULT_SAVED: 'Results saved successfully',
 };
 
 export const ERROR_MESSAGES_YUP = {
@@ -108,4 +119,5 @@ export const CATEGORY = {
 // Date format constants
 export const FORMATAGE_DATE = {
   FORMAT_FRENCH_DATE: 'DD/MM/YY - HH:mm',
+  FORMAT_TO_DB: 'YYYY-MM-DD HH:mm:ss',
 };

@@ -1,6 +1,7 @@
 'use client';
 
 import CourseCarousel from '@/components/carousel/CourseCarousel.component';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import Routes from '@/enums/routes.enum';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
@@ -30,11 +31,7 @@ function CourseList() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

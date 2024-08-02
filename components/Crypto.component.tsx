@@ -1,7 +1,13 @@
 'use client';
 
+// Next Libs
 import Image from 'next/image';
+
+// React Libs
 import { useEffect, useState } from 'react';
+
+// Components
+import LoadingSpinner from './shared/LoadingSpinner.component';
 import ScrollToTopButton from './shared/ScrollToTop.component';
 
 async function fetchCryptos() {
@@ -46,7 +52,6 @@ export default function CryptoTable() {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Nettoyage de l'écouteur d'événements lors du démontage du composant
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -57,17 +62,13 @@ export default function CryptoTable() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   if (error) {
     return <div className="text-xl">Erreur : {error}</div>;
   }
-console.log(cryptos[0])
+
   return (
     <div className="overflow-x-auto">
       <table className="table table-lg bg-backgroundTransparent w-full">
@@ -84,7 +85,7 @@ console.log(cryptos[0])
         <tbody>
           {cryptos.map((crypto: any) => (
             <tr key={crypto.id} className="text-xs md:text-base">
-              <th className="px-6 md:px-2">{crypto.cmc_rank}</th>
+              <th className="inline-flex items-center justify-center h-6 bg-white text-blueDark rounded-full px-6 md:px-2 ml-4 mt-5">{crypto.cmc_rank}</th>
               <td className="p-0">
                 {crypto.logo && (
                   <Image
@@ -115,29 +116,6 @@ console.log(cryptos[0])
           ))}
         </tbody>
       </table>
-      <div className="flex justify-center items-center mt-4 space-x-4">
-        <span>Plus d'information sur :</span>
-        <div className="flex flex-col lg:flex-row">
-          <div className="card rounded-box grid flex-grow place-items-center">
-            {' '}
-            <a
-              className="p-2 bg-button rounded-md"
-              href="https://coinmarketcap.com/"
-            >
-              CoinMarketCap
-            </a>
-          </div>
-          <div className="divider lg:divider-horizontal">ou</div>
-          <div className="card rounded-box grid flex-grow place-items-center">
-            <a
-              href="https://www.coingecko.com/fr"
-              className="p-2 bg-button rounded-md"
-            >
-              CoinGeko
-            </a>
-          </div>
-        </div>
-      </div>
       <ScrollToTopButton
         showScrollToTop={showScrollToTop}
         scrollToTop={scrollToTop}
@@ -145,3 +123,4 @@ console.log(cryptos[0])
     </div>
   );
 }
+

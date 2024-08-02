@@ -2,6 +2,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function QuestionaryLayout({ children }: Props) {
+export default function QuestionnaryLayout({ children }: Props) {
   return <section>{children}</section>;
 }

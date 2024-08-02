@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import CardArticle from '@/components/card/CardArticle.composent';
 
 // Helpers
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import { ERROR_MESSAGES, FORMATAGE_DATE } from '@/utils/messages.utils';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -48,11 +49,7 @@ const AllArticles = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {

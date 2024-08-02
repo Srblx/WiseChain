@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Components
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import ScrollToTopButton from '@/components/shared/ScrollToTop.component';
 import GlossaryList from '@/components/ui/glossary/GlossaryList.component';
 import GlossaryTerm from '@/components/ui/glossary/GlossaryTerms.component';
@@ -103,11 +104,7 @@ const Glossary = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -115,11 +112,7 @@ const Glossary = () => {
   }
 
   if (articles.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   return (

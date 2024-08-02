@@ -22,7 +22,7 @@ enum RoutesEnum {
   /* Course */
 
   /* Questionary */
-  QUESTIONARY = '/questionary',
+  QUESTIONARY = '/questionnary',
   /* Questionary */
 
   //? API
@@ -56,6 +56,10 @@ enum RoutesEnum {
   /* Glossary */
   GET_GLOSSARY = '/api/glossary',
   /* Glossary */
+
+  /* Questionnary */
+  QUESTIONNARY = '/api/questionnary',
+  /* Questionnary */
 }
 
 // FUNCTIONS PAGES WITH URL DYNAMIQUE

@@ -47,4 +47,4 @@ next.config.js
 .env
 README_PERSO.md
 
-/sql/wisechain.sql
+/sql/WiseChain_DB.sql

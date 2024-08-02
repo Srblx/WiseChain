@@ -23,6 +23,7 @@ import Routes from '@/enums/routes.enum';
 import useAuth from '@/hooks/useAuth.hook';
 
 // Helpers
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import axios from 'axios';
 
 const CourseDetailPage = () => {
@@ -66,7 +67,7 @@ const CourseDetailPage = () => {
 
   const handleNavigation = () => {
     if (token) {
-      router.push(Routes.QUESTIONARY);
+      router.push(`${Routes.QUESTIONARY}?courseId=${courseId}`);
     } else {
       const modal = document.getElementById('login-required') as HTMLDialogElement;
       if (modal) {
@@ -76,11 +77,7 @@ const CourseDetailPage = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   if (!course) {

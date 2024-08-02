@@ -1,7 +1,7 @@
 'use client';
 
 // Lib React
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick: () => void | Promise<void> | undefined;
   id?: string;
   disabled?: boolean;
+  style?: CSSProperties;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -17,6 +18,7 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   id,
   disabled,
+  style,
 }) => {
   return (
     <button
@@ -25,6 +27,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       id={id}
       disabled={disabled}
+      style={style}
     >
       {children}
     </button>

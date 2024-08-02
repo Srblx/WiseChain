@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Helpers
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import Routes from '@/enums/routes.enum';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
@@ -49,11 +50,7 @@ const ArticleDetailPage = () => {
   useEffect(() => {}, [article]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -69,7 +66,7 @@ const ArticleDetailPage = () => {
   return (
     <div className="container mx-auto p-4">
       <h3 className="text-3xl mb-4">{title}</h3>
-      <div className="relative h-48 lg:h-[90%] flex justify-center items-center">
+      <div className="relative h-48 lg:h-[90%] flex justify-center items-center mb-4 mt-[3%]">
         <Image
           src={img ? `/img/${img}` : '/img/logo.jpg'}
           alt={title}
@@ -79,7 +76,7 @@ const ArticleDetailPage = () => {
           className="shadow-xs-light rounded-lg"
         />
       </div>
-      <div className="p-4">
+      <div className="p-4 mt-[3%]">
         {sequence_article && sequence_article.length > 0 ? (
           sequence_article.map((sequence) => (
             <div key={sequence.id} id={sequence.id} className="mb-8">
