@@ -1,8 +1,8 @@
 // Components
-import { Button } from '@/components/shared/Button.components';
 
 // Libs React
 import React from 'react';
+import NavigationAfterResultButtons from './ResultButton.component';
 
 interface QuizResultsProps {
   score: number;
@@ -20,7 +20,7 @@ const QuizResults: React.FC<QuizResultsProps> = ({
   const isPassed = score >= 8;
 
   return (
-    <div className="bg-blueDark p-5 md:p-10 rounded-md shadow-sm-light">
+    <div id="congratulations" className="bg-blueDark p-5 md:p-10 rounded-md shadow-sm-light">
       <div className="text-center">
         <h2 className="text-2xl md:text-4xl mb-4">
           {isPassed ? 'Félicitation! 🎉' : 'Bravo 👌'}
@@ -47,21 +47,7 @@ const QuizResults: React.FC<QuizResultsProps> = ({
         <p className="text-md md:text-lg mb-4">
           Bonne chance pour votre voyage d'apprentissage ! 👏📚
         </p>
-        <div className="flex justify-around mt-10">
-          <Button
-            onClick={onReturnToCourses}
-            className="rounded-full bg-button text-white py-4 px-10"
-          >
-            Retourner aux cours
-          </Button>
-          <Button
-            onClick={onClaim}
-            disabled={!isPassed}
-            className={`rounded-full bg-button text-white py-4 px-10 ${!isPassed ? 'opacity-25' : ''}`}
-          >
-            Claim
-          </Button>
-        </div>
+     <NavigationAfterResultButtons onReturnToCourses={onReturnToCourses} onClaim={onClaim} />
       </div>
     </div>
   );

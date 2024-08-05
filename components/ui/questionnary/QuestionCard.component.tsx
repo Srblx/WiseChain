@@ -27,7 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   totalQuestions,
 }) => {
   return (
-    <div className="bg-blueDark rounded-md shadow-sm-light p-5 md:p-10">
+    <div className="bg-blueDark rounded-md shadow-sm-light p-5 md:p-10" id="container-questions-answers">
       <h1 className="text-center text-2xl md:text-4xl mb-8">
         {question.question}
       </h1>
@@ -53,6 +53,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         ))}
         <div className="col-span-2 flex justify-center mt-2 md:mt-8">
           <Button
+          id='validate-answer'
             onClick={onNextClick}
             disabled={selectedAnswer === null}
             className="rounded-full bg-button text-white py-4 px-16"

@@ -1,12 +1,24 @@
 'use client';
 
+
+// Components
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import QuestionCard from '@/components/ui/questionnary/QuestionCard.component';
 import QuizResults from '@/components/ui/questionnary/QuizResult.component';
+
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Helpers
 import axios from 'axios';
+
+// Libs Next
 import { useRouter, useSearchParams } from 'next/navigation';
+
+// Libs React
 import { useEffect, useState } from 'react';
 
 export interface Answer {

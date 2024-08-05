@@ -113,22 +113,17 @@ const CourseDetailPage = () => {
     <div className="container mx-auto p-4">
       <CourseSummary course={course} />
       <CourseContent sequences={course.sequences} tools={tools} />
-      {questionnaryExists ? (
+      {questionnaryExists && (
         <div className="flex justify-center items-center w-full mb-6">
           <Button
             onClick={handleNavigation}
             className="bg-secondary rounded-md py-2 px-4 text-black text-lg"
+            id='questionnary-button'
           >
-            Tester ma compréhension du cours : {course.main_title}
-          </Button>
-        </div>
-      ) : (
-        <div className="flex justify-center items-center w-full mb-6">
-          <Button
-            onClick={handleNavigation}
-            className="bg-secondary rounded-md py-2 px-4 text-black text-lg"
-          >
-            Connectez-vous/Inscrivez-vous pour tester votre compréhension du cours en répondant au questionnaire.
+            {token !== null 
+          ? `Tester ma compréhension du cours : ${course.main_title}`
+          : 'Connectez-vous/Inscrivez-vous pour tester votre compréhension du cours en répondant au questionnaire.'}
+      
           </Button>
         </div>
       )}

@@ -1,7 +1,8 @@
-// pages/api/questionnary.ts
-
+// Helpers
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+
+// Next Libs
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();

@@ -1,4 +1,5 @@
 type CardProsp = {
+  id: string;
   image: string;
   title: string;
   description?: string;
@@ -10,6 +11,7 @@ type CardProsp = {
 };
 
 export default function CardCourse({
+  id,
   image,
   title,
   description,
@@ -23,6 +25,7 @@ export default function CardCourse({
     <div
       className={`${className} card card-compact bg-base-100 shadow-xl flex flex-col`}
       onClick={onClick}
+      id={id}
     >
       <figure className={`${heightValue} overflow-hidden`}>
         <img src={image} alt={title} className={`w-full h-full object-cover`} />

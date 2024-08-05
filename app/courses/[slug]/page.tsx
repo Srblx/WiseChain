@@ -66,6 +66,7 @@ const CategoryCoursesPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 cursor-pointer">
           {firstThreeCourses.map((course, index) => (
             <CardCourse
+              id={course.id}
               key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
@@ -81,6 +82,7 @@ const CategoryCoursesPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6">
           {remainingCourses.map((course) => (
             <CardCourse
+              id={"key"}
               key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}

@@ -1,5 +1,10 @@
+// utils
 import { prisma } from "@/utils/constante.utils";
+
+// Helpers
 import jwt from 'jsonwebtoken';
+
+// Next Libs
 import { NextResponse } from "next/server";
 
 

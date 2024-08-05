@@ -10,15 +10,16 @@ interface NavigationButtonsProps {
   claimDisabled?: boolean;
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({
+const NavigationAfterResultButtons: React.FC<NavigationButtonsProps> = ({
   onReturnToCourses,
   onClaim,
   claimDisabled = false,
 }) => (
   <div className="flex justify-around mt-10">
     <Button
+      id="back-to-courses-after-questionnary"
       onClick={onReturnToCourses}
-      className="rounded-full bg-button text-white py-4 px-10"
+      className="rounded-full bg-button text-white py-2 px-5 md:py-4 md:px-10"
     >
       Retourner aux cours
     </Button>
@@ -32,4 +33,4 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   </div>
 );
 
-export default NavigationButtons;
+export default NavigationAfterResultButtons;

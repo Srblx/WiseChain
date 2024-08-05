@@ -337,7 +337,7 @@ export const UserProfile = () => {
                   <Input
                     id="old-password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Ancien mot de passe"
+                    placeholder="Ancien" //mot de passe"
                     value={oldPassword}
                     onChange={handleInputChange('oldPassword')}
                     className={classNameInputProfile}
@@ -355,7 +355,7 @@ export const UserProfile = () => {
                   <Input
                     id="new-password"
                     type={showNewPassword ? 'text' : 'password'}
-                    placeholder="Nouveau mot de passe"
+                    placeholder="Nouveau"// mot de passe"
                     value={newPassword}
                     onChange={handleInputChange('newPassword')}
                     className={classNameInputProfile}
@@ -375,7 +375,7 @@ export const UserProfile = () => {
                   <Input
                     id="confirm-password"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirmation mot de passe"
+                    placeholder="Confirmation"// mot de passe"
                     value={confirmPassword}
                     onChange={handleInputChange('confirmPassword')}
                     className={classNameInputProfile}
@@ -414,6 +414,7 @@ export const UserProfile = () => {
         <Button
           onClick={() => setIsDialogOpen(true)}
           className="text-gray-400 underline flex items-center"
+          id="btn-edit-profile"
         >
           <MdOutlineEdit className="mr-2" size={'1.2rem'} />
           <p className="underline">Modifier mon profil</p>
@@ -421,6 +422,7 @@ export const UserProfile = () => {
         <Button
           onClick={() => setIsPasswordDialogOpen(true)}
           className="text-gray-400 underline flex items-center"
+          id='update-password'
         >
           <MdOutlineEdit className="mr-2" size={'1.2rem'} />
           <p className="underline">Modifier mon mot de passe</p>
