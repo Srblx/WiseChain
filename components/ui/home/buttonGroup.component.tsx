@@ -9,12 +9,6 @@ import React from 'react';
 // Components
 import { Button } from '../../shared/Button.components';
 
-// interface ButtonProps {
-//   content: string;
-
-//   onClick?: () => void;
-// }
-
 const ButtonGroup: React.FC = () => {
   const router = useRouter();
 

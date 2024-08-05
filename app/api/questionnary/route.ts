@@ -1,79 +1,88 @@
-// Utils
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+// pages/api/questionnary.ts
 
-// Next Libs
-import { NextResponse } from 'next/server';
-
-// HelpersÒ
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const courseId = url.searchParams.get('courseId');
+  const userId = url.searchParams.get('userId');  // Paramètre pour vérifier les résultats précédents
 
-  if (!courseId || typeof courseId !== 'string') {
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.MISSING_COURSE_ID },
-      { status: 400 }
-    );
-  }
-
-  const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-  if (!token) {
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.MISSING_TOKEN },
-      { status: 401 }
-    );
-  }
-
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-    if (typeof decodedToken === 'string' || !decodedToken.userId) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.INVALID_TOKEN },
-        { status: 401 }
-      );
+  if (courseId) {
+    if (typeof courseId !== 'string') {
+      return NextResponse.json({ error: 'Invalid courseId' }, { status: 400 });
     }
-  } catch (error) {
-    console.error(ERROR_MESSAGES.JWT_ERROR, error);
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.INVALID_TOKEN },
-      { status: 401 }
-    );
-  }
 
-  try {
-    const questionary = await prisma.questionary.findFirst({
-      where: {
-        courseId: courseId,
-      },
-      include: {
-        questions: {
-          include: {
-            answers: true,
-          },
-        },
-      },
-    });
-
-    if (!questionary) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.QUESTIONARY_NOT_FOUND },
-        { status: 404 }
-      );
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
     }
-    return NextResponse.json(questionary);
-  } catch (error) {
-    console.error(ERROR_MESSAGES.INTERNAL_ERROR, error);
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.INTERNAL_ERROR },
-      { status: 500 }
-    );
+
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+      if (typeof decodedToken === 'string' || !decodedToken.userId) {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+      }
+    } catch (error) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    try {
+      const questionnary = await prisma.questionary.findFirst({
+        where: { courseId },
+        include: { questions: { include: { answers: true } } },
+      });
+
+      if (!questionnary) {
+        return NextResponse.json({ error: 'Questionnary not found' }, { status: 404 });
+      }
+      return NextResponse.json(questionnary);
+    } catch (error) {
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
   }
+
+  if (userId) {
+    if (typeof userId !== 'string') {
+      return NextResponse.json({ error: 'Invalid userId' }, { status: 400 });
+    }
+
+    const questionaryId = url.searchParams.get('questionaryId');
+    if (!questionaryId) {
+      return NextResponse.json({ error: 'Missing questionaryId' }, { status: 400 });
+    }
+
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
+    }
+
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+      if (typeof decodedToken === 'string' || !decodedToken.userId) {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+      }
+    } catch (error) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    try {
+      const existingRecord = await prisma.realizeQuestionary.findFirst({
+        where: { user_id: userId, questionary_id: questionaryId },
+      });
+
+      return NextResponse.json({ exists: !!existingRecord });
+    } catch (error) {
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
+  }
+
+  return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
 }
 
 export async function POST(request: Request) {
@@ -82,55 +91,50 @@ export async function POST(request: Request) {
     const { score, date_of_realize_questionary, user_id, questionary_id } = data;
 
     if (typeof score !== 'number' || !date_of_realize_questionary || typeof user_id !== 'string' || typeof questionary_id !== 'string') {
-      console.error(ERROR_MESSAGES.MISSING_FIELDS, { score, date_of_realize_questionary, user_id, questionary_id });
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_FIELDS },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing fields in request' }, { status: 400 });
     }
 
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
     if (!token) {
-      console.error(ERROR_MESSAGES.MISSING_TOKEN);
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_TOKEN },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
     }
 
     let decodedToken;
     try {
       decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
       if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        console.error(ERROR_MESSAGES.INVALID_TOKEN, decodedToken);
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.INVALID_TOKEN },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
       }
     } catch (error) {
-      console.error(ERROR_MESSAGES.JWT_ERROR, error);
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.INVALID_TOKEN },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    await prisma.realizeQuestionary.create({
-      data: {
-        score,
-        date_of_realize_questionary: new Date(date_of_realize_questionary),
-        user_id,
-        questionary_id
-      },
+    const existingRecord = await prisma.realizeQuestionary.findFirst({
+      where: { user_id, questionary_id },
     });
 
-    return NextResponse.json({ message: SUCCESS_MESSAGES.RESULT_SAVED });
+    if (existingRecord) {
+      // Update if the new score is higher
+      if (score > existingRecord.score) {
+        await prisma.realizeQuestionary.update({
+          where: { id: existingRecord.id },
+          data: { score, date_of_realize_questionary: new Date(date_of_realize_questionary) },
+        });
+      }
+    } else {
+      // Create new record
+      await prisma.realizeQuestionary.create({
+        data: {
+          score,
+          date_of_realize_questionary: new Date(date_of_realize_questionary),
+          user_id,
+          questionary_id,
+        },
+      });
+    }
+
+    return NextResponse.json({ message: 'Result saved successfully' });
   } catch (error) {
-    console.error(ERROR_MESSAGES.INTERNAL_SERVER_ERROR, error);
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

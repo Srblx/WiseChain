@@ -1,7 +1,7 @@
 // Components
-import RecentArticles from '@/components/ui/home/articles.component';
-import ButtonGroup from '@/components/ui/home/buttonGroup.component';
-import CourseList from '@/components/ui/home/courses.component';
+import RecentArticles from '@/components/ui/home/Articles.component';
+import ButtonGroup from '@/components/ui/home/ButtonGroup.component';
+import CourseList from '@/components/ui/home/Courses.component';
 
 export default function Home() {
   return (

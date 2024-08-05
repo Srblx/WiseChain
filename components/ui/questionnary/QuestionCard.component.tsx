@@ -27,11 +27,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   totalQuestions,
 }) => {
   return (
-    <div>
+    <div className="bg-blueDark rounded-md shadow-sm-light p-5 md:p-10">
       <h1 className="text-center text-2xl md:text-4xl mb-8">
         {question.question}
       </h1>
-      <div className="bg-blueDark p-5 md:p-10 grid grid-cols-2 gap-4 rounded-md shadow-sm-light">
+      <div className="grid grid-cols-2 gap-4">
         {question.answers.map((answer: Answer) => (
           <Button
             key={answer.id}
@@ -60,9 +60,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             {isLastQuestion ? 'Terminer' : 'Question suivante'}
           </Button>
         </div>
-        <div className="text-center col-span-2">
-          Votre score: {score}/{totalQuestions}
-        </div>
+        {score > 0 && (
+          <div className="text-center col-span-2">
+            Votre score: {score}/{totalQuestions}
+          </div>
+        )}
       </div>
     </div>
   );

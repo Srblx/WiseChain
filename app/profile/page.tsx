@@ -5,9 +5,9 @@ import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import Modal from '@/components/shared/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
+import UserProfile from '@/components/ui/profile/CompteUser.component';
 import { DashboardUser } from '@/components/ui/profile/Dashboard.component';
 import { RecompenseUser } from '@/components/ui/profile/Recompense.component';
-import UserProfile from '@/components/ui/profile/compteUser.component';
 
 // Enums
 import Routes from '@/enums/routes.enum';

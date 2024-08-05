@@ -22,7 +22,8 @@ enum RoutesEnum {
   /* Course */
 
   /* Questionary */
-  QUESTIONARY = '/questionnary',
+  QUESTIONNARY = '/questionnary',
+  CHECK_PREVIOUS_RESULT = '/questionnary',
   /* Questionary */
 
   //? API
@@ -58,7 +59,7 @@ enum RoutesEnum {
   /* Glossary */
 
   /* Questionnary */
-  QUESTIONNARY = '/api/questionnary',
+  QUESTIONNARY_API = '/api/questionnary',
   /* Questionnary */
 }
 
