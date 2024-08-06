@@ -13,7 +13,7 @@ interface NavigationButtonsProps {
 const NavigationAfterResultButtons: React.FC<NavigationButtonsProps> = ({
   onReturnToCourses,
   onClaim,
-  claimDisabled = false,
+  claimDisabled = true,
 }) => (
   <div className="flex justify-around mt-10">
     <Button

@@ -9,7 +9,7 @@ export default function Home() {
       <div className="w-1/2 mx-auto flex flex-col items-center mb-12">
         <h1 className="text-7xl text-center font-oswald">WiseChain.</h1>
         <p className="text-end w-96 text-tertiary font-extrabold text-xl font-oswald mr-6">
-          L'invstissement pour tous !
+          L'investissement pour tous !
         </p>
       </div>
 

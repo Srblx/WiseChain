@@ -17,10 +17,13 @@ const QuizResults: React.FC<QuizResultsProps> = ({
   onClaim,
   onReturnToCourses,
 }) => {
-  const isPassed = score >= 8;
+  const isPassed = score >= 7;
 
   return (
-    <div id="congratulations" className="bg-blueDark p-5 md:p-10 rounded-md shadow-sm-light">
+    <div
+      id="congratulations"
+      className="bg-blueDark p-5 md:p-10 rounded-md shadow-sm-light"
+    >
       <div className="text-center">
         <h2 className="text-2xl md:text-4xl mb-4">
           {isPassed ? 'Félicitation! 🎉' : 'Bravo 👌'}
@@ -42,12 +45,16 @@ const QuizResults: React.FC<QuizResultsProps> = ({
         <p className="text-md md:text-lg mb-4">
           {isPassed
             ? 'Vous pouvez réclamer votre récompense maintenant.'
-            : 'Vous pouvez réclamer votre récompense lorsque vous atteignez 8/10. Retentez votre chance !'}
+            : 'Vous pouvez réclamer votre récompense lorsque vous atteignez 7/10. Retentez votre chance !'}
         </p>
         <p className="text-md md:text-lg mb-4">
           Bonne chance pour votre voyage d'apprentissage ! 👏📚
         </p>
-     <NavigationAfterResultButtons onReturnToCourses={onReturnToCourses} onClaim={onClaim} />
+        <NavigationAfterResultButtons
+          onReturnToCourses={onReturnToCourses}
+          onClaim={onClaim}
+          claimDisabled={!isPassed}
+        />
       </div>
     </div>
   );

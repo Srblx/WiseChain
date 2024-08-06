@@ -62,16 +62,25 @@ const CourseDetailPage = () => {
             setCourseRelatedCategory(relatedResponse.data.courses || []);
 
             try {
-              const questionnaryResponse = await axios.get(Routes.QUESTIONNARY_API, {
-                params: { courseId },
-                headers: { Authorization: `Bearer ${token}` },
-              });
+              const questionnaryResponse = await axios.get(
+                Routes.QUESTIONNARY_API,
+                {
+                  params: { courseId },
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
               setQuestionnaryExists(!!questionnaryResponse.data.questions);
             } catch (questionnaryError) {
-              if (axios.isAxiosError(questionnaryError) && questionnaryError.response?.status === 404) {
+              if (
+                axios.isAxiosError(questionnaryError) &&
+                questionnaryError.response?.status === 404
+              ) {
                 setQuestionnaryExists(false);
               } else {
-                console.error(ERROR_MESSAGES.ERROR_FETCHING_QUESTIONNARY, questionnaryError);
+                console.error(
+                  ERROR_MESSAGES.ERROR_FETCHING_QUESTIONNARY,
+                  questionnaryError
+                );
               }
             }
           }
@@ -108,23 +117,30 @@ const CourseDetailPage = () => {
       <div className="flex justify-center items-center">Aucun cours trouvé</div>
     );
   }
-
+  console.log(questionnaryExists);
   return (
     <div className="container mx-auto p-4">
       <CourseSummary course={course} />
       <CourseContent sequences={course.sequences} tools={tools} />
-      {questionnaryExists && (
+      {questionnaryExists ? (
         <div className="flex justify-center items-center w-full mb-6">
           <Button
             onClick={handleNavigation}
-            className="bg-secondary rounded-md py-2 px-4 text-black text-lg"
-            id='questionnary-button'
+            className="bg-secondary rounded-md py-2 px-4 text-black text-md md:text-lg"
+            id="questionnary-button"
           >
-            {token !== null 
-          ? `Tester ma compréhension du cours : ${course.main_title}`
-          : 'Connectez-vous/Inscrivez-vous pour tester votre compréhension du cours en répondant au questionnaire.'}
-      
+            Tester ma compréhension du cours : {course.main_title}
           </Button>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center w-full mb-6">
+          <p
+            className="bg-secondary rounded-md py-2 px-4 text-blueDark text-center text-sm md:text-lg "
+            id="questionnary-button"
+          >
+            Connectez-vous/Inscrivez-vous pour tester votre compréhension du
+            cours en répondant au questionnaire.
+          </p>
         </div>
       )}
       {!isLoading && course && (

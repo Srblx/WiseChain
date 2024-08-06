@@ -26,11 +26,11 @@ const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
 
   return (
     <>
-      <div className="dropdown sm:hidden">
+      <div className="dropdown md:hidden">
         <div
           tabIndex={0}
           role="button"
-          className="btn m-1 text-black rounded-lg border-2 border-black px-8 bg-white"
+          className="btn m-1 text-black rounded-lg border-2 border-black px-8 bg-white hover:bg-button"
         >
           Menu
         </div>
@@ -45,7 +45,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
           ))}
         </ul>
       </div>
-      <ul className="hidden sm:flex space-x-4 text-text justify-center items-center">
+      <ul className="hidden md:flex space-x-4 text-text justify-center items-center">
         {menuItems.map(({ label, href }) => (
           <li key={label}>
             <a onClick={() => handleNavigation(label, href)}>
