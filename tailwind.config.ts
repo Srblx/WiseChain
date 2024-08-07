@@ -22,13 +22,15 @@ const config = {
       boxShadow: {
         'xs-light': '0px 0px 10px 1px rgba(255,255,255,0.1)',
         'sm-light': '0px 0px 10px 1px rgba(255,255,255,0.35)',
-        'light': '0px 0px 10px 2px rgba(255,255,255,0.15)',
+        light: '1px 1px 15px 2px rgba(255,255,255,0.35)',
       },
-      // swap text
-       transitionTimingFunction: {
-        slow: "cubic-bezier(.405, 0, .025, 1)",
-        "minor-spring": "cubic-bezier(0.18,0.89,0.82,1.04)",
-     },
+      fontSize: {
+        'tab-label': '1.25rem',
+      },
+      transitionTimingFunction: {
+        slow: 'cubic-bezier(.405, 0, .025, 1)',
+        'minor-spring': 'cubic-bezier(0.18,0.89,0.82,1.04)',
+      },
       colors: {
         background: '#0E0B1B', //'#202127',
         primary: '#122636',
@@ -41,7 +43,7 @@ const config = {
         blueLight: '#00ACAC',
         backgroundTransparent: '#9bc3d87b',
         text: '#FFFFFF',
-        foreground: "hsl(var(--foreground))",
+        foreground: 'hsl(var(--foreground))',
       },
     },
   },

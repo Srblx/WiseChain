@@ -10,6 +10,7 @@ import { DashboardUser } from '@/components/ui/profile/Dashboard.component';
 import { RecompenseUser } from '@/components/ui/profile/Recompense.component';
 
 // Enums
+import Roles from '@/enums/roles.enum';
 import Routes from '@/enums/routes.enum';
 
 // Hooks
@@ -29,7 +30,7 @@ const Profile = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
   const [showConfirm, toggleConfirm] = useState(false);
   const [isModalOpen, toggleModal] = useState(false);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -67,6 +68,10 @@ const Profile = () => {
     toggleConfirm(false);
   };
 
+  const handleNavigateBackoffice = () => {
+    router.push(Routes.BACKOFFICE);
+  };
+
   return (
     <div className="flex flex-col p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
       <div className="flex flex-col lg:flex-row justify-between items-center w-full">
@@ -76,7 +81,7 @@ const Profile = () => {
         <div className="flex space-x-2 mt-4 lg:mt-0">
           <Button
             id="btn-logout"
-            className="bg-red-600 px-3 rounded-lg"
+            className="bg-red-600 p-3 rounded-lg"
             onClick={() =>
               (
                 document.getElementById('logout-account') as HTMLDialogElement
@@ -85,7 +90,9 @@ const Profile = () => {
           >
             Se Déconnecter
           </Button>
-          <Button onClick={() => console.log('click')}>Backoffice</Button>
+          {user?.roles === Roles.ADMIN && user?.is_verified === true && (
+            <Button onClick={handleNavigateBackoffice}>Backoffice</Button>
+          )}
         </div>
       </div>
       <div className="divider"></div>

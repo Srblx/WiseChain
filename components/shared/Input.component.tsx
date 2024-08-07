@@ -4,7 +4,7 @@ import React from 'react';
 // Interfaces
 import { InputProfileProps } from '@/interfaces/auth/input.interface';
 
-const InputProfile: React.FC<InputProfileProps> = ({
+const InputShared: React.FC<InputProfileProps> = ({
   type,
   placeholder,
   value,
@@ -14,20 +14,25 @@ const InputProfile: React.FC<InputProfileProps> = ({
   onClick,
   disabled,
   children,
+  max,
 }) => {
+  const inputValue = typeof value === 'boolean' ? value.toString() : value;
+
   return (
-    <div className="relative w-[25dvh]">
+    <div className="relative">
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
-        value={value}
+        value={inputValue}
         onChange={onChange}
         className={className}
         disabled={disabled}
+        max={max}
       />
       {children}
     </div>
   );
 };
 
-export default InputProfile;
+export default InputShared;

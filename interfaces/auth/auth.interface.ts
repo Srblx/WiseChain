@@ -41,6 +41,7 @@ export interface User {
   country: string;
   date_of_birth: string;
   is_verified: boolean;
+  is_revoice: boolean;
   created_at: string;
 }
 
@@ -50,4 +51,16 @@ export interface UserInfo {
   pseudo: string;
   country: string;
   birthOfDate: string;
+}
+
+export interface UserFormData {
+  firstname: string;
+  lastname: string;
+  pseudo: string;
+  mail: string;
+  password: string;
+  country: string;
+  birthOfDate: string;
+  isVerified: boolean;
+  roles: string;
 }

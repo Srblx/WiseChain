@@ -43,6 +43,7 @@ export const ERROR_MESSAGES = {
   ERROR_FETCHING_GLOSSARY: 'Error fetching glossary',
   ERROR_FETCHING_ARTICLE: 'Error fetching article',
   ERROR_FETCHING_QUESTIONNARY: 'Erreur fetching questions:',
+  ERROR_FETCHING_USER: 'Erreur fetching users:',
 
   // Not found errors
   NOT_PARAMS_FOUND: 'Param not found',
@@ -57,6 +58,12 @@ export const ERROR_MESSAGES = {
   MISSING_FIELDS: 'Missing or invalid fields',
   MISSING_TOKEN: 'Token manquant',
   ALL_FIELDS_REQUIRED: 'Tous les champs sont requis',
+  MISSING_USER_ID: "L'ID de l'utilisateur est manquant",
+  DELETE_USER_ERROR: "Erreur lors de la suppression de l'utilisateur",
+
+  // Add errors
+  ADD_USER_ERROR: 'Erreur lors de la création de l\'utilisateur',
+  USER_ALREADY_EXISTS: 'L\'utilisateur existe déjà',
 
   // Other errors
   GENERATE_TOKEN: 'Error generating reset token:',
@@ -80,6 +87,7 @@ export const SUCCESS_MESSAGES = {
   DELETE_ACCOUNT: 'Compte supprimé avec succès',
   MAIL_SEND: 'Email de vérification envoyé',
   RESULT_SAVED: 'Results saved successfully',
+  USER_SUCCESSFULLY_DELETE: 'Utilisateur supprimé avec succès',
 };
 
 export const ERROR_MESSAGES_YUP = {

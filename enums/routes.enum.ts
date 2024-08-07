@@ -8,6 +8,7 @@ enum RoutesEnum {
   PROFILE = '/profile',
   GLOSSARY = '/glossary',
   MARKET = '/market',
+  BACKOFFICE = '/profile/backoffice',
 
   /* Course */
   ALL_COURSES_INVESTMENT = '/courses/Investment',
@@ -61,6 +62,10 @@ enum RoutesEnum {
   /* Questionnary */
   QUESTIONNARY_API = '/api/questionnary',
   /* Questionnary */
+
+  /* Backoffice */
+  CRUD_USERS = '/api/backoffice/users',
+  /* Backoffice */
 }
 
 // FUNCTIONS PAGES WITH URL DYNAMIQUE

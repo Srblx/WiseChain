@@ -117,7 +117,7 @@ const CourseDetailPage = () => {
       <div className="flex justify-center items-center">Aucun cours trouvé</div>
     );
   }
-  console.log(questionnaryExists);
+
   return (
     <div className="container mx-auto p-4">
       <CourseSummary course={course} />
@@ -126,20 +126,23 @@ const CourseDetailPage = () => {
         <div className="flex justify-center items-center w-full mb-6">
           <Button
             onClick={handleNavigation}
-            className="bg-secondary rounded-md py-2 px-4 text-black text-md md:text-lg"
+            className="bg-button shadow-light rounded-md py-2 px-4 text-md md:text-lg"
             id="questionnary-button"
           >
-            Tester ma compréhension du cours : {course.main_title}
+            {token === null
+              ? ' Connectez-vous/Inscrivez-vous pour répondre au questionnaire.'
+              : 'Répondre au questionnaire pour tester ma compréhension du cours'}
           </Button>
         </div>
       ) : (
         <div className="flex justify-center items-center w-full mb-6">
           <p
-            className="bg-secondary rounded-md py-2 px-4 text-blueDark text-center text-sm md:text-lg "
+            className="bg-button shadow-light rounded-md py-2 px-4 text-center text-sm md:text-lg "
             id="questionnary-button"
           >
-            Connectez-vous/Inscrivez-vous pour tester votre compréhension du
-            cours en répondant au questionnaire.
+            {token === null
+              ? ' Connectez-vous/Inscrivez-vous pour répondre au questionnaire.'
+              : "Aucun questionnaire n'est disponible pour le cours."}
           </p>
         </div>
       )}

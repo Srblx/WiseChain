@@ -3,7 +3,6 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
-import Input from '@/components/shared/Input.component';
 import Label from '@/components/shared/Label.component';
 import {
   Dialog,
@@ -46,6 +45,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 // Icons
+import InputShared from '@/components/shared/Input.component';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -284,7 +284,7 @@ export const UserProfile = () => {
                               ? 'Date de naissance'
                               : 'Pays'}
                     </Label>
-                    <Input
+                    <InputShared
                       id={field}
                       value={userInfo[field as UserInfoKeys]}
                       onChange={handleInputChange(field as UserInfoKeys)}
@@ -334,7 +334,7 @@ export const UserProfile = () => {
               <div className="space-y-4 py-4">
                 <div className="relative">
                   <Label htmlFor="old-password">Ancien mot de passe</Label>
-                  <Input
+                  <InputShared
                     id="old-password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Ancien" //mot de passe"
@@ -348,11 +348,11 @@ export const UserProfile = () => {
                     >
                       {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
                 <div className="relative">
                   <Label htmlFor="new-password">Nouveau mot de passe</Label>
-                  <Input
+                  <InputShared
                     id="new-password"
                     type={showNewPassword ? 'text' : 'password'}
                     placeholder="Nouveau"// mot de passe"
@@ -366,13 +366,13 @@ export const UserProfile = () => {
                     >
                       {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
                 <div className="relative">
                   <Label htmlFor="confirm-password">
                     Confirmation du mot de passe
                   </Label>
-                  <Input
+                  <InputShared
                     id="confirm-password"
                     type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="Confirmation"// mot de passe"
@@ -386,7 +386,7 @@ export const UserProfile = () => {
                     >
                       {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
               </div>
               <DialogFooter>
