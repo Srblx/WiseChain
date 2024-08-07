@@ -9,7 +9,7 @@ import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-// Next libs add .
+// Next libs
 import { NextResponse } from 'next/server';
 
 const verifyToken = (request: Request) => {
