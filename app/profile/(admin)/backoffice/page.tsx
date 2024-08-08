@@ -30,6 +30,7 @@ import { useCallback, useEffect, useState } from 'react';
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import ConfirmDeleteUserModal from '@/components/ui/backoffice/modal/ConfirmDeleteModal.component';
 import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
 
 type TabType =
   | TypeTab.USER
@@ -49,6 +50,7 @@ const BackofficePage = () => {
   const [isModalOpenForAddUser, setIsModalOpenForAddUser] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [userToEdit, setUserToEdit] = useState<User | null>(null);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -82,18 +84,43 @@ const BackofficePage = () => {
   }, [isAuthorized, fetchUsers]);
 
   const handleTabChange = (tab: TabType) => setActiveTab(tab);
-  const handleOpenModalForAddUser = () => setIsModalOpenForAddUser(true);
+  const handleOpenModalForAddUser = () => {
+    setUserToEdit(null);
+    setIsModalOpenForAddUser(true);
+  };
+
+  const handleOpenModalForEditUser = (user: User) => {
+    setUserToEdit(user);
+    setIsModalOpenForAddUser(true);
+  };
   const handleCloseModalForAddUser = () => setIsModalOpenForAddUser(false);
 
-  const handleAddUser = async (newUser: any) => {
+  const handleAddOrEditUser = async (newUser: any) => {
     try {
-      const response = await axios.post(Routes.CRUD_USERS, newUser, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.status === 201) {
-        setUsers((prevUsers) => [...prevUsers, response.data]);
-        handleCloseModalForAddUser();
+      if (userToEdit) {
+        const response = await axios.put(
+          `${Routes.CRUD_USERS}/${userToEdit.id}`,
+          newUser,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (response.status === 200) {
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === userToEdit.id ? response.data : user
+            )
+          );
+          handleCloseModalForAddUser();
+        }
+      } else {
+        const response = await axios.post(Routes.CRUD_USERS, newUser, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.status === 201) {
+          setUsers((prevUsers) => [...prevUsers, response.data]);
+          handleCloseModalForAddUser();
+        }
       }
     } catch (error) {
       console.error(
@@ -187,6 +214,7 @@ const BackofficePage = () => {
                     key={user.id}
                     user={user}
                     index={index}
+                    onEdit={() => handleOpenModalForEditUser(user)}
                     onDelete={() => handleOpenDeleteModal(user)}
                   />
                 ))}
@@ -198,14 +226,27 @@ const BackofficePage = () => {
       <ModalUser
         isOpen={isModalOpenForAddUser}
         onClose={handleCloseModalForAddUser}
-        onSubmit={handleAddUser}
+        onSubmit={handleAddOrEditUser}
+        userToEdit={userToEdit}
       />
       <ConfirmDeleteUserModal
         isOpen={isDeleteModalOpen}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
-        firstname={userToDelete?.firstname || '' }
+        firstname={userToDelete?.firstname || ''}
         lastname={userToDelete?.lastname || ''}
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
     </>
   );

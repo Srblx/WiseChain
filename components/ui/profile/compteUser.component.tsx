@@ -61,7 +61,7 @@ type UserInfoKeys =
   | 'lastname'
   | 'pseudo'
   | 'country'
-  | 'birthOfDate';
+  | 'dateOfBirth';
 
 export const UserProfile = () => {
   const [editInfoUser, setEditInfoUser] = useState(false);
@@ -70,7 +70,7 @@ export const UserProfile = () => {
     lastname: '',
     pseudo: '',
     country: '',
-    birthOfDate: '',
+    dateOfBirth: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -98,7 +98,7 @@ export const UserProfile = () => {
         lastname: user.lastname,
         pseudo: user.pseudo,
         country: user.country,
-        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+        dateOfBirth: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
       });
       setEmail(user.mail);
       setRole(user.roles);
@@ -147,7 +147,7 @@ export const UserProfile = () => {
         lastname: user.lastname,
         pseudo: user.pseudo,
         country: user.country,
-        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+        dateOfBirth: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
       });
     }
     setOldPassword('***********');
@@ -247,7 +247,7 @@ export const UserProfile = () => {
             <p className={classNameLabel}>Pseudo: {userInfo.pseudo}</p>
             {/* <p className={classNameLabel}>Roles: {role}</p> */}
             <p className={classNameLabel}>
-              Anniversaire le {userInfo.birthOfDate}
+              Anniversaire le {userInfo.dateOfBirth}
             </p>
           </div>
 
@@ -266,7 +266,7 @@ export const UserProfile = () => {
                   'firstname',
                   'lastname',
                   'pseudo',
-                  'birthOfDate',
+                  'dateOfBirth',
                   'country',
                 ].map((field) => (
                   <div
@@ -280,7 +280,7 @@ export const UserProfile = () => {
                           ? 'Nom'
                           : field === 'pseudo'
                             ? 'Pseudo'
-                            : field === 'birthOfDate'
+                            : field === 'dateOfBirth'
                               ? 'Date de naissance'
                               : 'Pays'}
                     </Label>
@@ -288,9 +288,9 @@ export const UserProfile = () => {
                       id={field}
                       value={userInfo[field as UserInfoKeys]}
                       onChange={handleInputChange(field as UserInfoKeys)}
-                      className={`col-span-3 p-2 ${field === 'birthOfDate' || field === 'country' ? 'bg-gray-950 text-white' : 'bg-white text-gray-950'}`}
+                      className={`col-span-3 p-2 ${field === 'dateOfBirth' || field === 'country' ? 'bg-gray-950 text-white' : 'bg-white text-gray-950'}`}
                       placeholder={field}
-                      disabled={field === 'birthOfDate' || field === 'country'}
+                      disabled={field === 'dateOfBirth' || field === 'country'}
                     />
                   </div>
                 ))}
@@ -355,7 +355,7 @@ export const UserProfile = () => {
                   <InputShared
                     id="new-password"
                     type={showNewPassword ? 'text' : 'password'}
-                    placeholder="Nouveau"// mot de passe"
+                    placeholder="Nouveau" // mot de passe"
                     value={newPassword}
                     onChange={handleInputChange('newPassword')}
                     className={classNameInputProfile}
@@ -375,7 +375,7 @@ export const UserProfile = () => {
                   <InputShared
                     id="confirm-password"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirmation"// mot de passe"
+                    placeholder="Confirmation" // mot de passe"
                     value={confirmPassword}
                     onChange={handleInputChange('confirmPassword')}
                     className={classNameInputProfile}
@@ -422,7 +422,7 @@ export const UserProfile = () => {
         <Button
           onClick={() => setIsPasswordDialogOpen(true)}
           className="text-gray-400 underline flex items-center"
-          id='update-password'
+          id="update-password"
         >
           <MdOutlineEdit className="mr-2" size={'1.2rem'} />
           <p className="underline">Modifier mon mot de passe</p>

@@ -10,6 +10,7 @@ interface PasswordInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
   toggleVisibility: () => void;
+  disabled?: boolean;
 }
 
 const PasswordInput = ({
@@ -17,6 +18,7 @@ const PasswordInput = ({
   onChange,
   showPassword,
   toggleVisibility,
+  disabled,
 }: PasswordInputProps) => (
   <div className="relative">
     <InputShared
@@ -26,6 +28,7 @@ const PasswordInput = ({
       onChange={onChange}
       placeholder="Mot de passe"
       className="input input-bordered w-full mb-2"
+      disabled
     />
     <Button
       onClick={toggleVisibility}

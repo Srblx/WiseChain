@@ -7,7 +7,7 @@ import { IoMdMail } from 'react-icons/io';
 
 // Components
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import Input from '@/components/shared/auth/input.component';
 import { inputClassName } from './FormSignup.component';
 
 // API

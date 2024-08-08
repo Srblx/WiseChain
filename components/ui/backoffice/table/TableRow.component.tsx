@@ -9,9 +9,10 @@ interface UserTableRowProps {
   user: User;
   index: number;
   onDelete: (userId: string) => void;
+  onEdit: (userId: string) => void;
 }
 
-const UserTableRow = ({ user, index, onDelete }: UserTableRowProps) => (
+const UserTableRow = ({ user, index, onDelete, onEdit }: UserTableRowProps) => (
   <tr key={user.id} className="text-center">
     <th>{index + 1}</th>
     <td>{`${user.firstname} ${user.lastname}`}</td>
@@ -25,7 +26,11 @@ const UserTableRow = ({ user, index, onDelete }: UserTableRowProps) => (
     <td>{user.roles}</td>
     <td>
       <div className="flex items-center space-x-4 justify-center">
-        <BiEditAlt color="blue" size={'1.3rem'} />
+        <BiEditAlt
+          color="blue"
+          size={'1.3rem'}
+          onClick={() => onEdit(user.id)}
+        />
         <MdDelete
           color="red"
           size={'1.2rem'}

@@ -52,7 +52,7 @@ export const ERROR_MESSAGES = {
   NOT_CATEGORY_FOUND: 'Category not found',
   ARTICLE_NOT_FOUND: 'Article not found',
   QUESTIONARY_NOT_FOUND: 'Questionary not found',
-  
+
   // Missing fields
   MISSING_COURSE_ID: 'Missing course id',
   MISSING_FIELDS: 'Missing or invalid fields',
@@ -60,10 +60,15 @@ export const ERROR_MESSAGES = {
   ALL_FIELDS_REQUIRED: 'Tous les champs sont requis',
   MISSING_USER_ID: "L'ID de l'utilisateur est manquant",
   DELETE_USER_ERROR: "Erreur lors de la suppression de l'utilisateur",
+  ERROR_FORM_IS_INVALID: 'Erreur lors de la validation du formulaire',
 
   // Add errors
-  ADD_USER_ERROR: 'Erreur lors de la création de l\'utilisateur',
-  USER_ALREADY_EXISTS: 'L\'utilisateur existe déjà',
+  ADD_USER_ERROR: "Erreur lors de la création de l'utilisateur",
+  USER_ALREADY_EXISTS: "L'utilisateur existe déjà",
+
+  // Update errors
+  GENERAL_ERROR: 'Erreur générale',
+  UPDATE_USER_ERROR: "Erreur lors de la mise à jour de l'utilisateur",
 
   // Other errors
   GENERATE_TOKEN: 'Error generating reset token:',
@@ -88,6 +93,8 @@ export const SUCCESS_MESSAGES = {
   MAIL_SEND: 'Email de vérification envoyé',
   RESULT_SAVED: 'Results saved successfully',
   USER_SUCCESSFULLY_DELETE: 'Utilisateur supprimé avec succès',
+  ADD_USER: 'Utilisateur ajouté avec succès',
+  USER_UPDATED: 'Utilisateur mis à jour avec succès',
 };
 
 export const ERROR_MESSAGES_YUP = {

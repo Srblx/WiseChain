@@ -50,7 +50,7 @@ export interface UserInfo {
   lastname: string;
   pseudo: string;
   country: string;
-  birthOfDate: string;
+  dateOfBirth: string;
 }
 
 export interface UserFormData {
@@ -60,7 +60,7 @@ export interface UserFormData {
   mail: string;
   password: string;
   country: string;
-  birthOfDate: string;
+  dateOfBirth: string;
   isVerified: boolean;
   roles: string;
 }

@@ -12,7 +12,7 @@ import jwt from 'jsonwebtoken';
 // Next libs
 import { NextResponse } from 'next/server';
 
-const verifyToken = (request: Request) => {
+export const verifyToken = (request: Request) => {
   const token = request.headers.get('Authorization')?.split(' ')[1];
 
   if (!token) {
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       mail,
       password,
       country,
-      birthOfDate,
+      dateOfBirth,
       roles,
       profile_img,
       isVerified,
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
         mail: normalizedMail,
         password: hashedPassword,
         country: country || 'france',
-        date_of_birth: new Date(birthOfDate),
+        date_of_birth: new Date(dateOfBirth),
         roles: roles || Roles.USER,
         profile_img,
         is_verified: isVerified || false,
