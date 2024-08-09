@@ -1,5 +1,5 @@
 // Helpers
-import setupLocatorUI from "@locator/runtime";
+import setupLocatorUI from '@locator/runtime';
 
 // Libs Next
 import type { Metadata } from 'next';
@@ -10,7 +10,7 @@ import Footer from '@/components/ui/footer/Footer.component';
 import Navbar from '@/components/ui/nav/Navbar.component';
 
 // CSS Module
-import { UserProvider } from "@/context/user.context";
+import { UserProvider } from '@/context/user.context';
 import '@/style/globals.css';
 import { Toaster } from 'sonner';
 
@@ -25,29 +25,30 @@ export const metadata: Metadata = {
   description: 'Learning blockchain and investment with WiseChain. Xiss',
 };
 
-
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   setupLocatorUI();
 }
 
 export default function RootLayout({
   children,
+  showFooter = true,
 }: Readonly<{
   children: React.ReactNode;
-  
+  showFooter?: boolean;
 }>) {
-  {/* <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"></link> */}
+  {
+    /* <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"></link> */
+  }
   return (
-    <html lang='fr' className='bg-background'>
+    <html lang="fr" className="bg-background">
       <body className={`${inter.className} `}>
-
         <Toaster richColors closeButton />
         <UserProvider>
           <Navbar />
-          <main className='xs:mx-8 sm:mx-20 md:mx-24 lg:mx-32 mt-4'>
+          <main className="xs:mx-8 sm:mx-20 md:mx-24 lg:mx-32 mt-4">
             {children}
           </main>
-          <Footer />
+          {/* {showFooter &&  */}<Footer />{/* } */}
         </UserProvider>
       </body>
     </html>

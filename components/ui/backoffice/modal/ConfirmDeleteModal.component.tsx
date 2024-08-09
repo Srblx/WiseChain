@@ -1,20 +1,26 @@
-// React libs
+'use client';
+
+import TypeTab from '@/enums/typesTab.enum';
 import React, { useEffect, useRef } from 'react';
 
-interface ConfirmDeleteUserModalProps {
+interface ConfirmDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
+  title?: string;
+  itemType?: TypeTab;
 }
 
-const ConfirmDeleteUserModal: React.FC<ConfirmDeleteUserModalProps> = ({
+const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
   firstname,
   lastname,
+  title,
+  itemType,
 }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -26,6 +32,27 @@ const ConfirmDeleteUserModal: React.FC<ConfirmDeleteUserModalProps> = ({
     }
   }, [isOpen]);
 
+  // const getItemDescription = () => {
+  //   switch (itemType) {
+  //     case TypeTab.USER:
+  //       return `l'utilisateur ${firstname} ${lastname}`;
+  //     case TypeTab.COURS:
+  //       return `le cours "${title}"`;
+  //     case TypeTab.ARTICLES:
+  //       return `l'article "${title}"`;
+  //     case TypeTab.SEQUENCE:
+  //       return `la séquence "${title}"`;
+  //     case TypeTab.OUTILS:
+  //       return `l'outil "${title}"`;
+  //     case TypeTab.QUESTIONNAIRE:
+  //       return `le questionnaire "${title}"`;
+  //     case TypeTab.GLOSSAIRE:
+  //       return `la définition "${title}"`;
+  //     default:
+  //       return 'cet élément';
+  //   }
+  // };
+
   return (
     <dialog
       id="confirm_delete_modal"
@@ -35,8 +62,7 @@ const ConfirmDeleteUserModal: React.FC<ConfirmDeleteUserModalProps> = ({
       <div className="modal-box">
         <h3 className="font-bold text-lg">Confirmer la suppression</h3>
         <p className="py-4">
-          Êtes-vous sûr de vouloir supprimer l'utilisateur {firstname}{' '}
-          {lastname} ?
+          Êtes-vous sûr de vouloir supprimer l'utilisateur {firstname}{' '}{lastname}{/* {getItemDescription()} ? */}
         </p>
         <div className="modal-action">
           <form method="dialog">
@@ -53,4 +79,4 @@ const ConfirmDeleteUserModal: React.FC<ConfirmDeleteUserModalProps> = ({
   );
 };
 
-export default ConfirmDeleteUserModal;
+export default ConfirmDeleteModal;

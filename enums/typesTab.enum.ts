@@ -1,10 +1,11 @@
 enum TypeTab {
-  USER = 'user',
-  COURS = 'cours',
-  OUTILS = 'outils',
-  QUESTIONNAIRE = 'questionnaire',
-  ARTICLES = 'articles',
-  GLOSSAIRE = 'glossaire',
+  USER = 'Utilisateur',
+  COURS = 'Cours',
+  SEQUENCE = "Séquence",
+  OUTILS = 'Outils',
+  QUESTIONNAIRE = 'Questionnaire',
+  ARTICLES = 'Articles',
+  GLOSSAIRE = 'Glossaire',
 }
 
 export default TypeTab;

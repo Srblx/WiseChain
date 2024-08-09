@@ -10,6 +10,8 @@ export interface Course {
     name: string;
   };
   tools: Tool[];
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
 export interface Sequence {

@@ -28,7 +28,7 @@ const PasswordInput = ({
       onChange={onChange}
       placeholder="Mot de passe"
       className="input input-bordered w-full mb-2"
-      disabled
+      disabled={disabled}
     />
     <Button
       onClick={toggleVisibility}

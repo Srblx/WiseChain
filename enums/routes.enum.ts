@@ -65,6 +65,7 @@ enum RoutesEnum {
 
   /* Backoffice */
   CRUD_USERS = '/api/backoffice/users',
+  CRUD_COURSE = '/api/backoffice/courses',
   /* Backoffice */
 }
 

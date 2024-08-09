@@ -1,11 +1,9 @@
-'use client';
-
 // Components
 import InputShared from '@/components/shared/Input.component';
-import VerifiedCheckbox from './inputForm/Checkbox.component';
-import CountrySelect from './inputForm/CountrySelect.component';
-import PasswordInput from './inputForm/PasswordInput.component';
-import RoleSelect from './inputForm/RolesSelect.component';
+import VerifiedCheckbox from '../inputForm/Checkbox.component';
+import CountrySelect from '../inputForm/CountrySelect.component';
+import PasswordInput from '../inputForm/PasswordInput.component';
+import RoleSelect from '../inputForm/RolesSelect.component';
 
 // Hooks
 import { useUserForm } from '@/hooks/useForm.hook';
@@ -15,14 +13,13 @@ import { User, UserFormData } from '@/interfaces/auth/auth.interface';
 
 // Utils
 import { useNewPasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
-
-// React libs
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 // Validators
 import { UserFormSchemaBackoffice } from '@/validators/form.validator';
+
+// React Libs
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 // Helpers
 import * as Yup from 'yup';
@@ -30,7 +27,7 @@ import * as Yup from 'yup';
 interface ModalUserProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (user: any) => void;
+  onSubmit: (user: any, resetForm: () => void) => void;
   userToEdit?: User | null;
 }
 
@@ -92,8 +89,8 @@ const ModalUser: React.FC<ModalUserProps> = ({
         date_of_birth: new Date(formData.dateOfBirth).toISOString(),
         is_verified: formData.isVerified,
       };
-      await onSubmit(userData);
-      toast.success(SUCCESS_MESSAGES.USER_UPDATED);
+      await onSubmit(userData, resetForm);
+      toast.success('Utilisateur ajouté avec succès');
       onClose();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -101,7 +98,7 @@ const ModalUser: React.FC<ModalUserProps> = ({
           toast.error(err.message);
         });
       } else {
-        toast.error(ERROR_MESSAGES.GENERAL_ERROR);
+        toast.error('Une erreur est survenue');
       }
     } finally {
       setIsSubmitting(false);
@@ -122,7 +119,11 @@ const ModalUser: React.FC<ModalUserProps> = ({
                 name={field}
                 value={formData[field as keyof UserFormData]}
                 onChange={handleInputChange}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                placeholder={
+                  field === 'firstname' ? 'Prénom' :
+                  field === 'lastname' ? 'Nom' :
+                  field.charAt(0).toUpperCase() + field.slice(1)
+                }
                 className="input input-bordered w-full"
               />
               {errors[field] && (

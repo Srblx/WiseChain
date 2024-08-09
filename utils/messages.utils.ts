@@ -29,6 +29,7 @@ export const ERROR_MESSAGES = {
     "Erreur lors de la vérification de l'email veuillez contacter le support",
   ERROR_DELETE_ACCOUNT: 'Erreur lors de la suppression du compte',
   FAILED_DELETE_ACCOUNT: 'Échec de la suppression du compte',
+  DELETE_COURSE_ERROR: 'Erreur lors de la suppression du cours',
 
   // Server and connection errors
   INTERNAL_SERVER_ERROR: 'Erreur interne du serveur',
@@ -69,6 +70,10 @@ export const ERROR_MESSAGES = {
   // Update errors
   GENERAL_ERROR: 'Erreur générale',
   UPDATE_USER_ERROR: "Erreur lors de la mise à jour de l'utilisateur",
+  ERROR_UPDATE_COURSE: 'Error updating course',
+
+  // Delete errors
+  ERROR_DELETING_COURSE: 'Error deleting course',
 
   // Other errors
   GENERATE_TOKEN: 'Error generating reset token:',

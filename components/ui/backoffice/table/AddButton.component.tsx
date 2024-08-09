@@ -7,9 +7,11 @@ interface AddButtonProps {
 }
 
 const AddButton = ({ onClick, text }: AddButtonProps) => (
-  <Button className="bg-button rounded-md p-3" onClick={onClick}>
+  <div className='flex justify-end items-center'>
+  <Button className="bg-button rounded-md p-3 mb-3 shadow-sm-light" onClick={onClick}>
     {text}
   </Button>
+  </div>
 );
 
 export default AddButton;

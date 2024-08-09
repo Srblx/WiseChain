@@ -1,9 +1,9 @@
 // Interfaces
 import { User } from '@/interfaces/auth/auth.interface';
 
-// React Icons
-import { BiEditAlt } from 'react-icons/bi';
-import { MdDelete } from 'react-icons/md';
+// Components
+import EditDeleteButton from '@/components/shared/EditDeleteButton.component';
+
 
 interface UserTableRowProps {
   user: User;
@@ -25,18 +25,11 @@ const UserTableRow = ({ user, index, onDelete, onEdit }: UserTableRowProps) => (
     <td>{user.is_revoice ? 'Oui' : 'Non'}</td>
     <td>{user.roles}</td>
     <td>
-      <div className="flex items-center space-x-4 justify-center">
-        <BiEditAlt
-          color="blue"
-          size={'1.3rem'}
-          onClick={() => onEdit(user.id)}
-        />
-        <MdDelete
-          color="red"
-          size={'1.2rem'}
-          onClick={() => onDelete(user.id)}
-        />
-      </div>
+      <EditDeleteButton
+        id={user.id}
+        onEdit={() => onEdit(user.id)}
+        onDelete={() => onDelete(user.id)}
+      />
     </td>
   </tr>
 );
