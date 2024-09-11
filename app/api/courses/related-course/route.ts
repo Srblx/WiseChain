@@ -36,7 +36,7 @@ export async function GET(request: Request) {
         { status: 404 }
       );
     }
-
+console.log('course', course);
     const relatedCourses = await prisma.course.findMany({
       where: {
         category_id: course.category_id,
@@ -47,6 +47,7 @@ export async function GET(request: Request) {
       select: {
         id: true,
         main_title: true,
+        // mainTitle: true,
         img: true,
         description: true,
         created_at: true,
@@ -58,7 +59,7 @@ export async function GET(request: Request) {
         },
       },
     });
-
+console.log('relatedCourses', relatedCourses);
     if (relatedCourses.length === 0) {
       return NextResponse.json({ message: ERROR_MESSAGES }, { status: 200 });
     }
@@ -68,7 +69,7 @@ export async function GET(request: Request) {
       sequences: course.sequences.length,
       category_name: course.category.name,
     }));
-
+console.log('formattedCourses', formattedCourses);
     return NextResponse.json({
       courses: formattedCourses,
       category_name: course.category.name,

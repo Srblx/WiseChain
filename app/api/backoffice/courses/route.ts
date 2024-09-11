@@ -1,75 +1,126 @@
-import { prisma } from "@/utils/constante.utils";
-import { ERROR_MESSAGES } from "@/utils/messages.utils";
-import { NextResponse } from "next/server";
-import { verifyToken } from "../users/route";
+// Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
+import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES } from '@/utils/messages.utils';
 
-export async function GET(request: Request) {
-    try {
-        const tokenResult = verifyToken(request);
-        if ('error' in tokenResult) {
-            return NextResponse.json(
-              { error: tokenResult.error },
-              { status: tokenResult.status }
-            );
-          }
-      
-     const course = await prisma.course.findMany({
-        include: {
-          sequences: true,
-          category: {
-            select: {
-              name: true,
-            },
+// Next Libs
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  try {
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
+    }
+
+    const courses = await prisma.course.findMany({
+      include: {
+        sequences: true,
+        category: {
+          select: {
+            name: true,
           },
         },
-        // take: 5,
-        orderBy: {
-          created_at: 'asc',
-        },
-      });
+      },
+      orderBy: {
+        created_at: 'asc',
+      },
+    });
 
-      return NextResponse.json({ course });
-    } catch (error) {
-      console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    const formattedCourses = courses.map((course) => ({
+      ...course,
+      mainTitle: course.main_title,
+    }));
+
+    return NextResponse.json({ course: formattedCourses });
+  } catch (error) {
+    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
+    }
+
+    const data = await request.json();
+    console.log('Données reçues:', data);
+    const {
+      mainTitle = data.main_title,
+      description,
+      img,
+      content,
+      category = data.category_id,
+      difficulty,
+      sequences,
+      tools,
+    } = data;
+
+    console.log('Validation des champs 123:', { mainTitle, content, category });
+    if (!mainTitle || !content || !category) {
+      console.log('Champs manquants:', { mainTitle, content, category });
       return NextResponse.json(
-        { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
-        { status: 500 }
+        { error: 'Le titre, le contenu, et la catégorie sont requis.' },
+        { status: 400 }
       );
     }
-  }
 
-  export async function DELETE(request: Request) {
-    try {
-        const tokenResult = verifyToken(request);
-        if ('error' in tokenResult) {
-            return NextResponse.json(
-              { error: tokenResult.error },
-              { status: tokenResult.status }
-            );
-        }
+    const newCourse = await prisma.course.create({
+      data: {
+        main_title: mainTitle,
+        description,
+        img,
+        content,
+        category: {
+          connect: { id: category },
+        },
+        difficulty,
+      },
+    });
+    console.log('newcours', newCourse);
 
-        const { searchParams } = new URL(request.url);
-        const courseId = searchParams.get('id');
-
-        if (!courseId) {
-            return NextResponse.json(
-              { error: ERROR_MESSAGES.MISSING_COURSE_ID },
-              { status: 400 }
-            );
-        }
-
-        const deletedCourse = await prisma.course.delete({
-            where: {
-                id: courseId,
-            },
-        });
-
-        return NextResponse.json({ deletedCourse });
-    } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_DELETING_COURSE, error);
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.ERROR_DELETING_COURSE },
-          { status: 500 }
-        );
+    if (sequences && sequences.length > 0) {
+      await prisma.sequence.createMany({
+        data: sequences.map(
+          (sequence: {
+            index: number;
+            title: string;
+            content: string;
+            img?: string;
+          }) => ({
+            index: sequence.index,
+            title: sequence.title,
+            containt: sequence.content,
+            img: sequence.img,
+            course_id: newCourse.id,
+          })
+        ),
+      });
     }
+
+    if (tools && tools.length > 0) {
+      await prisma.toolCourse.createMany({
+        data: tools.map((toolId: string) => ({
+          tool_id: toolId,
+          course_id: newCourse.id,
+        })),
+      });
+    }
+
+    return NextResponse.json({ course: newCourse }, { status: 201 });
+  } catch (error) {
+    console.error(ERROR_MESSAGES.ADD_COURSE_ERROR, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.ADD_COURSE_ERROR },
+      { status: 500 }
+    );
+  }
 }

@@ -14,7 +14,7 @@ import { ERROR_MESSAGES } from '@/utils/messages.utils';
 // Components
 import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
 import Button from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import Input from '@/components/shared/auth/input.component';
 
 // Libs React
 import { FormEvent, useEffect, useReducer, useState } from 'react';

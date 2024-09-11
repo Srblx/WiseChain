@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 
 // Components
 import Button from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import Input from '@/components/shared/auth/input.component';
 
 // Icons
 import { FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';

@@ -1,5 +1,5 @@
 // Components
-import InputShared from '@/components/shared/Input.component';
+import InputShared from '@/components/shared/InputShared.component';
 import VerifiedCheckbox from '../inputForm/Checkbox.component';
 import CountrySelect from '../inputForm/CountrySelect.component';
 import PasswordInput from '../inputForm/PasswordInput.component';

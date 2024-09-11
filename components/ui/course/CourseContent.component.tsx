@@ -10,12 +10,11 @@ import Image from 'next/image';
 interface CourseContentProps {
   sequences: Sequence[];
   tools: Tool[];
-  // contenuHTML: Sequence[];
 }
 
 const containsHTML = (str: string) => /<[a-z][\s\S]*>/i.test(str);
 
-const CourseContent: React.FC<CourseContentProps> = ({ sequences, tools/* , contenuHTML  */}) => {
+const CourseContent: React.FC<CourseContentProps> = ({ sequences, tools }) => {
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     id: string

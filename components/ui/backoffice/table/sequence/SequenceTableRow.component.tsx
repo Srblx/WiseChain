@@ -18,7 +18,7 @@ const SequenceCourseTableRow = ({
   }: SequenceCourseTableRowProps) => (
     <tr key={sequence.id} className="text-center">
         <th>{index + 1}</th>
-        <td>{course.main_title}</td>
+        <td>{course.mainTitle}</td>
         <td>{sequence.index}</td>
         <td>{sequence.title}</td>
         <td>{sequence.containt}</td>

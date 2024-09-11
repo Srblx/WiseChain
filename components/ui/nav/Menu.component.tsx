@@ -11,7 +11,6 @@ import { MenuItemType } from '@/interfaces/navItems.interface';
 
 const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
   const router = useRouter();
-  // const [category, setCategory] = useState('');
 
   const handleNavigation = useCallback(
     (label: string, href: string) => {

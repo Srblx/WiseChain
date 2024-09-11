@@ -1,16 +1,16 @@
 --? Return all course without sequences
-SELECT c.id, c.main_title
+SELECT c.id, c.mainTitle
 FROM Course c
 LEFT JOIN Sequence s ON c.id = s.course_id
 WHERE s.id IS NULL;
 
 --? Return all courses with your sequences
-SELECT c.id AS course_id, c.main_title, c.description, s.id 
+SELECT c.id AS course_id, c.mainTitle, c.description, s.id 
 AS sequence_id, s.index, s.title 
 AS sequence_title, s.containt 
 FROM Course c 
 INNER JOIN Sequence s ON c.id = s.course_id 
-ORDER BY c.main_title, s.index;
+ORDER BY c.mainTitle, s.index;
 
 --& Drop course by id 
 DELETE FROM Sequence 

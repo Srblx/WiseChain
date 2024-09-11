@@ -1,6 +1,6 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
-import InputShared from '@/components/shared/Input.component';
+import InputShared from '@/components/shared/InputShared.component';
 
 // React libs
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';

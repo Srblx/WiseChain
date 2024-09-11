@@ -1,10 +1,15 @@
 # [À faire]
 
-Faire un composant pour les boutons outils 
+Corrige le beug ajouter update des cours 
+Continuer le crud integrale 
+pb d'afficha du back office
+refresh backoffice -> home a corriger 
 
-Faire une nouvelle table sequence articles pour affiche de la meilleur maniere visuel les articles 
+minio implementé a mettre en place + transfere img et modifier bdd 
+changement de la pfp 
+changmenet image log 
 
-voir animation dev slack 
+
 
 # [Dependancies]
 

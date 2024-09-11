@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import Input from '@/components/shared/auth/input.component';
 import { inputClassName } from './FormSignup.component';
 
 // Icons

@@ -56,7 +56,7 @@ CREATE TABLE `Questionary` (
 -- CreateTable
 CREATE TABLE `Course` (
     `id` VARCHAR(191) NOT NULL,
-    `main_title` VARCHAR(191) NOT NULL,
+    `mainTitle` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `content` TEXT NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

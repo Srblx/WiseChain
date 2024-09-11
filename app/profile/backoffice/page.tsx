@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/shared/Button.components';
 // Components
 import CourseTable from '@/components/ui/backoffice/table/CourseTable.component';
 import UserTable from '@/components/ui/backoffice/table/UserTable.component';
@@ -45,52 +46,34 @@ const BackofficePage = () => {
     <>
       {activeTable === 'users' && <UserTable token={token!} />}
       {activeTable === 'courses' && <CourseTable token={token!} />}
-      {/* Ajoutez d'autres tableaux ici selon vos besoins */}
-      {/* Exemple: {activeTable === 'sequences' && <SequenceTable token={token!} />} */}
+      {/* Ajoutez d'autres tableaux selon les besoins */}
 
       <div className="btm-nav">
-        <button
-          className={`bg-blue-700 text-black ${activeTable === 'users' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('users')}
-        >
-          <span className="btm-nav-label">Utilisateur</span>
-        </button>
-        <button
-          className={`bg-blue-600 text-black ${activeTable === 'courses' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('courses')}
-        >
-          <span className="btm-nav-label">Cours</span>
-        </button>
-        <button
-          className={`bg-blue-500 text-black ${activeTable === 'sequences' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('sequences')}
-        >
-          <span className="btm-nav-label">Séquences</span>
-        </button>
-        <button
-          className={`bg-blue-400 text-black ${activeTable === 'tools' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('tools')}
-        >
-          <span className="btm-nav-label">Outils</span>
-        </button>
-        <button
-          className={`bg-blue-300 text-black ${activeTable === 'questionnaires' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('questionnaires')}
-        >
-          <span className="btm-nav-label">Questionnaire</span>
-        </button>
-        <button
-          className={`bg-blue-200 text-black ${activeTable === 'articles' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('articles')}
-        >
-          <span className="btm-nav-label">Articles</span>
-        </button>
-        <button
-          className={`bg-blue-100 text-black ${activeTable === 'anotherSequences' ? `${classNameButtonActive}` : ''}`}
-          onClick={() => setActiveTable('anotherSequences')}
-        >
-          <span className="btm-nav-label">Séquences</span>
-        </button>
+        {[
+          { table: 'users', label: 'Utilisateur', bgColor: 'bg-blue-700' },
+          { table: 'courses', label: 'Cours', bgColor: 'bg-blue-600' },
+          { table: 'sequences', label: 'Séquences Cours', bgColor: 'bg-blue-500' },
+          { table: 'tools', label: 'Outils', bgColor: 'bg-blue-400' },
+          {
+            table: 'questionnaires',
+            label: 'Questionnaire',
+            bgColor: 'bg-blue-300',
+          },
+          { table: 'articles', label: 'Articles', bgColor: 'bg-blue-200' },
+          {
+            table: 'articlesSequences',
+            label: 'Séquences Articles',
+            bgColor: 'bg-blue-100',
+          },
+        ].map(({ table, label, bgColor }) => (
+          <Button
+            key={table}
+            className={`${bgColor} text-black ${activeTable === table ? classNameButtonActive : ''}`}
+            onClick={() => setActiveTable(table)}
+          >
+            <span className="btm-nav-label">{label}</span>
+          </Button>
+        ))}
       </div>
     </>
   );

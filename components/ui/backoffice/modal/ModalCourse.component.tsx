@@ -1,47 +1,124 @@
+import { Button } from '@/components/shared/Button.components';
+import InputShared from '@/components/shared/InputShared.component';
 import Routes from '@/enums/routes.enum';
 import { Course } from '@/interfaces/course.interface';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-interface EditCourseModalProps {
-  course: Course;
+interface ModalCourseProps {
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (updatedCourse: Course) => void;
+  onSubmit: (updatedCourse: Course, resetForm: () => void) => void;
+  courseToEdit?: Course | null;
   token: string;
 }
 
-const EditCourseModal: React.FC<EditCourseModalProps> = ({
-  course,
+interface Category {
+  id: string;
+  name: string;
+}
+
+const ModalCourse: FC<ModalCourseProps> = ({
   isOpen,
   onClose,
-  onUpdate,
+  onSubmit,
+  courseToEdit,
   token,
 }) => {
-  const [mainTitle, setMainTitle] = useState(course.main_title);
-  const [description, setDescription] = useState(course.description);
-  const [content, setContent] = useState(course.content);
-  const [img, setImg] = useState(course.img);
-  const [category, setCategory] = useState(course.category);
-  const [difficulty, setDifficulty] = useState(course.difficulty);
+  const [formData, setFormData] = useState({
+    mainTitle: '',
+    description: '',
+    content: '',
+    img: '',
+    category: '',
+    difficulty: '',
+  });
 
-  const handleSubmit = async () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const difficulties = ['Facile', 'Technique', 'Complexe'];
+
+  useEffect(() => {
+    if (courseToEdit) {
+      setFormData({
+        mainTitle: courseToEdit.mainTitle || '',
+        description: courseToEdit.description || '',
+        content: courseToEdit.content || '',
+        img: courseToEdit.img || '',
+        category: courseToEdit.category.name || '',
+        difficulty: courseToEdit.difficulty || '',
+      });
+    } else {
+      resetForm();
+    }
+  }, [courseToEdit]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/api/backoffice/categories', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des catégories', error);
+      }
+    };
+
+    fetchCategories();
+  }, [token]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      mainTitle: '',
+      description: '',
+      content: '',
+      img: '',
+      category: '',
+      difficulty: '',
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
     try {
-      const response = await axios.put(
-        `${Routes.CRUD_COURSE}/${course.id}`,
-        {
-          main_title: mainTitle,
-          description,
-          content,
-          img,
-          category,
-          difficulty,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        onUpdate(response.data.updateCourse);
+      let response;
+      if (courseToEdit) {
+        response = await axios.put(
+          `${Routes.CRUD_COURSE}/${courseToEdit.id}`,
+          formData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        toast.success('Cours mis à jour avec succès');
+      } else {
+        console.log('Données à envoyer:', formData);
+        response = await axios.post(Routes.CRUD_COURSE, formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        toast.success('Cours ajouté avec succès');
+      }
+
+      if (response.status === 200 || response.status === 201) {
+        onSubmit(
+          response.data.course || response.data.updatedCourse,
+          resetForm
+        );
         onClose();
       }
     } catch (error) {
@@ -51,81 +128,117 @@ const EditCourseModal: React.FC<EditCourseModalProps> = ({
           ? error.response?.data?.error || error.message
           : error
       );
+      toast.error('Une erreur est survenue lors de la soumission du cours');
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
+console.log('formData', formData);
   return (
-    <div>
-      <input
-        type="checkbox"
-        id="my_modal_6"
-        className="modal-toggle"
-        checked={isOpen}
-        readOnly
-      />
-      <div className="modal" role="dialog">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold">Modifier le cours</h3>
-          <div className="py-4">
+    <dialog
+      id="edit_course_modal"
+      className={`modal ${isOpen ? 'modal-open' : ''}`}
+    >
+      <div className="modal-box w-11/12 max-w-5xl">
+        <h3 className="font-bold text-2xl mb-4 text-center">
+          {courseToEdit ? 'Modifier le cours' : 'Ajouter un cours'}
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-2">
             <label className="label">Titre principal</label>
-            <input
+            <InputShared
               type="text"
+              name="mainTitle"
               className="input input-bordered w-full"
-              value={mainTitle}
-              onChange={(e) => setMainTitle(e.target.value)}
+              value={formData.mainTitle}
+              onChange={handleInputChange}
+              placeholder={'Titre'}
             />
-
+          </div>
+          <div className="mb-2">
             <label className="label">Description</label>
             <textarea
+              name="description"
               className="textarea textarea-bordered w-full"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={formData.description}
+              onChange={handleInputChange}
             ></textarea>
-
+          </div>
+          <div className="mb-2">
             <label className="label">Contenu</label>
             <textarea
+              name="content"
               className="textarea textarea-bordered w-full"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={formData.content}
+              onChange={handleInputChange}
             ></textarea>
-
+          </div>
+          <div className="mb-2">
             <label className="label">Image</label>
-            <input
+            <InputShared
               type="text"
+              name="img"
               className="input input-bordered w-full"
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
+              value={formData.img}
+              onChange={handleInputChange}
+              placeholder={'Image du cours'}
             />
-
+          </div>
+          <div className="mb-2">
             <label className="label">Catégorie</label>
-            {/* <input
-              type="text"
-              className="input input-bordered w-full"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            /> */}
-
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="select select-bordered w-full mb-2"
+            >
+              <option value="" disabled>
+                Sélectionnez une catégorie
+              </option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-2">
             <label className="label">Difficulté</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-            />
+            <select
+              name="difficulty"
+              value={formData.difficulty}
+              onChange={handleInputChange}
+              className="select select-bordered w-full mb-2"
+            >
+              <option value="" disabled>
+                Sélectionnez une difficulté
+              </option>
+              {difficulties.map((difficulty, index) => (
+                <option key={index} value={difficulty}>
+                  {difficulty}
+                </option>
+              ))}
+            </select>
           </div>
-
+          
           <div className="modal-action">
-            <button className="btn" onClick={handleSubmit}>
-              Sauvegarder
+            <button
+              type="submit"
+              className="btn bg-button text-white hover:bg-black"
+            >
+              {courseToEdit ? 'Sauvegarder' : 'Ajouter'}
             </button>
-            <label htmlFor="my_modal_6" className="btn" onClick={onClose}>
-              Fermer
-            </label>
+            <Button
+              className="btn hover:bg-black"
+              onClick={onClose}
+            >
+              Annuler
+            </Button>
           </div>
-        </div>
+        </form>
       </div>
-    </div>
+    </dialog>
   );
 };
 
-export default EditCourseModal;
+export default ModalCourse;

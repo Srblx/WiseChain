@@ -14,6 +14,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 // Lib Next
+import { getPresignedUrl } from '@/utils/minio.utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 function validateLoginData(data: LoginData): boolean {
@@ -96,7 +97,8 @@ export async function GET(request: NextRequest) {
     const decoded = jwt.verify(token, JWT_SECRET!) as { userId: string };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-    });
+    })
+    .then(async (user) => ({ ...user, profile_img: await getPresignedUrl(user?.profile_img ?? '') }));
 
     if (!user) {
       return NextResponse.json(

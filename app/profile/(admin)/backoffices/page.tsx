@@ -30,7 +30,7 @@ export type TabType =
 const BackofficePage = () => {
   const router = useRouter();
   const { user, token } = useAuth();
-  const [isLoading, setIsLoading] = useState(false); // Set loading state initially to false
+  const [isLoading, setIsLoading] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -233,11 +233,6 @@ const BackofficePage = () => {
     [TypeTab.GLOSSAIRE]: 'Ajouter une définition',
   };
 
-//   const handleOpenModalForEditCourse = (course: Course) => {
-//     setCourseToEdit(course);
-//     setIsModalOpenForEditCourse(true);
-// };
-
 const handleCloseModalForEditCourse = () => {
     setIsModalOpenForEditCourse(false);
 };
@@ -293,7 +288,7 @@ const handleUpdateCourse = (updatedCourse: Course) => {
       />
       {courseToEdit && (
                 <EditCourseModal
-                    course={courseToEdit}
+                    courseToEdit={courseToEdit}
                     isOpen={isModalOpenForEditCourse}
                     onClose={handleCloseModalForEditCourse}
                     onUpdate={handleUpdateCourse}
@@ -316,8 +311,8 @@ const handleUpdateCourse = (updatedCourse: Course) => {
             : ''
         }
         title={
-          itemToDelete && 'main_title' in itemToDelete
-            ? itemToDelete?.main_title
+          itemToDelete && 'mainTitle' in itemToDelete
+            ? itemToDelete?.mainTitle
             : ''
         }
       />

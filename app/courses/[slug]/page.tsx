@@ -71,7 +71,7 @@ const CategoryCoursesPage = () => {
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
               sequence={`${course.sequences.length} min de lecture`}
-              title={course.main_title}
+              title={course.mainTitle}
               className={index === 0 ? 'lg:row-span-2' : ''}
               isMainCard={index === 0}
               isLarge={index > 0}
@@ -87,7 +87,7 @@ const CategoryCoursesPage = () => {
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
               sequence={`${course.sequences.length} min de lecture`}
-              title={course.main_title}
+              title={course.mainTitle}
               isLarge={true}
               onClick={() => router.push(`/courses/detail-course/${course.id}`)}
             />

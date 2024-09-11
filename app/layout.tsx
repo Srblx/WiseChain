@@ -14,6 +14,9 @@ import { UserProvider } from '@/context/user.context';
 import '@/style/globals.css';
 import { Toaster } from 'sonner';
 
+// Initialize MinIO
+import './init-minio';
+
 const inter = Inter({
   subsets: ['latin'],
   weight: '400',
@@ -36,9 +39,6 @@ export default function RootLayout({
   children: React.ReactNode;
   showFooter?: boolean;
 }>) {
-  {
-    /* <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"></link> */
-  }
   return (
     <html lang="fr" className="bg-background">
       <body className={`${inter.className} `}>
@@ -48,7 +48,9 @@ export default function RootLayout({
           <main className="xs:mx-8 sm:mx-20 md:mx-24 lg:mx-32 mt-4">
             {children}
           </main>
-          {/* {showFooter &&  */}<Footer />{/* } */}
+          {/* {showFooter &&  */}
+          <Footer />
+          {/* } */}
         </UserProvider>
       </body>
     </html>

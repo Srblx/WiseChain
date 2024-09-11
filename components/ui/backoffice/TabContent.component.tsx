@@ -1,11 +1,15 @@
-// components/ui/backoffice/TabContent.component.jsx
-
+// Helpers
 import { TabType } from '@/app/profile/(admin)/backoffices/page';
+
+// Components
 import CourseTableHeader from '@/components/ui/backoffice/table/courses/CourseTableHeader.component';
 import CourseTableRow from '@/components/ui/backoffice/table/courses/CourseTableRow.component';
-import UserTableHeader from '@/components/ui/backoffice/table/users/UserTableHeader.component';
 import UserTableRow from '@/components/ui/backoffice/table/users/UserTableRow.component';
+
+// Enums
 import TypeTab from '@/enums/typesTab.enum';
+
+// Interfaces
 import { User } from '@/interfaces/auth/auth.interface';
 import { Course } from '@/interfaces/course.interface';
 

@@ -140,7 +140,7 @@ const UserTable: FC<UserTableProps> = ({ token }) => {
         onClick={handleOpenModalForAddUser}
         text={'Ajouter un utilisateur'}
       />
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto  h-[730px]">
         <table className="table table-sm table-pin-rows table-pin-cols bg-gray-600">
           <UserTableHeaderFooter>
             {users.map((user, index) => (

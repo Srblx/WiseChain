@@ -1,35 +1,26 @@
 // Helpers
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
 
 // Next Libs
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const tokenResult = verifyAndDecodeToken(request);
+
+  if (tokenResult instanceof NextResponse) {
+    return tokenResult;
+  }
+
   const url = new URL(request.url);
   const courseId = url.searchParams.get('courseId');
-  const userId = url.searchParams.get('userId');  // Paramètre pour vérifier les résultats précédents
+  const userId = url.searchParams.get('userId');
 
   if (courseId) {
     if (typeof courseId !== 'string') {
       return NextResponse.json({ error: 'Invalid courseId' }, { status: 400 });
-    }
-
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
-    }
-
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-      }
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
     try {
@@ -57,21 +48,6 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Missing questionaryId' }, { status: 400 });
     }
 
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
-    }
-
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-      }
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-    }
-
     try {
       const existingRecord = await prisma.realizeQuestionary.findFirst({
         where: { user_id: userId, questionary_id: questionaryId },
@@ -86,7 +62,13 @@ export async function GET(request: Request) {
   return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const tokenResult = verifyAndDecodeToken(request);
+
+  if (tokenResult instanceof NextResponse) {
+    return tokenResult;
+  }
+
   try {
     const data = await request.json();
     const { score, date_of_realize_questionary, user_id, questionary_id } = data;
@@ -95,27 +77,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing fields in request' }, { status: 400 });
     }
 
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Missing token' }, { status: 401 });
-    }
-
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-      }
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-    }
-
     const existingRecord = await prisma.realizeQuestionary.findFirst({
       where: { user_id, questionary_id },
     });
 
     if (existingRecord) {
-      // Update if the new score is higher
       if (score > existingRecord.score) {
         await prisma.realizeQuestionary.update({
           where: { id: existingRecord.id },
@@ -123,7 +89,6 @@ export async function POST(request: Request) {
         });
       }
     } else {
-      // Create new record
       await prisma.realizeQuestionary.create({
         data: {
           score,

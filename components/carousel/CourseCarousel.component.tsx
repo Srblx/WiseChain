@@ -30,14 +30,14 @@ const CourseCarousel: React.FC<CourseCarouselProps> = ({ courses, title }) => {
               >
                 <Image
                   src={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
-                  alt={course.main_title}
+                  alt={course.mainTitle}
                   layout="fill"
                   objectFit="cover"
                   className="rounded-box"
                   sizes="(min-width: 720px) 50vw, 100vw"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-blueDark bg-opacity-80 text-white p-2 rounded-bl-box rounded-br-box">
-                  <h3 className="text-xs md:text-sm">{course.main_title}</h3>
+                  <h3 className="text-xs md:text-sm">{course.mainTitle}</h3>
                 </div>
               </div>
             </div>

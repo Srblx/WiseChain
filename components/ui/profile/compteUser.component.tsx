@@ -45,7 +45,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 // Icons
-import InputShared from '@/components/shared/Input.component';
+import InputShared from '@/components/shared/InputShared.component';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { MdOutlineEdit } from 'react-icons/md';

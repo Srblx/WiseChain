@@ -24,7 +24,7 @@ export const DashboardUser = () => {
           <div className="carousel carousel-center bg-neutral rounded-box w-full space-x-4 p-4">
             <div className="carousel-item">
               <Image
-                src="/img/1.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -33,7 +33,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/2.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -42,7 +42,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/3.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -51,7 +51,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/4.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -60,7 +60,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/5.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -69,7 +69,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/6.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}
@@ -78,7 +78,7 @@ export const DashboardUser = () => {
             </div>
             <div className="carousel-item">
               <Image
-                src="/img/7.png"
+                src="/img/noDB/gve9im25kh2t40muo7dy.png"
                 className="rounded-box"
                 alt={''}
                 width={WIDTH_IMAGE}

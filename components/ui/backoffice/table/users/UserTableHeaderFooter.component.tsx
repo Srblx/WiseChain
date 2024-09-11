@@ -1,11 +1,11 @@
 // React Libs
-import React from 'react';
+import { FC, ReactNode } from 'react';
 
-interface UserTableHeaderProps {
-  children: React.ReactNode;
+interface UserTableHeaderFooterProps {
+  children: ReactNode;
 }
 
-const UserTableHeaderFooter: React.FC<UserTableHeaderProps> = ({ children }) => (
+const UserTableHeaderFooter: FC<UserTableHeaderFooterProps> = ({ children }) => (
   <>
     <thead>
       <tr className="text-lg text-center z-0">
@@ -13,6 +13,7 @@ const UserTableHeaderFooter: React.FC<UserTableHeaderProps> = ({ children }) => 
         <th>Nom et Prénom</th>
         <th>Pseudo</th>
         <th>Email</th>
+        <th>Pdp</th>
         <th>Pays</th>
         <th>Date d'anniversaire</th>
         <th>Photo de profil</th>
@@ -29,6 +30,7 @@ const UserTableHeaderFooter: React.FC<UserTableHeaderProps> = ({ children }) => 
         <th>Nom et Prénom</th>
         <th>Pseudo</th>
         <th>Email</th>
+        <th>Pdp</th>
         <th>Pays</th>
         <th>Date d'anniversaire</th>
         <th>Photo de profil</th>

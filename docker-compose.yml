@@ -1,25 +1,39 @@
-services: 
-  mysql: 
+services:
+  mysql:
     image: mysql:latest
-    container_name: mysql_database_wisechain
-    environment: 
+    # container_name: mysql_database_wisechain
+    environment:
       MYSQL_ROOT_PASSWORD: Motdepasse123@
-    ports: 
-      - "3306:3306"
+    ports:
+      - '3306:3306'
     volumes:
       - database:/var/lib/mysql
     restart: always
-  
+
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin_wisechain
+    # container_name: phpmyadmin_wisechain
     ports:
-      - "9090:80"
+      - '9090:80'
     links:
       - mysql:db
     restart: always
 
-volumes: 
+  s3:
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: pwadmin
+      MINIO_ROOT_PASSWORD: pwadmin0
+    ports:
+      - 9000:9000
+      - 8900:8900
+    volumes:
+      - minio:/data/minio
+    command: 'minio server /data/minio --console-address ":8900"'
+
+volumes:
   database:
     external: true
     name: mysql_data
+  minio:
+    driver: local

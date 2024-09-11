@@ -1,23 +1,23 @@
 // Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
-import { verifyToken } from '../route';
 
 // Helpers
 import bcrypt from 'bcrypt';
 
 // Next libs
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
-    const tokenResult = verifyToken(request);
-    if ('error' in tokenResult) {
-      return NextResponse.json(
-        { error: tokenResult.error },
-        { status: tokenResult.status }
-      );
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
     }
+
+    const authenticatedUserId = tokenResult.userId;
 
     const url = new URL(request.url);
     const userId = url.pathname.split('/').pop();

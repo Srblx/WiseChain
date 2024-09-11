@@ -3,6 +3,7 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
+import MinioImage from '@/components/shared/ImgMinio.component';
 import Modal from '@/components/shared/Modal.component';
 import ModalContent from '@/components/ui/auth/ModalContent.component';
 import UserProfile from '@/components/ui/profile/CompteUser.component';
@@ -15,13 +16,13 @@ import Routes from '@/enums/routes.enum';
 
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
+import ApiAxios from '@/utils/interceptorAxios.utils';
 
 // Libs Next
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // libs React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const classNameLink = 'cursor-pointer hover:text-tertiary';
 
@@ -30,7 +31,15 @@ const Profile = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
   const [showConfirm, toggleConfirm] = useState(false);
   const [isModalOpen, toggleModal] = useState(false);
-  const { logout, user } = useAuth();
+  const { logout, user, setUser } = useAuth();
+  const [profileImage, setProfileImage] = useState('/img/noDB/pfp.png');
+  const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    if (user?.profile_img) {
+      setProfileImage(user.profile_img);
+    }
+  }, [user]);
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -40,7 +49,6 @@ const Profile = () => {
         return <UserProfile />;
       case 'recompense':
         return <RecompenseUser />;
-
       default:
         return null;
     }
@@ -52,10 +60,6 @@ const Profile = () => {
 
   const handleModalSuccess = () => {
     toggleModal(false);
-  };
-
-  const confirmLogout = () => {
-    toggleConfirm(true);
   };
 
   const handleLogout = () => {
@@ -70,6 +74,49 @@ const Profile = () => {
 
   const handleNavigateBackoffice = () => {
     router.push(Routes.BACKOFFICE);
+  };
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const token = localStorage.getItem('token');
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('filename', file.name);
+    formData.append('mimetype', file.type);
+
+    try {
+      const response = await ApiAxios.post(
+        '/api/user-profile/update-user-data/add-pfp',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const imageKey = response.data.imageKey;
+        
+        setProfileImage(imageKey);
+        if (user) {
+          setUser({ ...user, profile_img: imageKey });
+        }
+      } else {
+        console.error("Erreur lors du téléchargement de l'image");
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -98,14 +145,29 @@ const Profile = () => {
       <div className="divider"></div>
       <div className="flex flex-col lg:flex-row w-full flex-grow">
         <div className="flex flex-col items-center lg:items-start lg:w-1/3">
-          <Image
-            src="/img/pfp.png"
-            alt="logo"
-            width={150}
-            height={100}
+          <MinioImage
+            imageKey={user?.profile_img || profileImage}
+            alt="Profile"
+            width={200}
+            height={150}
             className="blur-sm hover:blur-none duration-300 transition-all"
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: 'none' }}
+            id="profile-image-upload"
+          />
           <ul className="space-y-4 mt-5">
+            <Button
+              onClick={() =>
+                document.getElementById('profile-image-upload')?.click()
+              }
+              disabled={isUploading}
+            >
+              <p className='text-sm'>{isUploading ? 'Chargement...' : 'Changer la photo de profil'}</p>
+            </Button>
             <li>
               <a
                 onClick={() => setActiveComponent('dashboard')}

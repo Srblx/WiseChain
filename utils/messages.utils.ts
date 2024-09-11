@@ -45,6 +45,7 @@ export const ERROR_MESSAGES = {
   ERROR_FETCHING_ARTICLE: 'Error fetching article',
   ERROR_FETCHING_QUESTIONNARY: 'Erreur fetching questions:',
   ERROR_FETCHING_USER: 'Erreur fetching users:',
+  ERROR_FETCHING_CATEGORY: 'Error fetching category',
 
   // Not found errors
   NOT_PARAMS_FOUND: 'Param not found',
@@ -66,6 +67,7 @@ export const ERROR_MESSAGES = {
   // Add errors
   ADD_USER_ERROR: "Erreur lors de la création de l'utilisateur",
   USER_ALREADY_EXISTS: "L'utilisateur existe déjà",
+  ADD_COURSE_ERROR: 'Error adding course',
 
   // Update errors
   GENERAL_ERROR: 'Erreur générale',
@@ -100,6 +102,7 @@ export const SUCCESS_MESSAGES = {
   USER_SUCCESSFULLY_DELETE: 'Utilisateur supprimé avec succès',
   ADD_USER: 'Utilisateur ajouté avec succès',
   USER_UPDATED: 'Utilisateur mis à jour avec succès',
+  COURSE_UPDATED: 'Cours mis à jour avec succès',
 };
 
 export const ERROR_MESSAGES_YUP = {

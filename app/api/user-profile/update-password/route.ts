@@ -1,43 +1,25 @@
 // Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 // Lib Next
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
-  const { oldPassword, newPassword, confirmPassword } = await request.json();
-
+export async function POST(request: NextRequest) {
   try {
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.TOKEN_REQUIRED },
-        { status: 401 }
-      );
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
     }
 
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.INVALID_TOKEN },
-          { status: 401 }
-        );
-      }
-    } catch (error) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.INVALID_TOKEN },
-        { status: 401 }
-      );
-    }
+    const userId = tokenResult.userId;
 
-    const userId = decodedToken.userId;
+    const { oldPassword, newPassword, confirmPassword } = await request.json();
 
     const user = await prisma.user.findUnique({
       where: {

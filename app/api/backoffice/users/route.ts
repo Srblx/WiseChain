@@ -2,39 +2,22 @@
 import Roles from '@/enums/roles.enum';
 
 // Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 // Next libs
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const verifyToken = (request: Request) => {
-  const token = request.headers.get('Authorization')?.split(' ')[1];
-
-  if (!token) {
-    return { error: ERROR_MESSAGES.MISSING_TOKEN, status: 401 };
-  }
-
+export async function GET(request: NextRequest) {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    return { decoded };
-  } catch (error) {
-    return { error: ERROR_MESSAGES.INVALID_TOKEN, status: 403 };
-  }
-};
+    const tokenResult = verifyAndDecodeToken(request);
 
-export async function GET(request: Request) {
-  try {
-    const tokenResult = verifyToken(request);
-    if ('error' in tokenResult) {
-      return NextResponse.json(
-        { error: tokenResult.error },
-        { status: tokenResult.status }
-      );
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
     }
 
     const users = await prisma.user.findMany({});
@@ -64,14 +47,12 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const tokenResult = verifyToken(request);
-    if ('error' in tokenResult) {
-      return NextResponse.json(
-        { error: tokenResult.error },
-        { status: tokenResult.status }
-      );
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
     }
 
     const body = await request.json();
@@ -134,14 +115,12 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
-    const tokenResult = verifyToken(request);
-    if ('error' in tokenResult) {
-      return NextResponse.json(
-        { error: tokenResult.error },
-        { status: tokenResult.status }
-      );
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
     }
 
     const url = new URL(request.url);
