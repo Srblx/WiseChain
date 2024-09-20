@@ -1,14 +1,12 @@
 // Utils 
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
+import { prisma } from '@/utils/constante.utils';
 import { uploadFiles } from '@/utils/minio.utils';
 
 // Helpers
-import { PrismaClient } from '@prisma/client';
 
 // Lib Next
 import { NextRequest, NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {

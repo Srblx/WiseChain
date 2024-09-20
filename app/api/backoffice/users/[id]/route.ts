@@ -37,10 +37,11 @@ export async function PUT(request: NextRequest) {
       mail,
       password,
       country,
-      dateOfBirth,
+      date_of_birth,
       roles,
       profile_img,
-      isVerified,
+      is_verified,
+      is_revoice,
     } = body;
 
     const existingUser = await prisma.user.findUnique({
@@ -62,23 +63,26 @@ export async function PUT(request: NextRequest) {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
-        firstname,
-        lastname,
+        firstname: firstname || existingUser.firstname,
+        lastname: lastname || existingUser.lastname,
         pseudo: pseudo ? pseudo.trim().toLowerCase() : existingUser.pseudo,
         mail: mail ? mail.trim().toLowerCase() : existingUser.mail,
         password: hashedPassword,
         country: country || existingUser.country,
-        date_of_birth: dateOfBirth
-          ? new Date(dateOfBirth)
+        date_of_birth: date_of_birth
+          ? new Date(date_of_birth)
           : existingUser.date_of_birth,
         roles: roles || existingUser.roles,
         profile_img: profile_img || existingUser.profile_img,
         is_verified:
-          isVerified !== undefined ? isVerified : existingUser.is_verified,
+          is_verified !== undefined ? is_verified : existingUser.is_verified,
+        is_revoice:
+          is_revoice !== undefined ? is_revoice : existingUser.is_revoice,
       },
     });
 
     const { password: _, ...userWithoutPassword } = updatedUser;
+
     return NextResponse.json(userWithoutPassword, { status: 200 });
   } catch (error) {
     console.error(ERROR_MESSAGES.UPDATE_USER_ERROR, error);

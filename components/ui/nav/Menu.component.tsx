@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { memo, useCallback } from 'react';
 
 // Interfaces
+import Routes from '@/enums/routes.enum';
 import { MenuItemType } from '@/interfaces/navItems.interface';
 
 const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
@@ -17,7 +18,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
       if (label === 'Actualité' || label === 'Glossaire' || label === 'Marché') {
         router.push(href);
       } else {
-        router.push(`/courses/${label}`);
+        router.push(Routes.COURSE + `/${label}`);
       }
     },
     [router]

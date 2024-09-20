@@ -11,6 +11,7 @@ enum RoutesEnum {
   BACKOFFICE = '/profile/backoffice',
 
   /* Course */
+  COURSE = '/courses',
   ALL_COURSES_INVESTMENT = '/courses/Investment',
   ALL_COURSES_BLOCKCHAIN = '/courses/Blockchain',
   ALL_COURSES_CRYPTO = '/courses/Crypto-Monnaie',
@@ -66,6 +67,9 @@ enum RoutesEnum {
   /* Backoffice */
   CRUD_USERS = '/api/backoffice/users',
   CRUD_COURSE = '/api/backoffice/courses',
+  CRUD_GLOSSARY = '/api/backoffice/glossary',
+  CRUD_QUESTIONARY = '/api/backoffice/questionnary',
+  CRUD_SEQUENCE_COURSE = '/api/backoffice/courses/sequence',
   GET_CATEGORY = '/api/backoffice/categories',
   /* Backoffice */
 }

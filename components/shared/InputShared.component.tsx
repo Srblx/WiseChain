@@ -26,7 +26,7 @@ const InputShared: React.FC<InputProfileProps> = ({
         placeholder={placeholder}
         value={inputValue}
         onChange={onChange}
-        className={className}
+        className={`input w-full input-bordered rounded-lg mb-2 ${className}`}
         disabled={disabled}
         max={max}
       />

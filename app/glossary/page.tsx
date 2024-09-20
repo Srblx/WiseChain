@@ -117,7 +117,7 @@ const Glossary = () => {
 
   return (
     <>
-      <h1 className="text-3xl mb-4">Glossaire : toutes les définitions</h1>
+      <h1 className="text-3xl mb-4 pt-8">Glossaire : toutes les définitions</h1>
       <GlossaryList
         glossary={glossary}
         selectedSection={selectedSection}

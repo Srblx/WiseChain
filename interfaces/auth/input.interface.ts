@@ -10,7 +10,7 @@ export interface InputAuthProps {
 
 export interface InputProfileProps {
   type?: string;
-  placeholder: string;
+  placeholder?: string;
   value?:   string | number | boolean;
   name?: string;
   className?: string;

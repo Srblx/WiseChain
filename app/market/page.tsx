@@ -3,7 +3,7 @@ import CryptoTable from '@/components/Crypto.component';
 export default function Market() {
   return (
     <div>
-      <h1 className="text-lg lg:text-3xl mb-4">
+      <h1 className="text-lg lg:text-3xl mb-4 pt-8">
         Cours des crypto-monnaies par capitalisation boursière :
       </h1>
       <div className="flex flex-col items-start mt-2 mb-4 space-y-4">

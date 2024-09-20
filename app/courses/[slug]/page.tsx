@@ -61,7 +61,7 @@ const CategoryCoursesPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl mb-4">{category}</h1>
+      <h1 className="text-3xl mb-4 pt-8">{category}</h1>
       <div className="min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 cursor-pointer">
           {firstThreeCourses.map((course, index) => (

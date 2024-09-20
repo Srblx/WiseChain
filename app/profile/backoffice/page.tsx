@@ -1,81 +1,36 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/shared/Button.components';
-// Components
-import CourseTable from '@/components/ui/backoffice/table/CourseTable.component';
-import UserTable from '@/components/ui/backoffice/table/UserTable.component';
+import GlossaryTable from '@/components/backoffice/GlossaryTable.component';
+import NavBackoffice from '@/components/backoffice/NavBackoffice.component';
+import UserTable from '@/components/backoffice/UserTable.component';
 
-// Enums
 import Roles from '@/enums/roles.enum';
 import Routes from '@/enums/routes.enum';
-
-// Hooks
 import useAuth from '@/hooks/useAuth.hook';
-
-// Next Libs
 import { useRouter } from 'next/navigation';
-
-// React Libs
-import { useEffect, useState } from 'react';
-
-//CSS class
-
-const classNameButtonActive = 'active border-t-4 border-orange-600';
+import { useState } from 'react';
 
 const BackofficePage = () => {
   const router = useRouter();
   const { user, token } = useAuth();
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  const [activeTable, setActiveTable] = useState('users');
+  const [currentPage, setCurrentPage] = useState<string>('users'); // Track which page to show
 
-  useEffect(() => {
-    if (user) {
-      if (user.roles === Roles.ADMIN && user.is_verified) {
-        setIsAuthorized(true);
-      } else {
-        router.push(Routes.HOME);
-      }
-    } else {
-      router.push(Routes.HOME);
-    }
-  }, [user, router]);
-
-  if (!isAuthorized) return null;
+  if (!user || user.roles !== Roles.ADMIN || !token) {
+    router.push(Routes.HOME);
+    return null;
+  }
 
   return (
-    <>
-      {activeTable === 'users' && <UserTable token={token!} />}
-      {activeTable === 'courses' && <CourseTable token={token!} />}
-      {/* Ajoutez d'autres tableaux selon les besoins */}
-
-      <div className="btm-nav">
-        {[
-          { table: 'users', label: 'Utilisateur', bgColor: 'bg-blue-700' },
-          { table: 'courses', label: 'Cours', bgColor: 'bg-blue-600' },
-          { table: 'sequences', label: 'Séquences Cours', bgColor: 'bg-blue-500' },
-          { table: 'tools', label: 'Outils', bgColor: 'bg-blue-400' },
-          {
-            table: 'questionnaires',
-            label: 'Questionnaire',
-            bgColor: 'bg-blue-300',
-          },
-          { table: 'articles', label: 'Articles', bgColor: 'bg-blue-200' },
-          {
-            table: 'articlesSequences',
-            label: 'Séquences Articles',
-            bgColor: 'bg-blue-100',
-          },
-        ].map(({ table, label, bgColor }) => (
-          <Button
-            key={table}
-            className={`${bgColor} text-black ${activeTable === table ? classNameButtonActive : ''}`}
-            onClick={() => setActiveTable(table)}
-          >
-            <span className="btm-nav-label">{label}</span>
-          </Button>
-        ))}
+    <div className="drawer lg:drawer-open h-screen w-full absolute top-0 left-0">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col items-center justify-center mt-3">
+        <div className="w-full h-full p-4">
+          {currentPage === 'users' && <UserTable token={token} isAuthorized={true} />}
+          {currentPage === 'glossary' && <GlossaryTable token={token} isAuthorized={true} />}
+        </div>
       </div>
-    </>
+      <NavBackoffice setCurrentPage={setCurrentPage} />
+    </div>
   );
 };
 

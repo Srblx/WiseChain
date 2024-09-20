@@ -20,8 +20,18 @@ export async function GET(request: NextRequest) {
       return tokenResult;
     }
 
-    const users = await prisma.user.findMany({});
-    const totalUsers = await prisma.user.count();
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const limit = parseInt(url.searchParams.get('limit') || '15');
+    const skip = (page - 1) * limit;
+
+    const [users, totalUsers] = await Promise.all([
+      prisma.user.findMany({
+        skip,
+        take: limit,
+      }),
+      prisma.user.count(),
+    ]);
 
     if (!users || users.length === 0) {
       return NextResponse.json(
@@ -34,9 +44,9 @@ export async function GET(request: NextRequest) {
       users,
       pagination: {
         total: totalUsers,
-        page: 1,
-        limit: 15,
-        pages: Math.ceil(totalUsers / 15),
+        page,
+        limit,
+        pages: Math.ceil(totalUsers / limit),
       },
     });
   } catch (error) {
@@ -63,11 +73,19 @@ export async function POST(request: NextRequest) {
       mail,
       password,
       country,
-      dateOfBirth,
+      date_of_birth,
       roles,
       profile_img,
-      isVerified,
+      is_verified,
     } = body;
+
+    // Validation des champs obligatoires
+    if (!firstname || !lastname || !pseudo || !mail || !password || !date_of_birth) {
+      return NextResponse.json(
+        { error: "Tous les champs obligatoires doivent être remplis" },
+        { status: 400 }
+      );
+    }
 
     const normalizedPseudo = pseudo.trim().toLowerCase();
     const normalizedMail = mail.trim().toLowerCase();
@@ -85,6 +103,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const birthDate = new Date(date_of_birth);
+    if (isNaN(birthDate.getTime())) {
+      return NextResponse.json(
+        { error: "Date de naissance invalide" },
+        { status: 400 }
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.user.create({
@@ -95,10 +121,10 @@ export async function POST(request: NextRequest) {
         mail: normalizedMail,
         password: hashedPassword,
         country: country || 'france',
-        date_of_birth: new Date(dateOfBirth),
+        date_of_birth: birthDate,
         roles: roles || Roles.USER,
         profile_img,
-        is_verified: isVerified || false,
+        is_verified: is_verified || false,
         is_revoice: false,
         created_at: new Date(),
       },
@@ -106,14 +132,15 @@ export async function POST(request: NextRequest) {
 
     const { password: _, ...userWithoutPassword } = newUser;
     return NextResponse.json(userWithoutPassword, { status: 201 });
-  } catch (error) {
-    console.error(ERROR_MESSAGES.ADD_USER_ERROR, error);
+  } catch (error: any) {
+    console.error("Erreur détaillée:", error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ADD_USER_ERROR },
+      { error: ERROR_MESSAGES.ADD_USER_ERROR, details: error.message },
       { status: 500 }
     );
   }
 }
+
 
 export async function DELETE(request: NextRequest) {
   try {

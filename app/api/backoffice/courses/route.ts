@@ -1,39 +1,35 @@
-// Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES } from '@/utils/messages.utils';
-
-// Next Libs
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
     const tokenResult = verifyAndDecodeToken(request);
-
-    if (tokenResult instanceof NextResponse) {
-      return tokenResult;
-    }
+    if (tokenResult instanceof NextResponse) return tokenResult;
 
     const courses = await prisma.course.findMany({
       include: {
         sequences: true,
-        category: {
+        category: { select: { name: true } },
+        tool_courses: {
           select: {
-            name: true,
+            tool: {
+              select: { id: true, name: true, link: true, img: true },
+            },
           },
         },
       },
-      orderBy: {
-        created_at: 'asc',
-      },
+      orderBy: { created_at: 'asc' },
     });
 
     const formattedCourses = courses.map((course) => ({
       ...course,
       mainTitle: course.main_title,
+      tools: course.tool_courses.map((tc) => tc.tool),
     }));
 
-    return NextResponse.json({ course: formattedCourses });
+    return NextResponse.json({ courses: formattedCourses });
   } catch (error) {
     console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
@@ -46,27 +42,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const tokenResult = verifyAndDecodeToken(request);
-
-    if (tokenResult instanceof NextResponse) {
-      return tokenResult;
-    }
+    if (tokenResult instanceof NextResponse) return tokenResult;
 
     const data = await request.json();
-    console.log('Données reçues:', data);
     const {
-      mainTitle = data.main_title,
+      mainTitle,
       description,
       img,
       content,
-      category = data.category_id,
+      category,
       difficulty,
       sequences,
       tools,
     } = data;
 
-    console.log('Validation des champs 123:', { mainTitle, content, category });
     if (!mainTitle || !content || !category) {
-      console.log('Champs manquants:', { mainTitle, content, category });
       return NextResponse.json(
         { error: 'Le titre, le contenu, et la catégorie sont requis.' },
         { status: 400 }
@@ -79,43 +69,44 @@ export async function POST(request: NextRequest) {
         description,
         img,
         content,
-        category: {
-          connect: { id: category },
-        },
+        category: { connect: { id: category } },
         difficulty,
+        sequences: {
+          create:
+            sequences?.map((seq: any) => ({
+              index: seq.index,
+              title: seq.title,
+              containt: seq.content,
+              img: seq.img,
+            })) || [],
+        },
+        tool_courses: {
+          create:
+            tools?.map((toolId: string) => ({
+              tool: { connect: { id: toolId } },
+            })) || [],
+        },
+      },
+      include: {
+        sequences: true,
+        category: { select: { name: true } },
+        tool_courses: {
+          select: {
+            tool: {
+              select: { id: true, name: true, link: true, img: true },
+            },
+          },
+        },
       },
     });
-    console.log('newcours', newCourse);
 
-    if (sequences && sequences.length > 0) {
-      await prisma.sequence.createMany({
-        data: sequences.map(
-          (sequence: {
-            index: number;
-            title: string;
-            content: string;
-            img?: string;
-          }) => ({
-            index: sequence.index,
-            title: sequence.title,
-            containt: sequence.content,
-            img: sequence.img,
-            course_id: newCourse.id,
-          })
-        ),
-      });
-    }
+    const formattedNewCourse = {
+      ...newCourse,
+      mainTitle: newCourse.main_title,
+      tools: newCourse.tool_courses.map((tc) => tc.tool),
+    };
 
-    if (tools && tools.length > 0) {
-      await prisma.toolCourse.createMany({
-        data: tools.map((toolId: string) => ({
-          tool_id: toolId,
-          course_id: newCourse.id,
-        })),
-      });
-    }
-
-    return NextResponse.json({ course: newCourse }, { status: 201 });
+    return NextResponse.json({ course: formattedNewCourse }, { status: 201 });
   } catch (error) {
     console.error(ERROR_MESSAGES.ADD_COURSE_ERROR, error);
     return NextResponse.json(

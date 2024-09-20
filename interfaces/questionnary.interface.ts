@@ -11,7 +11,7 @@ export interface Questionnary {
 export interface Question {
     id: string;
     index: number;
-    title: string;
+    question: string;
     answers: Answer[];
     questionnaryId: string;
 }
@@ -19,7 +19,7 @@ export interface Question {
 export interface Answer {
     id: string;
     answer: string;
-    isCorrect: boolean;
+    correct_answer: boolean;
     questionId: string;
     questionnaryId: string;
 }

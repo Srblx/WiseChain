@@ -18,9 +18,9 @@ export interface Course {
 
 export interface Sequence {
   // id: string;
-  // index: number;
+  index: number;
   title: string;
-  content: string;
+  containt: string;
   img?: string | undefined;
   course_id?: string;
 }

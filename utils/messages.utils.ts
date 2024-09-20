@@ -46,6 +46,8 @@ export const ERROR_MESSAGES = {
   ERROR_FETCHING_QUESTIONNARY: 'Erreur fetching questions:',
   ERROR_FETCHING_USER: 'Erreur fetching users:',
   ERROR_FETCHING_CATEGORY: 'Error fetching category',
+  ERROR_FETCHING_QUESTIONARY: 'Error fetching questionary',
+  ERROR_FETCHING_SEQUENCE: 'Error fetching sequence',
 
   // Not found errors
   NOT_PARAMS_FOUND: 'Param not found',
@@ -54,6 +56,7 @@ export const ERROR_MESSAGES = {
   NOT_CATEGORY_FOUND: 'Category not found',
   ARTICLE_NOT_FOUND: 'Article not found',
   QUESTIONARY_NOT_FOUND: 'Questionary not found',
+  COURSE_NOT_FOUND: 'Course not found',
 
   // Missing fields
   MISSING_COURSE_ID: 'Missing course id',
@@ -68,14 +71,25 @@ export const ERROR_MESSAGES = {
   ADD_USER_ERROR: "Erreur lors de la création de l'utilisateur",
   USER_ALREADY_EXISTS: "L'utilisateur existe déjà",
   ADD_COURSE_ERROR: 'Error adding course',
+  ADD_GLOSSARY_ERROR: 'Error adding glossary',
+  ADD_QUESTIONARY_ERROR: 'Error adding questionary',
+  ADD_SEQUENCE_ERROR: 'Error adding sequence',
+  ERROR_ADDING_GLOSSARY: 'Error adding glossary',
 
   // Update errors
   GENERAL_ERROR: 'Erreur générale',
   UPDATE_USER_ERROR: "Erreur lors de la mise à jour de l'utilisateur",
   ERROR_UPDATE_COURSE: 'Error updating course',
+  ERROR_UPDATE_GLOSSARY: 'Error updating glossary',
+  ERROR_UPDATING_GLOSSARY: 'Error updating glossary',
 
   // Delete errors
   ERROR_DELETING_COURSE: 'Error deleting course',
+  ERROR_DELETE_COURSE: 'Error deleting course',
+  DELETE_GLOSSARY_ERROR: 'Error deleting glossary',
+  DELETE_QUESTIONARY_ERROR: 'Error deleting questionary',
+  DELETE_SEQUENCE_ERROR: 'Error deleting sequence',
+  ERROR_DELETING_GLOSSARY: 'Error deleting glossary',
 
   // Other errors
   GENERATE_TOKEN: 'Error generating reset token:',
@@ -103,6 +117,11 @@ export const SUCCESS_MESSAGES = {
   ADD_USER: 'Utilisateur ajouté avec succès',
   USER_UPDATED: 'Utilisateur mis à jour avec succès',
   COURSE_UPDATED: 'Cours mis à jour avec succès',
+  COURSE_DELETED_SUCCESSFULLY: 'Cours supprimé avec succès',
+  GLOSSARY_UPDATED: 'Définition mise à jour avec succès',
+  QUESTIONARY_UPDATED: 'Questionnaire mis à jour avec succès',
+  SEQUENCE_UPDATED: 'Séquence mise à jour avec succès',
+  COURSE_ADDED: 'Cours ajouté avec succès',
 };
 
 export const ERROR_MESSAGES_YUP = {

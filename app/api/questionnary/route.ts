@@ -1,11 +1,9 @@
 // Helpers
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/utils/constante.utils';
 
 // Next Libs
 import { NextRequest, NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   const tokenResult = verifyAndDecodeToken(request);

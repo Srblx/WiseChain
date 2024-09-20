@@ -65,8 +65,11 @@ const ArticleDetailPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl mb-4">{title}</h3>
-      <div className="relative h-48 lg:h-[90%] flex justify-center items-center mb-4 mt-[3%]">
+      {/* Ajustement des marges du titre pour éviter le chevauchement */}
+      <h3 className="text-3xl mb-8">{title}</h3>
+
+      {/* Ajustement des marges et suppression des hauteurs fixes pour éviter que l'image ne déborde */}
+      <div className="flex justify-center items-center mb-12">
         <Image
           src={img ? `/img/${img}` : '/img/logo.jpg'}
           alt={title}
@@ -76,7 +79,9 @@ const ArticleDetailPage = () => {
           className="shadow-xs-light rounded-lg"
         />
       </div>
-      <div className="p-4 mt-[3%]">
+
+      {/* Contenu de l'article */}
+      <div className="py-4">
         {sequence_article && sequence_article.length > 0 ? (
           sequence_article.map((sequence) => (
             <div key={sequence.id} id={sequence.id} className="mb-8">

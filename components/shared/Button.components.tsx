@@ -10,6 +10,7 @@ interface ButtonProps {
   id?: string;
   disabled?: boolean;
   style?: CSSProperties;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -19,10 +20,11 @@ export const Button: FC<ButtonProps> = ({
   id,
   disabled,
   style,
+  type = 'button',
 }) => {
   return (
     <button
-      type="button"
+      type={type}
       className={`${className}`}
       onClick={onClick}
       id={id}

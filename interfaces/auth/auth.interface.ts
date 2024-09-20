@@ -42,7 +42,7 @@ export interface User {
   date_of_birth: string;
   is_verified: boolean;
   is_revoice: boolean;
-  created_at: string;
+  created_at?: string;
 }
 
 export interface UserInfo {
@@ -63,4 +63,8 @@ export interface UserFormData {
   dateOfBirth: string;
   isVerified: boolean;
   roles: string;
+  isRevoice: boolean;
+  profileImg: string;
+  createdAt: string;
+  id: string;
 }

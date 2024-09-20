@@ -1,7 +1,7 @@
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextRequest, NextResponse } from 'next/server';
@@ -82,6 +82,69 @@ export async function PUT(request: NextRequest) {
     console.error(ERROR_MESSAGES.ERROR_UPDATE_COURSE, error);
     return NextResponse.json(
       { error: ERROR_MESSAGES.ERROR_UPDATE_COURSE },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const tokenResult = verifyAndDecodeToken(request);
+
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult;
+    }
+
+    const courseId = params.id;
+
+    if (!courseId) {
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.MISSING_COURSE_ID },
+        { status: 400 }
+      );
+    }
+
+    const existingCourse = await prisma.course.findUnique({
+      where: { id: courseId },
+    });
+
+    if (!existingCourse) {
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.COURSE_NOT_FOUND },
+        { status: 404 }
+      );
+    }
+
+    await prisma.$transaction([
+      // Supprimer les ToolCourse associés
+      prisma.toolCourse.deleteMany({
+        where: { course_id: courseId },
+      }),
+      // Supprimer les Sequence associées
+      prisma.sequence.deleteMany({
+        where: { course_id: courseId },
+      }),
+      // Supprimer les Questionary associés
+      prisma.questionary.deleteMany({
+        where: { courseId: courseId },
+      }),
+      // Finalement, supprimer le cours
+      prisma.course.delete({
+        where: { id: courseId },
+      }),
+    ]);
+
+    return NextResponse.json(
+      { message: SUCCESS_MESSAGES.COURSE_DELETED_SUCCESSFULLY },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(ERROR_MESSAGES.ERROR_DELETE_COURSE, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.ERROR_DELETE_COURSE },
       { status: 500 }
     );
   }
