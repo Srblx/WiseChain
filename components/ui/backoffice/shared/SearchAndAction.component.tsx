@@ -1,5 +1,10 @@
+// Components
 import { Button } from '@/components/shared/Button.components';
+
+// React libs
 import React from 'react';
+
+// Icons
 import { IoIosSearch } from 'react-icons/io';
 
 interface SearchAndActionsProps {

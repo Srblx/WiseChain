@@ -1,15 +1,15 @@
 interface CheckboxProps {
   checked: boolean;
+  name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const VerifiedCheckbox = ({ checked, onChange }: CheckboxProps) => (
+const Checkbox = ({ checked, onChange, name }: CheckboxProps) => (
   <div className="form-control">
     <label className="label cursor-pointer">
-      <span className="label-text text-lg">Mail vérifié</span>
       <input
         type="checkbox"
-        name="isVerified"
+        name={name}
         checked={checked}
         onChange={onChange}
         className="checkbox checkbox-primary"
@@ -18,4 +18,4 @@ const VerifiedCheckbox = ({ checked, onChange }: CheckboxProps) => (
   </div>
 );
 
-export default VerifiedCheckbox;
+export default Checkbox;

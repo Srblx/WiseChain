@@ -8,7 +8,7 @@ import { Glossary as GlossaryInterface } from '@/components/ui/glossary/Glossary
 import { Articles } from '@/interfaces/article.interface';
 
 // Utils
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Helpers
 import axios from 'axios';
@@ -42,8 +42,8 @@ const Glossary = () => {
         setGlossary(response.data.glossary);
         setIsLoading(false);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY, error);
-        setError(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_GLOSSARY, error);
+        setError(ERROR_MESSAGES_FR.ERROR_FETCHING_GLOSSARY);
         setIsLoading(false);
       }
     };
@@ -59,7 +59,7 @@ const Glossary = () => {
         );
         setArticles(response.data.recentArticles);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_ARTICLE, error);
       }
     };
 

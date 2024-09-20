@@ -1,16 +1,21 @@
-import EditDeleteButton from '@/components/shared/EditDeleteButton.component';
+// Components
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
+import GlossaryForm from '@/components/ui/backoffice/form/Glossary.form';
+import Modal from '@/components/ui/backoffice/modal/Generic.modal';
+import EditDeleteButton from '@/components/ui/backoffice/shared/EditDeleteButton.component';
+import Pagination from '@/components/ui/backoffice/shared/Pagination.component';
+import SearchAndActions from '@/components/ui/backoffice/shared/SearchAndAction.component';
+import { Glossary } from '@/components/ui/glossary/GlossaryList.component';
+
+// Hooks
 import useGlossaryAPI from '@/hooks/backoffice/useGlossaryAPI.hook';
 import useModal from '@/hooks/backoffice/useModal.hook';
+
+// Helpers
 import dayjs from '@/utils/dayjs';
+
+// React libs
 import { useEffect, useRef, useState } from 'react';
-import InputShared from '../shared/InputShared.component';
-import Label from '../shared/Label.component';
-import LoadingSpinner from '../shared/LoadingSpinner.component';
-import Pagination from '../ui/backofficetest/shared/Pagination.component';
-import Textarea from '../ui/backofficetest/shared/tewt/Textarea.component';
-import { Glossary } from '../ui/glossary/GlossaryList.component';
-import SearchAndActions from './SearchAndAction.component';
-import Modal from './modal/Generic.modal';
 
 interface GlossaryTableProps {
   token: string;
@@ -169,23 +174,11 @@ const GlossaryTable: React.FC<GlossaryTableProps> = ({
         onConfirm={handleModalConfirm}
         title="Ajouter un terme"
         content={
-          <>
-            <Label htmlFor="title">Titre</Label>
-            <InputShared
-              name="title"
-              value={newTerm.title}
-              onChange={handleInputChange}
-              placeholder="Titre du terme"
-            />
-            <Label htmlFor="definition">Définition</Label>
-            <Textarea
-              rows={4}
-              name="definition"
-              value={newTerm.definition}
-              onChange={handleInputChange}
-              placeholder="Définition du terme"
-            />
-          </>
+          <GlossaryForm
+            title={newTerm.title}
+            definition={newTerm.definition}
+            onChange={handleInputChange}
+          />
         }
       />
 
@@ -195,23 +188,11 @@ const GlossaryTable: React.FC<GlossaryTableProps> = ({
         onConfirm={handleEditModalConfirm}
         title="Modifier un terme"
         content={
-          <>
-            <Label htmlFor="title">Titre</Label>
-            <InputShared
-              name="title"
-              value={editedTerm.title}
-              onChange={handleEditInputChange}
-              placeholder="Titre du terme"
-            />
-            <Label htmlFor="definition">Définition</Label>
-            <Textarea
-              rows={4}
-              name="definition"
-              value={editedTerm.definition}
-              onChange={handleEditInputChange}
-              placeholder="Définition du terme"
-            />
-          </>
+          <GlossaryForm
+            title={editedTerm.title}
+            definition={editedTerm.definition}
+            onChange={handleEditInputChange}
+          />
         }
       />
 

@@ -1,7 +1,7 @@
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next libs
 import { NextRequest, NextResponse } from 'next/server';
@@ -56,7 +56,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ updatedGlossaryItem });
   } catch (error) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_UPDATING_GLOSSARY },
+      { error: ERROR_MESSAGES_EN.ERROR_UPDATING_GLOSSARY },
       { status: 500 }
     );
   }

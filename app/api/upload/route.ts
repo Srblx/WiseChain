@@ -1,4 +1,8 @@
+// Utils
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 import { uploadFiles } from '@/utils/minio.utils';
+
+// Next Libs
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -19,10 +23,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { filename, mimetype, file } = data;
-console.log('data:', data);
+
     if (!filename || !mimetype || !file) {
       return NextResponse.json(
-        { error: 'Filename, mimetype, and file are required' },
+        { error: ERROR_MESSAGES_EN.FILENAME_MIMETYPE_FILE_REQUIRED},
         { status: 400 }
       );
     }
@@ -34,7 +38,7 @@ console.log('data:', data);
       fileBuffer = Buffer.from(await file.arrayBuffer());
     } else {
       return NextResponse.json(
-        { error: 'Invalid file format' },
+        { error: ERROR_MESSAGES_EN.INVALID_FILE_FORMAT },
         { status: 400 }
       );
     }
@@ -57,9 +61,9 @@ console.log('data:', data);
       return NextResponse.json({ error: result.message }, { status: 500 });
     }
   } catch (error) {
-    console.error('Error in upload handler:', error);
+    console.error(ERROR_MESSAGES_EN.ERROR_UPLOAD_HANDLER, error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR },
       { status: 500 }
     );
   }

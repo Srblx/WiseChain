@@ -7,13 +7,15 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 // Components
-import LoadingSpinner from './shared/LoadingSpinner.component';
-import ScrollToTopButton from './shared/ScrollToTop.component';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
+import ScrollToTopButton from '@/components/shared/ScrollToTop.component';
+import Routes from '@/enums/routes.enum';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 async function fetchCryptos() {
-  const res = await fetch('/api/market', { cache: 'no-store' });
+  const res = await fetch(Routes.API_C_MARCKET_CAP, { cache: 'no-store' });
   if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    throw new Error(ERROR_MESSAGES_FR.ERROR_FETCHING_DATA);
   }
   return res.json();
 }

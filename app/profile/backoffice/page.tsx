@@ -1,19 +1,27 @@
 "use client";
 
-import GlossaryTable from '@/components/backoffice/GlossaryTable.component';
-import NavBackoffice from '@/components/backoffice/NavBackoffice.component';
-import UserTable from '@/components/backoffice/UserTable.component';
+// Components
+import GlossaryTable from '@/components/ui/backoffice/GlossaryTable.component';
+import NavBackoffice from '@/components/ui/backoffice/NavBackoffice.component';
+import UserTable from '@/components/ui/backoffice/UserTable.component';
 
+// Enums
 import Roles from '@/enums/roles.enum';
 import Routes from '@/enums/routes.enum';
+
+// Hooks
 import useAuth from '@/hooks/useAuth.hook';
+
+// Libs Next
 import { useRouter } from 'next/navigation';
+
+// Libs React
 import { useState } from 'react';
 
 const BackofficePage = () => {
   const router = useRouter();
   const { user, token } = useAuth();
-  const [currentPage, setCurrentPage] = useState<string>('users'); // Track which page to show
+  const [currentPage, setCurrentPage] = useState<string>('users');
 
   if (!user || user.roles !== Roles.ADMIN || !token) {
     router.push(Routes.HOME);

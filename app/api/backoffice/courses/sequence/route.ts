@@ -1,6 +1,9 @@
+// Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -27,13 +30,12 @@ export async function GET(request: NextRequest) {
         created_at: 'desc',
       },
     });
-console.log(courses)
-console.log('Courses:', courses.map(c => c.sequences))    
+
     return NextResponse.json({ courses });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE },
       { status: 500 }
     );
   }

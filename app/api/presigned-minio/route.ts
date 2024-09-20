@@ -1,4 +1,8 @@
+// Utils
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 import { getPresignedUrl } from '@/utils/minio.utils';
+
+// Next Libs
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -6,7 +10,10 @@ export async function GET(request: NextRequest) {
   const key = searchParams.get('key');
 
   if (!key) {
-    return NextResponse.json({ error: 'Invalid key parameter' }, { status: 400 });
+    return NextResponse.json(
+      { error: ERROR_MESSAGES_EN.INVALID_KEY },
+      { status: 400 }
+    );
   }
 
   try {
@@ -17,7 +24,10 @@ export async function GET(request: NextRequest) {
     const url = await getPresignedUrl(key);
     return NextResponse.json({ url });
   } catch (error) {
-    console.error('Error generating presigned URL:', error);
-    return NextResponse.json({ error: 'Failed to generate presigned URL' }, { status: 500 });
+    console.error(ERROR_MESSAGES_EN.ERROR_GENERATING_PRESIGNED_URL, error);
+    return NextResponse.json(
+      { error: ERROR_MESSAGES_EN.FAILED_GENERATE_PRESIGNED_URL },
+      { status: 500 }
+    );
   }
 }

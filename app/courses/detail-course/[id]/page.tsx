@@ -10,8 +10,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Components
-import CourseCarousel from '@/components/carousel/CourseCarousel.component';
 import { Button } from '@/components/shared/Button.components';
+import CourseCarousel from '@/components/shared/carousel/CourseCarousel.component';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
 import CourseContent from '@/components/ui/course/CourseContent.component';
 import CourseSummary from '@/components/ui/course/CourseSumary.component';
@@ -24,7 +24,7 @@ import useAuth from '@/hooks/useAuth.hook';
 
 // Helpers
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 import axios from 'axios';
 
 const CourseDetailPage = () => {
@@ -78,14 +78,14 @@ const CourseDetailPage = () => {
                 setQuestionnaryExists(false);
               } else {
                 console.error(
-                  ERROR_MESSAGES.ERROR_FETCHING_QUESTIONNARY,
+                  ERROR_MESSAGES_FR.ERROR_FETCHING_QUESTIONNARY,
                   questionnaryError
                 );
               }
             }
           }
         } catch (error) {
-          console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+          console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_COURSE, error);
         } finally {
           setIsLoading(false);
         }

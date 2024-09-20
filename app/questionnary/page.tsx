@@ -1,6 +1,5 @@
 'use client';
 
-
 // Components
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import QuestionCard from '@/components/ui/questionnary/QuestionCard.component';
@@ -11,6 +10,7 @@ import Routes from '@/enums/routes.enum';
 
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Helpers
 import axios from 'axios';
@@ -50,7 +50,9 @@ const Questionary: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState<{ [key: number]: boolean }>({});
+  const [answeredQuestions, setAnsweredQuestions] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
   const [hasPreviousResult, setHasPreviousResult] = useState<boolean>(false);
 
@@ -64,7 +66,7 @@ const Questionary: React.FC = () => {
         setQuestionnary(response.data);
         setQuestions(response.data.questions);
       } catch (error) {
-        console.error('Error fetching questionnary', error);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_QUESTIONARY, error);
       }
     };
 
@@ -76,7 +78,7 @@ const Questionary: React.FC = () => {
         });
         setHasPreviousResult(response.data.exists);
       } catch (error) {
-        console.error('Error checking previous result', error);
+        console.error(ERROR_MESSAGES_FR.ERROR_CHECKING_PREVIOUS_RESULT, error);
       }
     };
 
@@ -113,7 +115,13 @@ const Questionary: React.FC = () => {
       savedQuizCompleted: quizCompleted,
     };
     localStorage.setItem('questionaryState', JSON.stringify(stateToSave));
-  }, [questions, currentQuestionIndex, score, answeredQuestions, quizCompleted]);
+  }, [
+    questions,
+    currentQuestionIndex,
+    score,
+    answeredQuestions,
+    quizCompleted,
+  ]);
 
   const handleAnswerClick = (answerId: number) => {
     if (selectedAnswer === null) {
@@ -127,20 +135,24 @@ const Questionary: React.FC = () => {
       const selected = question.answers.find(
         (answer) => answer.id === selectedAnswer
       );
-  
-      if (selected && selected.correct_answer && !answeredQuestions[currentQuestionIndex]) {
-        setScore(prevScore => prevScore + 1);
+
+      if (
+        selected &&
+        selected.correct_answer &&
+        !answeredQuestions[currentQuestionIndex]
+      ) {
+        setScore((prevScore) => prevScore + 1);
       }
-  
+
       setAnsweredQuestions((prevState) => ({
         ...prevState,
         [currentQuestionIndex]: true,
       }));
-  
+
       setSelectedAnswer(null);
-  
+
       const nextIndex = currentQuestionIndex + 1;
-  
+
       if (nextIndex < questions.length) {
         setCurrentQuestionIndex(nextIndex);
       } else {
@@ -168,7 +180,7 @@ const Questionary: React.FC = () => {
         setQuizCompleted(true);
       }
     } catch (error) {
-      console.error('Error saving result', error);
+      console.error(ERROR_MESSAGES_FR.ERROR_SAVED_RESULTS, error);
     }
   };
 

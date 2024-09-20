@@ -1,4 +1,4 @@
-// components/NavBackoffice.component.tsx
+// Icons
 import { FaRegUser } from 'react-icons/fa';
 import { MdOutlineArticle } from 'react-icons/md';
 import { PiBooks } from 'react-icons/pi';

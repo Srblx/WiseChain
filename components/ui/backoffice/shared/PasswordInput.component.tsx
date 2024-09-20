@@ -13,7 +13,7 @@ interface PasswordInputProps {
   disabled?: boolean;
 }
 
-const PasswordInput = ({
+const InputPassword = ({
   value,
   onChange,
   showPassword,
@@ -39,4 +39,4 @@ const PasswordInput = ({
   </div>
 );
 
-export default PasswordInput;
+export default InputPassword;

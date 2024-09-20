@@ -1,7 +1,7 @@
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -45,12 +45,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      message: SUCCESS_MESSAGES.RESET_PASSWORD,
+      message: SUCCESS_MESSAGES_EN.RESET_PASSWORD,
     });
   } catch (error) {
-    console.error(ERROR_MESSAGES.RESET_PASSWORD, error);
+    console.error(ERROR_MESSAGES_EN.RESET_PASSWORD, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.RESET_PASSWORD },
+      { error: ERROR_MESSAGES_EN.RESET_PASSWORD },
       { status: 500 }
     );
   }

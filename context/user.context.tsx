@@ -1,6 +1,7 @@
 'use client';
 // Interfaces
 import { User } from '@/interfaces/auth/auth.interface';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Lib React
 import { ReactNode, createContext, useContext, useState } from 'react';
@@ -25,7 +26,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error(ERROR_MESSAGES_EN.MUST_BE_USED_USER_PROVIDER);
   }
   return context;
 };

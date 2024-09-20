@@ -3,7 +3,6 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
-import Label from '@/components/shared/Label.component';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/Dialog';
+} from '@/components/shared/Dialog.component';
+import Label from '@/components/shared/Label.component';
 
 // Enums
 import Routes from '@/enums/routes.enum';
@@ -24,11 +24,6 @@ import useAuth from '@/hooks/useAuth.hook';
 import { UserInfo } from '@/interfaces/auth/auth.interface';
 
 // Validators
-import {
-  useConfirmPasswordVisibility,
-  useNewPasswordVisibility,
-  usePasswordVisibility,
-} from '@/utils/auth/usePasswordVisibility.utils';
 import { passwordResetSchema } from '@/validators/auth.validator';
 
 // Helpers
@@ -37,8 +32,13 @@ import axios from 'axios';
 import * as Yup from 'yup';
 
 // Utils
+import {
+  useConfirmPasswordVisibility,
+  useNewPasswordVisibility,
+  usePasswordVisibility,
+} from '@/utils/auth/usePasswordVisibility.utils';
 import ApiAxios from '@/utils/interceptorAxios.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR, SUCCESS_MESSAGES_FR } from '@/utils/messages.utils';
 
 // React Libs
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -83,7 +83,6 @@ export const UserProfile = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
-  // Hooks
   const { user, login, token, logout } = useAuth();
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
   const { showNewPassword, toggleNewPasswordVisibility } =
@@ -103,7 +102,7 @@ export const UserProfile = () => {
       setEmail(user.mail);
       setRole(user.roles);
       setIsVerified(user.is_verified);
-      setCreatedAt(user.created_at);
+      setCreatedAt(user.created_at!);
     }
   }, [user]);
 
@@ -164,7 +163,7 @@ export const UserProfile = () => {
         pseudo: userInfo.pseudo,
       });
       if (response.status === 200) {
-        toast.success(SUCCESS_MESSAGES.UPDATE_PROFILE);
+        toast.success(SUCCESS_MESSAGES_FR.UPDATE_PROFILE);
         setEditInfoUser(false);
         setIsDialogOpen(false);
         if (user) {
@@ -177,10 +176,10 @@ export const UserProfile = () => {
           login(updatedUser, token!);
         }
       } else {
-        toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
+        toast.error(ERROR_MESSAGES_FR.UPDATE_PROFILE);
       }
     } catch (error) {
-      toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
+      toast.error(ERROR_MESSAGES_FR.UPDATE_PROFILE);
     }
     setIsSubmitting(false);
   };
@@ -198,22 +197,22 @@ export const UserProfile = () => {
         confirmPassword,
       });
       if (response.status === 200) {
-        toast.success(SUCCESS_MESSAGES.UPDATE_PASSWORD);
+        toast.success(SUCCESS_MESSAGES_FR.UPDATE_PASSWORD);
         setEditInfoUser(false);
         setOldPassword('***********');
         setNewPassword('');
         setConfirmPassword('');
         setIsPasswordDialogOpen(false);
       } else if (response.status === 400) {
-        toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
+        toast.error(ERROR_MESSAGES_FR.OLD_PASSSWORD_INCORRECT);
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.forEach((err) => toast.error(err.message));
       } else if (axios.isAxiosError(error) && error.response?.status === 400) {
-        toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
+        toast.error(ERROR_MESSAGES_FR.OLD_PASSSWORD_INCORRECT);
       } else {
-        toast.error(ERROR_MESSAGES.UPDATE_PASSWORD);
+        toast.error(ERROR_MESSAGES_FR.UPDATE_PASSWORD);
       }
     }
     setIsSubmitting(false);
@@ -228,10 +227,10 @@ export const UserProfile = () => {
         cancelDeleteAccount();
         window.location.href = '/';
       } else {
-        toast.error('Échec de la suppression du compte');
+        toast.error(ERROR_MESSAGES_FR.FAILD_DELETE_COMPTE);
       }
     } catch {
-      toast.error('Erreur lors de la suppression du compte');
+      toast.error(ERROR_MESSAGES_FR.ERROR_DELETE_COMPTE);
     }
   };
 

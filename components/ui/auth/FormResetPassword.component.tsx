@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/input.component';
+import InputLog from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
 
 // Icons
@@ -20,7 +20,7 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 // Utils
 import { usePasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Validators
 import { passwordResetSchema } from '@/validators/auth.validator';
@@ -79,9 +79,9 @@ const FormResetPassword = () => {
             toast.error(err.message);
           });
         } else if (axios.isAxiosError(error)) {
-          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error.message);
+          console.error(ERROR_MESSAGES_FR.UPDATE_PASSWORD, error.message);
         } else {
-          console.error(ERROR_MESSAGES.UPDATE_PASSWORD, error);
+          console.error(ERROR_MESSAGES_FR.UPDATE_PASSWORD, error);
         }
       }
     }
@@ -91,7 +91,7 @@ const FormResetPassword = () => {
     <div className="mt-10">
       <form onSubmit={handleSubmitNewPassword} className="space-y-4">
         <label className={inputClassName}>
-          <Input
+          <InputLog
             placeholder="Nouveau mot de passe"
             type={showPassword ? 'text' : 'password'}
             value={newPassword}
@@ -102,7 +102,7 @@ const FormResetPassword = () => {
           </Button>
         </label>
         <label className={inputClassName}>
-          <Input
+          <InputLog
             placeholder="Nouveau mot de passe"
             type={showPassword ? 'text' : 'password'}
             value={confirmNewPassword}

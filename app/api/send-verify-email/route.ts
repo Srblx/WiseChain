@@ -1,6 +1,6 @@
 // Lib
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Lib Next
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -20,12 +20,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         body: emailBody,
       });
 
-      res.status(200).json({ message: SUCCESS_MESSAGES.MAIL_SEND });
+      res.status(200).json({ message: SUCCESS_MESSAGES_EN.MAIL_SEND });
     } catch (error) {
-      console.error(ERROR_MESSAGES.ERROR_SENDING_MAIL, error);
-      res.status(500).json({ error: ERROR_MESSAGES.ERROR_SENDING_MAIL });
+      console.error(ERROR_MESSAGES_EN.ERROR_SENDING_MAIL, error);
+      res.status(500).json({ error: ERROR_MESSAGES_EN.ERROR_SENDING_MAIL });
     }
   } else {
-    res.status(405).json({ error: ERROR_MESSAGES.METHOD_NOT_ALLOWED });
+    res.status(405).json({ error: ERROR_MESSAGES_EN.METHOD_NOT_ALLOWED });
   }
 }

@@ -17,6 +17,7 @@ import Routes from '@/enums/routes.enum';
 // Hooks
 import useAuth from '@/hooks/useAuth.hook';
 import ApiAxios from '@/utils/interceptorAxios.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Libs Next
 import { useRouter } from 'next/navigation';
@@ -92,7 +93,7 @@ const Profile = () => {
 
     try {
       const response = await ApiAxios.post(
-        '/api/user-profile/update-user-data/add-pfp',
+        Routes.ADD_PFP,
         formData,
         {
           headers: {
@@ -110,7 +111,7 @@ const Profile = () => {
           setUser({ ...user, profile_img: imageKey });
         }
       } else {
-        console.error("Erreur lors du téléchargement de l'image");
+        console.error(ERROR_MESSAGES_FR.ERROR_UPDATE_PICTURES);
       }
     } catch (error) {
       console.error('Erreur:', error);

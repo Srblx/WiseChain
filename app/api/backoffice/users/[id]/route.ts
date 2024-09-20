@@ -1,7 +1,7 @@
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_USER_ID },
+        { error: ERROR_MESSAGES_EN.MISSING_USER_ID },
         { status: 400 }
       );
     }
@@ -50,7 +50,7 @@ export async function PUT(request: NextRequest) {
 
     if (!existingUser) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -85,9 +85,9 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json(userWithoutPassword, { status: 200 });
   } catch (error) {
-    console.error(ERROR_MESSAGES.UPDATE_USER_ERROR, error);
+    console.error(ERROR_MESSAGES_EN.UPDATE_USER_ERROR, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.UPDATE_USER_ERROR },
+      { error: ERROR_MESSAGES_EN.UPDATE_USER_ERROR },
       { status: 500 }
     );
   }

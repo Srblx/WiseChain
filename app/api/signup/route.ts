@@ -6,7 +6,7 @@ import {
   SALT_ROUNDS,
   prisma,
 } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
   if (!validateFields(data)) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ALL_FIELDS_REQUIRED },
+      { error: ERROR_MESSAGES_EN.ALL_FIELDS_REQUIRED },
       { status: 400 }
     );
   }
@@ -60,14 +60,14 @@ export async function POST(req: NextRequest) {
   try {
     if (await isUserExists({ pseudo })) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.PSEUDO_ALREADY_TAKEN },
+        { error: ERROR_MESSAGES_EN.PSEUDO_ALREADY_TAKEN },
         { status: 400 }
       );
     }
 
     if (await isUserExists({ mail })) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.EMAIL_ALREADY_TAKEN },
+        { error: ERROR_MESSAGES_EN.EMAIL_ALREADY_TAKEN },
         { status: 400 }
       );
     }
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.USER_CREATION_ERROR },
+      { error: ERROR_MESSAGES_EN.USER_CREATION_ERROR },
       { status: 500 }
     );
   }

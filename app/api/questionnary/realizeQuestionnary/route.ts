@@ -1,6 +1,7 @@
 // utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from "@/utils/constante.utils";
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
     const questionaryId = url.searchParams.get('questionaryId');
 
     if (!userId || !questionaryId) {
-        return NextResponse.json({ error: 'Missing userId or questionaryId' }, { status: 400 });
+        return NextResponse.json({ error: ERROR_MESSAGES_EN.MISSING_USER_ID_OR_QUESTIONARY_ID }, { status: 400 });
     }
 
     try {
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ exists: !!existingRecord });
     } catch (error) {
-        console.error('Internal server error', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        console.error(ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR, error);
+        return NextResponse.json({ error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR }, { status: 500 });
     }
 }

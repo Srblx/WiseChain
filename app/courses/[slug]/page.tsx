@@ -4,7 +4,8 @@
 import { Course } from '@/interfaces/course.interface';
 
 // Components
-import CardCourse from '@/components/card/CardCourse.component';
+import CardCourse from '@/components/shared/card/CardCourse.component';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 
 // Libs Next
 import { useParams, useRouter } from 'next/navigation';
@@ -16,10 +17,9 @@ import { useEffect, useState } from 'react';
 import Routes from '@/enums/routes.enum';
 
 // Utils
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Helpers
-import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import axios from 'axios';
 
 const CategoryCoursesPage = () => {
@@ -40,7 +40,7 @@ const CategoryCoursesPage = () => {
             setCourses(response.data.course);
           }
         } catch (error) {
-          console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+          console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_COURSE, error);
         } finally {
           setIsLoading(false);
         }
@@ -82,7 +82,7 @@ const CategoryCoursesPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6">
           {remainingCourses.map((course) => (
             <CardCourse
-              id={"key"}
+              id={'key'}
               key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}

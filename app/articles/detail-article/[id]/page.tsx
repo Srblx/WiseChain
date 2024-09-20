@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 // Helpers
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import Routes from '@/enums/routes.enum';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 import axios from 'axios';
 
 const ArticleDetailPage = () => {
@@ -32,11 +32,11 @@ const ArticleDetailPage = () => {
         if (response.data && response.data.article) {
           setArticle(response.data.article);
         } else {
-          setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
+          setError(ERROR_MESSAGES_FR.ERROR_FETCH_ARTICLES);
         }
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
-        setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_ARTICLE, error);
+        setError(ERROR_MESSAGES_FR.ERROR_FETCH_ARTICLES);
       } finally {
         setIsLoading(false);
       }

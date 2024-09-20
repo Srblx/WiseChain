@@ -13,13 +13,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Components
-import CardArticle from '@/components/card/CardArticle.composent';
+import CardArticle from '@/components/shared/card/CardArticle.composent';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 
 // Helpers
-import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
-import { ERROR_MESSAGES, FORMATAGE_DATE } from '@/utils/messages.utils';
 import axios from 'axios';
 import dayjs from 'dayjs';
+
+// Utils
+import { ERROR_MESSAGES_FR, FORMATAGE_DATE } from '@/utils/messages.utils';
 
 const AllArticles = () => {
   const [articles, setArticles] = useState<Articles[]>([]);
@@ -35,8 +37,8 @@ const AllArticles = () => {
         setArticles(response.data.articles);
         setIsLoading(false);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
-        setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_ARTICLE, error);
+        setError(ERROR_MESSAGES_FR.ERROR_FETCH_ARTICLES);
         setIsLoading(false);
       }
     };

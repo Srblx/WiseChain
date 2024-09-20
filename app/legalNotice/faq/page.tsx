@@ -1,3 +1,4 @@
+// CSS
 const classNameDivContentQuestion =
   'collapse collapse-arrow join-item border-2 border-grayBlue mb-4 shadow-light';
 

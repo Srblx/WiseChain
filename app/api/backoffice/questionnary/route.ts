@@ -1,5 +1,9 @@
+// Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
+
+// Next Libs
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -25,12 +29,12 @@ export async function GET(request: NextRequest) {
         },
       },
     });
-console.log(questionaries.map(q => q.questions));
+
     return NextResponse.json({ questionaries });
   } catch (error) {
-    console.error('Error fetching questionaries:', error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_QUESTIONARY, error);
     return NextResponse.json(
-      { error: 'Error fetching questionaries' },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_QUESTIONARY },
       { status: 500 }
     );
   }

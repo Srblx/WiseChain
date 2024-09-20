@@ -1,6 +1,7 @@
 // Helpers
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextRequest, NextResponse } from 'next/server';
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   if (courseId) {
     if (typeof courseId !== 'string') {
-      return NextResponse.json({ error: 'Invalid courseId' }, { status: 400 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.INVALID_COURSE_ID }, { status: 400 });
     }
 
     try {
@@ -28,22 +29,22 @@ export async function GET(request: NextRequest) {
       });
 
       if (!questionnary) {
-        return NextResponse.json({ error: 'Questionnary not found' }, { status: 404 });
+        return NextResponse.json({ error: ERROR_MESSAGES_EN.QUESTIONARY_NOT_FOUND }, { status: 404 });
       }
       return NextResponse.json(questionnary);
     } catch (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR }, { status: 500 });
     }
   }
 
   if (userId) {
     if (typeof userId !== 'string') {
-      return NextResponse.json({ error: 'Invalid userId' }, { status: 400 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.INVALID_USER_ID }, { status: 400 });
     }
 
     const questionaryId = url.searchParams.get('questionaryId');
     if (!questionaryId) {
-      return NextResponse.json({ error: 'Missing questionaryId' }, { status: 400 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.MISSING_QUESTIONARY_ID }, { status: 400 });
     }
 
     try {
@@ -53,11 +54,11 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({ exists: !!existingRecord });
     } catch (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR }, { status: 500 });
     }
   }
 
-  return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+  return NextResponse.json({ error: ERROR_MESSAGES_EN.INVALID_REQUEST }, { status: 400 });
 }
 
 export async function POST(request: NextRequest) {
@@ -72,7 +73,7 @@ export async function POST(request: NextRequest) {
     const { score, date_of_realize_questionary, user_id, questionary_id } = data;
 
     if (typeof score !== 'number' || !date_of_realize_questionary || typeof user_id !== 'string' || typeof questionary_id !== 'string') {
-      return NextResponse.json({ error: 'Missing fields in request' }, { status: 400 });
+      return NextResponse.json({ error: ERROR_MESSAGES_EN.MISSING_FIELDS_IN_REQUEST }, { status: 400 });
     }
 
     const existingRecord = await prisma.realizeQuestionary.findFirst({
@@ -97,8 +98,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ message: 'Result saved successfully' });
+    return NextResponse.json({ message: SUCCESS_MESSAGES_EN.RESULT_SAVED });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR }, { status: 500 });
   }
 }

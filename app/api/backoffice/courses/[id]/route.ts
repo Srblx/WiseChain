@@ -1,7 +1,7 @@
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextRequest, NextResponse } from 'next/server';
@@ -21,13 +21,12 @@ export async function PUT(request: NextRequest) {
 
     if (!courseId) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_COURSE_ID },
+        { error: ERROR_MESSAGES_EN.MISSING_COURSE_ID },
         { status: 400 }
       );
     }
 
     const body = await request.json();
-    console.log('body', body);
 
     let category;
 
@@ -45,8 +44,6 @@ export async function PUT(request: NextRequest) {
         where: { name: body.category },
       });
     }
-
-    console.log('category', category);
 
     if (!category) {
       return NextResponse.json(
@@ -76,12 +73,11 @@ export async function PUT(request: NextRequest) {
       },
     });
 
-    console.log('updated', updatedCourse);
     return NextResponse.json({ updatedCourse });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_UPDATE_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_UPDATE_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_UPDATE_COURSE },
+      { error: ERROR_MESSAGES_EN.ERROR_UPDATE_COURSE },
       { status: 500 }
     );
   }
@@ -102,7 +98,7 @@ export async function DELETE(
 
     if (!courseId) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_COURSE_ID },
+        { error: ERROR_MESSAGES_EN.MISSING_COURSE_ID },
         { status: 400 }
       );
     }
@@ -113,7 +109,7 @@ export async function DELETE(
 
     if (!existingCourse) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.COURSE_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.COURSE_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -138,13 +134,13 @@ export async function DELETE(
     ]);
 
     return NextResponse.json(
-      { message: SUCCESS_MESSAGES.COURSE_DELETED_SUCCESSFULLY },
+      { message: SUCCESS_MESSAGES_EN.COURSE_DELETED_SUCCESSFULLY },
       { status: 200 }
     );
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_DELETE_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_DELETE_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_DELETE_COURSE },
+      { error: ERROR_MESSAGES_EN.ERROR_DELETE_COURSE },
       { status: 500 }
     );
   }

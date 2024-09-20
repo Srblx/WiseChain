@@ -9,6 +9,11 @@ enum RoutesEnum {
   GLOSSARY = '/glossary',
   MARKET = '/market',
   BACKOFFICE = '/profile/backoffice',
+  API_C_MARCKET_CAP= '/api/market',
+
+  /* Users */
+  ADD_PFP= '/api/user-profile/update-user-data/add-pfp',
+  /* Users */
 
   /* Course */
   COURSE = '/courses',

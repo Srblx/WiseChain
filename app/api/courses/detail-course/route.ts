@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextResponse } from 'next/server';
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   try {
     if (!courseId)
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NOT_PARAMS_FOUND },
+        { error: ERROR_MESSAGES_EN.NOT_PARAMS_FOUND },
         { status: 404 }
       );
 
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
 
     if (!course) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NOT_COURSE_FOUND },
+        { error: ERROR_MESSAGES_EN.NOT_COURSE_FOUND },
         { status: 404 }
       );
     }
@@ -48,9 +48,9 @@ export async function GET(request: Request) {
       tools,
     });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE },
       { status: 500 }
     );
   }

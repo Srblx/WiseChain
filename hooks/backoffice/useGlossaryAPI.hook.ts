@@ -1,8 +1,14 @@
+// Component
 import { Glossary } from '@/components/ui/glossary/GlossaryList.component';
-import Routes from '@/enums/routes.enum';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 
+// Enums
+import Routes from '@/enums/routes.enum';
+
+// Helpers
+import axios from 'axios';
+
+// React libs
+import { useEffect, useState } from 'react';
 
 const useGlossaryAPI = (token: string) => {
   const [glossaryItems, setGlossaryItems] = useState<Glossary[]>([]);
@@ -22,18 +28,24 @@ const useGlossaryAPI = (token: string) => {
       setGlossaryItems(response.data.glossaryItems);
       setTotalPages(response.data.pagination.totalPages);
     } catch (error) {
-      console.error('Erreur lors de la récupération des termes du glossaire', error);
+      console.error(
+        'Erreur lors de la récupération des termes du glossaire',
+        error
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSaveTerm = async (newTerm: { title: string; definition: string }) => {
+  const handleSaveTerm = async (newTerm: {
+    title: string;
+    definition: string;
+  }) => {
     try {
       await axios.post(Routes.CRUD_GLOSSARY, newTerm, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchGlossaryItems(); // Fetch updated glossary items
+      fetchGlossaryItems();
     } catch (error) {
       console.error('Error adding new term:', error);
     }
@@ -45,7 +57,7 @@ const useGlossaryAPI = (token: string) => {
       await axios.put(`${Routes.CRUD_GLOSSARY}/${term.id}`, term, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchGlossaryItems(); // Fetch updated glossary items
+      fetchGlossaryItems();
     } catch (error) {
       console.error('Erreur lors de la mise à jour du terme:', error);
     }
@@ -57,7 +69,7 @@ const useGlossaryAPI = (token: string) => {
         headers: { Authorization: `Bearer ${token}` },
         params: { id },
       });
-      fetchGlossaryItems(); // Fetch updated glossary items
+      fetchGlossaryItems();
     } catch (error) {
       console.error('Error deleting term:', error);
     }

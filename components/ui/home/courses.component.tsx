@@ -1,10 +1,19 @@
 'use client';
 
-import CourseCarousel from '@/components/carousel/CourseCarousel.component';
+// Components
 import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
+import CourseCarousel from '@/components/shared/carousel/CourseCarousel.component';
+
+// Enums
 import Routes from '@/enums/routes.enum';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+
+// Utils
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
+
+// Helpers
 import axios from 'axios';
+
+// Libs React
 import { useEffect, useState } from 'react';
 
 function CourseList() {
@@ -21,7 +30,7 @@ function CourseList() {
         const response = await axios.get(Routes.GET_LAST_SIX_COURSES);
         setCourses(response.data);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_COURSE, error);
       } finally {
         setIsLoading(false);
       }

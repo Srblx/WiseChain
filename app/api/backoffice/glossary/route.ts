@@ -1,6 +1,9 @@
+// Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
+
+// Next libss
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -31,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     if (!glossaryItems || glossaryItems.length === 0) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NO_GLOSSARY_FOUND },
+        { error: ERROR_MESSAGES_EN.NO_GLOSSARY_FOUND },
         { status: 404 }
       );
     }
@@ -49,7 +52,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_GLOSSARY },
       { status: 500 }
     );
   }
@@ -84,7 +87,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error adding glossary term:', error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_ADDING_GLOSSARY },
+      { error: ERROR_MESSAGES_EN.ERROR_ADDING_GLOSSARY },
       { status: 500 }
     );
   }
@@ -112,7 +115,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ deletedGlossaryItem });
   } catch (error) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_DELETING_GLOSSARY },
+      { error: ERROR_MESSAGES_EN.ERROR_DELETING_GLOSSARY },
       { status: 500 }
     );
   }

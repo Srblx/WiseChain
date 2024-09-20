@@ -1,3 +1,4 @@
+// COmponents
 import CryptoTable from '@/components/Crypto.component';
 
 export default function Market() {

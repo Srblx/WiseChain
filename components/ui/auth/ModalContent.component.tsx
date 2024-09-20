@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 // Components
-import StepText from '@/components/shared/auth/paragraph.composent';
+import StepText from '@/components/shared/auth/Paragraph.composent';
 import FormResetPassword from './FormClaimResetPassword.component';
 import FormSignin from './FormSignin.component';
 import FormSignup from './FormSignup.component';

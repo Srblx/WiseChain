@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { CATEGORY, ERROR_MESSAGES } from '@/utils/messages.utils';
+import { CATEGORY, ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Lib Next
 import { NextResponse } from 'next/server';
@@ -40,9 +40,9 @@ export async function GET() {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_COURSE },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE },
       { status: 500 }
     );
   }

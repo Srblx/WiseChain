@@ -1,6 +1,13 @@
+// Enums
 import Routes from '@/enums/routes.enum';
+
+// Interfaces
 import { User } from '@/interfaces/auth/auth.interface';
+
+// Helpers
 import axios from 'axios';
+
+// React libs
 import { useEffect, useState } from 'react';
 
 const useUserAPI = (token: string) => {
@@ -38,7 +45,6 @@ const useUserAPI = (token: string) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log('Utilisateur créé avec succès:', response.data);
       fetchUsers();
       return response.data;
     } catch (error) {

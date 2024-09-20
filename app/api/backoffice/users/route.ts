@@ -4,7 +4,7 @@ import Roles from '@/enums/roles.enum';
 // Utils
 import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     if (!users || users.length === 0) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_USER },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_USER },
       { status: 500 }
     );
   }
@@ -79,7 +79,6 @@ export async function POST(request: NextRequest) {
       is_verified,
     } = body;
 
-    // Validation des champs obligatoires
     if (!firstname || !lastname || !pseudo || !mail || !password || !date_of_birth) {
       return NextResponse.json(
         { error: "Tous les champs obligatoires doivent être remplis" },
@@ -98,7 +97,7 @@ export async function POST(request: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_ALREADY_EXISTS },
+        { error: ERROR_MESSAGES_EN.USER_ALREADY_EXISTS },
         { status: 400 }
       );
     }
@@ -135,7 +134,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error("Erreur détaillée:", error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ADD_USER_ERROR, details: error.message },
+      { error: ERROR_MESSAGES_EN.ADD_USER_ERROR, details: error.message },
       { status: 500 }
     );
   }
@@ -155,7 +154,7 @@ export async function DELETE(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_USER_ID },
+        { error: ERROR_MESSAGES_EN.MISSING_USER_ID },
         { status: 400 }
       );
     }
@@ -166,7 +165,7 @@ export async function DELETE(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -176,13 +175,13 @@ export async function DELETE(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: SUCCESS_MESSAGES.USER_SUCCESSFULLY_DELETE },
+      { message: SUCCESS_MESSAGES_EN.USER_SUCCESSFULLY_DELETE },
       { status: 200 }
     );
   } catch (error) {
-    console.error(ERROR_MESSAGES.DELETE_USER_ERROR, error);
+    console.error(ERROR_MESSAGES_EN.DELETE_USER_ERROR, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.DELETE_USER_ERROR },
+      { error: ERROR_MESSAGES_EN.DELETE_USER_ERROR },
       { status: 500 }
     );
   }
