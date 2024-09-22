@@ -1,3 +1,4 @@
+// CSS
 const classNameTitle = 'text-xl underline';
 
 const Privacy = () => {

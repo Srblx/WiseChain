@@ -10,8 +10,8 @@ export interface InputAuthProps {
 
 export interface InputProfileProps {
   type?: string;
-  placeholder: string;
-  value?: string;
+  placeholder?: string;
+  value?:   string | number | boolean;
   name?: string;
   className?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,4 +20,5 @@ export interface InputProfileProps {
   disabled?: boolean;
   children?: React.ReactNode;
   id?: string;
+  max?: string;
 }

@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextResponse } from 'next/server';
@@ -15,16 +15,16 @@ export async function GET() {
 
     if (!glossary || glossary.length === 0) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NO_GLOSSARY_FOUND, glossary },
+        { error: ERROR_MESSAGES_EN.NO_GLOSSARY_FOUND, glossary },
         { status: 404 }
       );
     }
 
     return NextResponse.json({ glossary });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_GLOSSARY, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_GLOSSARY },
       { status: 500 }
     );
   }

@@ -4,7 +4,7 @@ import React from 'react';
 // Interfaces
 import { InputAuthProps } from '@/interfaces/auth/input.interface';
 
-const Input: React.FC<InputAuthProps> = ({
+const InputLog: React.FC<InputAuthProps> = ({
   type,
   placeholder,
   value,
@@ -23,4 +23,4 @@ const Input: React.FC<InputAuthProps> = ({
   );
 };
 
-export default Input;
+export default InputLog;

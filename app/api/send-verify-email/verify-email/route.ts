@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import jwt from 'jsonwebtoken';
@@ -29,13 +29,13 @@ export async function PATCH(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: SUCCESS_MESSAGES.EMAIL_VERIFY },
+      { message: SUCCESS_MESSAGES_EN.EMAIL_VERIFY },
       { status: 200 }
     );
   } catch (error) {
-    console.error(ERROR_MESSAGES.EMAIL_VERIFY, error);
+    console.error(ERROR_MESSAGES_EN.EMAIL_VERIFY, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.EMAIL_VERIFY },
+      { error: ERROR_MESSAGES_EN.EMAIL_VERIFY },
       { status: 500 }
     );
   }

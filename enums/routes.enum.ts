@@ -7,8 +7,16 @@ enum RoutesEnum {
   ACTUALITY = '/articles',
   PROFILE = '/profile',
   GLOSSARY = '/glossary',
+  MARKET = '/market',
+  BACKOFFICE = '/profile/backoffice',
+  API_C_MARCKET_CAP= '/api/market',
+
+  /* Users */
+  ADD_PFP= '/api/user-profile/update-user-data/add-pfp',
+  /* Users */
 
   /* Course */
+  COURSE = '/courses',
   ALL_COURSES_INVESTMENT = '/courses/Investment',
   ALL_COURSES_BLOCKCHAIN = '/courses/Blockchain',
   ALL_COURSES_CRYPTO = '/courses/Crypto-Monnaie',
@@ -21,7 +29,8 @@ enum RoutesEnum {
   /* Course */
 
   /* Questionary */
-  QUESTIONARY = '/questionary',
+  QUESTIONNARY = '/questionnary',
+  CHECK_PREVIOUS_RESULT = '/questionnary',
   /* Questionary */
 
   //? API
@@ -55,6 +64,19 @@ enum RoutesEnum {
   /* Glossary */
   GET_GLOSSARY = '/api/glossary',
   /* Glossary */
+
+  /* Questionnary */
+  QUESTIONNARY_API = '/api/questionnary',
+  /* Questionnary */
+
+  /* Backoffice */
+  CRUD_USERS = '/api/backoffice/users',
+  CRUD_COURSE = '/api/backoffice/courses',
+  CRUD_GLOSSARY = '/api/backoffice/glossary',
+  CRUD_QUESTIONARY = '/api/backoffice/questionnary',
+  CRUD_SEQUENCE_COURSE = '/api/backoffice/courses/sequence',
+  GET_CATEGORY = '/api/backoffice/categories',
+  /* Backoffice */
 }
 
 // FUNCTIONS PAGES WITH URL DYNAMIQUE

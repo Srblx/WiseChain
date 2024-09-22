@@ -37,11 +37,12 @@ export interface User {
   mail: string;
   password: string;
   roles: string;
-  img: string;
+  profile_img: string;
   country: string;
   date_of_birth: string;
   is_verified: boolean;
-  created_at: string;
+  is_revoice: boolean;
+  created_at?: string;
 }
 
 export interface UserInfo {
@@ -49,5 +50,21 @@ export interface UserInfo {
   lastname: string;
   pseudo: string;
   country: string;
-  birthOfDate: string;
+  dateOfBirth: string;
+}
+
+export interface UserFormData {
+  firstname: string;
+  lastname: string;
+  pseudo: string;
+  mail: string;
+  password: string;
+  country: string;
+  dateOfBirth: string;
+  isVerified: boolean;
+  roles: string;
+  isRevoice: boolean;
+  profileImg: string;
+  createdAt: string;
+  id: string;
 }

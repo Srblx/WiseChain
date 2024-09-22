@@ -4,7 +4,7 @@ export interface Glossary {
   id: string;
   title: string;
   definition: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 const classNameLetterList = 'inline-block cursor-pointer text-sm md:text-lg';
@@ -50,7 +50,7 @@ const GlossaryList: React.FC<GlossaryListProps> = ({
     <div className="flex flex-col w-full">
       <div className="bg-blueDark rounded-md p-4 shadow-xs-light">
         <div className="text-md">
-          <ul className="flex space-x-6 md:space-x-8 px-4 py-2">
+          <ul className="flex space-x-6 md:space-x-8 px-4 py-2 items-center">
             <li
               className={`${selectedSection === 'A-B' ? classNameLetterListIsSelect : ''} ${classNameLetterList}`}
             >
@@ -94,7 +94,7 @@ const GlossaryList: React.FC<GlossaryListProps> = ({
             <h4 key={term.id}>
               <a
                 href={`#${term.id}`}
-                onClick={(e) => handleTermClick(e, term.id)}
+                onClick={(e) => handleTermClick(e, term.id || '')}
               >
                 {term.title}
               </a>

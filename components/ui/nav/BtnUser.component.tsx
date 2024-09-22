@@ -67,7 +67,7 @@ const ButtonUserUnlogged = () => {
   };
 
   const avatarSrc =
-    token && user?.img ? user.img : 'https://github.com/shadcn.png';
+    token && user?.profile_img ? user.profile_img : 'img/noDB/pfp.png';
 
   if (!isClient) {
     return null;

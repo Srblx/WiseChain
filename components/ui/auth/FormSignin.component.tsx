@@ -11,18 +11,16 @@ import * as Yup from 'yup';
 
 // Components
 import Button from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import InputLog from '@/components/shared/auth/Input.component';
+import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
+import { inputClassName } from './FormSignup.component';
 
 // Icons
 import { FaKey, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { IoMdMail } from 'react-icons/io';
-import { inputClassName } from './FormSignup.component';
 
-// Hooks
+// Interfaces
 import { FormSigninProps } from '@/interfaces/modal.interface';
-
-// Validators
-import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
 
 // Enums
 import Routes from '@/enums/routes.enum';
@@ -32,7 +30,7 @@ import useAuth from '@/hooks/useAuth.hook';
 
 // Utils
 import { usePasswordVisibility } from '@/utils/auth/usePasswordVisibility.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Validators
 import { LoginSchema } from '@/validators/auth.validator';
@@ -41,7 +39,6 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
-  const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
 
   const handleMailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,12 +82,12 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
           const { status } = error.response;
 
           if (status === 401) {
-            toast.error(ERROR_MESSAGES.INVALID_EMAIL_PASSWORD);
+            toast.error(ERROR_MESSAGES_FR.INVALID_EMAIL_PASSWORD);
           } else {
-            toast.error(ERROR_MESSAGES.ERROR_UNKNOWN);
+            toast.error(ERROR_MESSAGES_FR.ERROR_UNKNOWN);
           }
         } else {
-          toast.error(ERROR_MESSAGES.ERROR_CONNECTION);
+          toast.error(ERROR_MESSAGES_FR.ERROR_CONNECTION);
         }
       }
     }
@@ -115,7 +112,7 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
         </p>
         <label className={inputClassName}>
           <IoMdMail />
-          <Input
+          <InputLog
             type="email"
             placeholder="Email"
             value={mail}
@@ -125,7 +122,7 @@ export default function FormSignin({ onSuccess }: FormSigninProps) {
         </label>
         <label className={inputClassName}>
           <FaKey />
-          <Input
+          <InputLog
             type={showPassword ? 'text' : 'password'}
             placeholder="************"
             value={password}

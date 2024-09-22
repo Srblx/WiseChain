@@ -60,7 +60,7 @@ export default function Footer() {
           </p>
           <p className="text-sm md:text-base">
             <span className="text-red-500 font-extrabold">
-              <sup>&copy;</sup>
+              {/* <sup className='z-50'>&copy;</sup> */}
             </span>
             2024 Wisechain. Tous droits réservés.
           </p>

@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import { getUserByMail } from '../claim-reset-password/route';
 
 // Utils
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import jwt from 'jsonwebtoken';
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.USER_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -31,9 +31,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ token });
   } catch (error) {
-    console.error(ERROR_MESSAGES.GENERATE_TOKEN, error);
+    console.error(ERROR_MESSAGES_EN.GENERATE_TOKEN, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR },
+      { error: ERROR_MESSAGES_EN.INTERNAL_SERVER_ERROR },
       { status: 500 }
     );
   }

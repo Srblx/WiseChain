@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextResponse } from 'next/server';
@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
   if (!courseId) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ID_COURSE_REQUIRED },
+      { error: ERROR_MESSAGES_EN.ID_COURSE_REQUIRED },
       { status: 400 }
     );
   }
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
 
     if (!course) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NOT_COURSE_FOUND },
+        { error: ERROR_MESSAGES_EN.NOT_COURSE_FOUND },
         { status: 404 }
       );
     }
@@ -47,6 +47,7 @@ export async function GET(request: Request) {
       select: {
         id: true,
         main_title: true,
+        // mainTitle: true,
         img: true,
         description: true,
         created_at: true,
@@ -60,7 +61,7 @@ export async function GET(request: Request) {
     });
 
     if (relatedCourses.length === 0) {
-      return NextResponse.json({ message: ERROR_MESSAGES }, { status: 200 });
+      return NextResponse.json({ message: ERROR_MESSAGES_EN }, { status: 200 });
     }
 
     const formattedCourses = relatedCourses.map((course) => ({
@@ -74,9 +75,9 @@ export async function GET(request: Request) {
       category_name: course.category.name,
     });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_COURSE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCH_RELATED_COURSES },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCH_RELATED_COURSES },
       { status: 500 }
     );
   }

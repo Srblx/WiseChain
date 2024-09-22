@@ -12,6 +12,8 @@ interface CourseContentProps {
   tools: Tool[];
 }
 
+const containsHTML = (str: string) => /<[a-z][\s\S]*>/i.test(str);
+
 const CourseContent: React.FC<CourseContentProps> = ({ sequences, tools }) => {
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -64,7 +66,14 @@ const CourseContent: React.FC<CourseContentProps> = ({ sequences, tools }) => {
       {sequences.map((sequence) => (
         <div key={sequence.id} id={sequence.id} className="mb-8">
           <h3 className="text-2xl font-bold mb-4">{sequence.title}</h3>
-          <p className="text-lg">{sequence.containt}</p>
+          {containsHTML(sequence.containt) ? (
+            <div
+              className="text-lg"
+              dangerouslySetInnerHTML={{ __html: sequence.containt }}
+            />
+          ) : (
+            <p className="text-lg">{sequence.containt}</p>
+          )}
           {sequence.img && (
             <div className="mt-4 flex justify-center items-center">
               <Image

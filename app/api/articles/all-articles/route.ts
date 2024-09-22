@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextResponse } from 'next/server';
@@ -33,7 +33,7 @@ export async function GET() {
 
     if (!articles || articles.length === 0) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.ARTICLE_NOT_FOUND },
+        { error: ERROR_MESSAGES_EN.ARTICLE_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -49,7 +49,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_ARTICLE },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_ARTICLE },
       { status: 500 }
     );
   }

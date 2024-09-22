@@ -36,9 +36,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <form method="dialog" className="space-x-4">
             {!choice && (
               <button
-                className='btn bg-red-600 text-white hover:bg-black border-none'
+                className="btn bg-red-600 text-white hover:bg-black border-none"
                 onClick={onConfirm}
-                id='confirm-dialog'
+                id="confirm-dialog"
               >
                 Confirmer
               </button>

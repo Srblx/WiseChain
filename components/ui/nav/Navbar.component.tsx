@@ -26,7 +26,8 @@ const Navbar = memo(() => {
       { label: 'Crypto-Monnaie', href: Routes.ALL_COURSES_CRYPTO },
       { label: 'Blockchain', href: Routes.ALL_COURSES_BLOCKCHAIN },
       { label: 'NFT', href: Routes.ALL_COURSES_NFTS },
-      { label: 'Lexique', href: Routes.GLOSSARY },
+      { label: 'Glossaire', href: Routes.GLOSSARY },
+      { label: 'Marché', href: Routes.MARKET },
     ],
     []
   );

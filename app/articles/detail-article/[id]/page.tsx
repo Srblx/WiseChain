@@ -11,8 +11,9 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Helpers
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import Routes from '@/enums/routes.enum';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 import axios from 'axios';
 
 const ArticleDetailPage = () => {
@@ -31,11 +32,11 @@ const ArticleDetailPage = () => {
         if (response.data && response.data.article) {
           setArticle(response.data.article);
         } else {
-          setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
+          setError(ERROR_MESSAGES_FR.ERROR_FETCH_ARTICLES);
         }
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
-        setError(ERROR_MESSAGES.ERROR_FETCH_ARTICLES);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_ARTICLE, error);
+        setError(ERROR_MESSAGES_FR.ERROR_FETCH_ARTICLES);
       } finally {
         setIsLoading(false);
       }
@@ -49,11 +50,7 @@ const ArticleDetailPage = () => {
   useEffect(() => {}, [article]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -68,8 +65,11 @@ const ArticleDetailPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl mb-4">{title}</h3>
-      <div className="relative h-48 lg:h-[90%] flex justify-center items-center">
+      {/* Ajustement des marges du titre pour éviter le chevauchement */}
+      <h3 className="text-3xl mb-8">{title}</h3>
+
+      {/* Ajustement des marges et suppression des hauteurs fixes pour éviter que l'image ne déborde */}
+      <div className="flex justify-center items-center mb-12">
         <Image
           src={img ? `/img/${img}` : '/img/logo.jpg'}
           alt={title}
@@ -79,7 +79,9 @@ const ArticleDetailPage = () => {
           className="shadow-xs-light rounded-lg"
         />
       </div>
-      <div className="p-4">
+
+      {/* Contenu de l'article */}
+      <div className="py-4">
         {sequence_article && sequence_article.length > 0 ? (
           sequence_article.map((sequence) => (
             <div key={sequence.id} id={sequence.id} className="mb-8">

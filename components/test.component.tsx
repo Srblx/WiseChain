@@ -19,6 +19,7 @@ export default function TestUser() {
           <p>Rôle : {user.roles}</p>
           <p>Pays : {user.country}</p>
           <p>Vérifié : {user.is_verified ? 'Oui' : 'Non'}</p>
+          <br />
         </>
       )}
     </div>

@@ -7,17 +7,21 @@ import { IoMdMail } from 'react-icons/io';
 
 // Components
 import ButtonSubmit from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import InputLog from '@/components/shared/auth/Input.component';
 import { inputClassName } from './FormSignup.component';
 
 // API
 import { checkEmailExists } from '@/app/api/claim-reset-password/route';
 import axios from 'axios';
 
-// Lib
+// Enum
 import Routes from '@/enums/routes.enum';
+
+// Helpers
 import { compilerResetPasswordTemplate, sendMail } from '@/lib/mail';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+
+// Utils
+import { ERROR_MESSAGES_FR, SUCCESS_MESSAGES_FR } from '@/utils/messages.utils';
 
 function ClaimResetPasswordPage() {
   const [mail, setMail] = useState('');
@@ -31,7 +35,7 @@ function ClaimResetPasswordPage() {
       const emailExists = await checkEmailExists(mail);
 
       if (!emailExists) {
-        toast.error(ERROR_MESSAGES.MAIL_NOT_FOUND);
+        toast.error(ERROR_MESSAGES_FR.MAIL_NOT_FOUND);
         return;
       }
 
@@ -46,10 +50,10 @@ function ClaimResetPasswordPage() {
         ),
       });
 
-      toast.success(SUCCESS_MESSAGES.MAIL_SEND_RESET_PASSWORD);
+      toast.success(SUCCESS_MESSAGES_FR.MAIL_SEND_RESET_PASSWORD);
       setMail('');
     } catch (error) {
-      toast.error(ERROR_MESSAGES.MAIL_NOT_FOUND);
+      toast.error(ERROR_MESSAGES_FR.MAIL_NOT_FOUND);
     }
   };
 
@@ -65,7 +69,7 @@ function ClaimResetPasswordPage() {
         <p className="text-tertiary text-xl">Réinitialiser le mot de passe</p>
         <label className={inputClassName}>
           <IoMdMail />
-          <Input
+          <InputLog
             type="mail"
             placeholder="E-mail"
             value={mail}

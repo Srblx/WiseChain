@@ -3,8 +3,6 @@
 // Components
 import { Button } from '@/components/shared/Button.components';
 import ConfirmDialog from '@/components/shared/ConfirmDialog.component';
-import Input from '@/components/shared/Input.component';
-import Label from '@/components/shared/Label.component';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/shared/Dialog.component';
+import Label from '@/components/shared/Label.component';
 
 // Enums
 import Routes from '@/enums/routes.enum';
@@ -25,11 +24,6 @@ import useAuth from '@/hooks/useAuth.hook';
 import { UserInfo } from '@/interfaces/auth/auth.interface';
 
 // Validators
-import {
-  useConfirmPasswordVisibility,
-  useNewPasswordVisibility,
-  usePasswordVisibility,
-} from '@/utils/auth/usePasswordVisibility.utils';
 import { passwordResetSchema } from '@/validators/auth.validator';
 
 // Helpers
@@ -38,14 +32,20 @@ import axios from 'axios';
 import * as Yup from 'yup';
 
 // Utils
+import {
+  useConfirmPasswordVisibility,
+  useNewPasswordVisibility,
+  usePasswordVisibility,
+} from '@/utils/auth/usePasswordVisibility.utils';
 import ApiAxios from '@/utils/interceptorAxios.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR, SUCCESS_MESSAGES_FR } from '@/utils/messages.utils';
 
 // React Libs
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 // Icons
+import InputShared from '@/components/shared/InputShared.component';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -61,7 +61,7 @@ type UserInfoKeys =
   | 'lastname'
   | 'pseudo'
   | 'country'
-  | 'birthOfDate';
+  | 'dateOfBirth';
 
 export const UserProfile = () => {
   const [editInfoUser, setEditInfoUser] = useState(false);
@@ -70,7 +70,7 @@ export const UserProfile = () => {
     lastname: '',
     pseudo: '',
     country: '',
-    birthOfDate: '',
+    dateOfBirth: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -83,7 +83,6 @@ export const UserProfile = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
-  // Hooks
   const { user, login, token, logout } = useAuth();
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
   const { showNewPassword, toggleNewPasswordVisibility } =
@@ -98,12 +97,12 @@ export const UserProfile = () => {
         lastname: user.lastname,
         pseudo: user.pseudo,
         country: user.country,
-        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+        dateOfBirth: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
       });
       setEmail(user.mail);
       setRole(user.roles);
       setIsVerified(user.is_verified);
-      setCreatedAt(user.created_at);
+      setCreatedAt(user.created_at!);
     }
   }, [user]);
 
@@ -147,7 +146,7 @@ export const UserProfile = () => {
         lastname: user.lastname,
         pseudo: user.pseudo,
         country: user.country,
-        birthOfDate: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
+        dateOfBirth: dayjs(user.date_of_birth).format('DD/MM/YYYY'),
       });
     }
     setOldPassword('***********');
@@ -164,7 +163,7 @@ export const UserProfile = () => {
         pseudo: userInfo.pseudo,
       });
       if (response.status === 200) {
-        toast.success(SUCCESS_MESSAGES.UPDATE_PROFILE);
+        toast.success(SUCCESS_MESSAGES_FR.UPDATE_PROFILE);
         setEditInfoUser(false);
         setIsDialogOpen(false);
         if (user) {
@@ -177,10 +176,10 @@ export const UserProfile = () => {
           login(updatedUser, token!);
         }
       } else {
-        toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
+        toast.error(ERROR_MESSAGES_FR.UPDATE_PROFILE);
       }
     } catch (error) {
-      toast.error(ERROR_MESSAGES.UPDATE_PROFILE);
+      toast.error(ERROR_MESSAGES_FR.UPDATE_PROFILE);
     }
     setIsSubmitting(false);
   };
@@ -198,22 +197,22 @@ export const UserProfile = () => {
         confirmPassword,
       });
       if (response.status === 200) {
-        toast.success(SUCCESS_MESSAGES.UPDATE_PASSWORD);
+        toast.success(SUCCESS_MESSAGES_FR.UPDATE_PASSWORD);
         setEditInfoUser(false);
         setOldPassword('***********');
         setNewPassword('');
         setConfirmPassword('');
         setIsPasswordDialogOpen(false);
       } else if (response.status === 400) {
-        toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
+        toast.error(ERROR_MESSAGES_FR.OLD_PASSSWORD_INCORRECT);
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.forEach((err) => toast.error(err.message));
       } else if (axios.isAxiosError(error) && error.response?.status === 400) {
-        toast.error(ERROR_MESSAGES.OLD_PASSSWORD_INCORRECT);
+        toast.error(ERROR_MESSAGES_FR.OLD_PASSSWORD_INCORRECT);
       } else {
-        toast.error(ERROR_MESSAGES.UPDATE_PASSWORD);
+        toast.error(ERROR_MESSAGES_FR.UPDATE_PASSWORD);
       }
     }
     setIsSubmitting(false);
@@ -228,10 +227,10 @@ export const UserProfile = () => {
         cancelDeleteAccount();
         window.location.href = '/';
       } else {
-        toast.error('Échec de la suppression du compte');
+        toast.error(ERROR_MESSAGES_FR.FAILD_DELETE_COMPTE);
       }
     } catch {
-      toast.error('Erreur lors de la suppression du compte');
+      toast.error(ERROR_MESSAGES_FR.ERROR_DELETE_COMPTE);
     }
   };
 
@@ -247,7 +246,7 @@ export const UserProfile = () => {
             <p className={classNameLabel}>Pseudo: {userInfo.pseudo}</p>
             {/* <p className={classNameLabel}>Roles: {role}</p> */}
             <p className={classNameLabel}>
-              Anniversaire le {userInfo.birthOfDate}
+              Anniversaire le {userInfo.dateOfBirth}
             </p>
           </div>
 
@@ -266,7 +265,7 @@ export const UserProfile = () => {
                   'firstname',
                   'lastname',
                   'pseudo',
-                  'birthOfDate',
+                  'dateOfBirth',
                   'country',
                 ].map((field) => (
                   <div
@@ -280,17 +279,17 @@ export const UserProfile = () => {
                           ? 'Nom'
                           : field === 'pseudo'
                             ? 'Pseudo'
-                            : field === 'birthOfDate'
+                            : field === 'dateOfBirth'
                               ? 'Date de naissance'
                               : 'Pays'}
                     </Label>
-                    <Input
+                    <InputShared
                       id={field}
                       value={userInfo[field as UserInfoKeys]}
                       onChange={handleInputChange(field as UserInfoKeys)}
-                      className={`col-span-3 p-2 ${field === 'birthOfDate' || field === 'country' ? 'bg-gray-950 text-white' : 'bg-white text-gray-950'}`}
+                      className={`col-span-3 p-2 ${field === 'dateOfBirth' || field === 'country' ? 'bg-gray-950 text-white' : 'bg-white text-gray-950'}`}
                       placeholder={field}
-                      disabled={field === 'birthOfDate' || field === 'country'}
+                      disabled={field === 'dateOfBirth' || field === 'country'}
                     />
                   </div>
                 ))}
@@ -334,10 +333,10 @@ export const UserProfile = () => {
               <div className="space-y-4 py-4">
                 <div className="relative">
                   <Label htmlFor="old-password">Ancien mot de passe</Label>
-                  <Input
+                  <InputShared
                     id="old-password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Ancien mot de passe"
+                    placeholder="Ancien" //mot de passe"
                     value={oldPassword}
                     onChange={handleInputChange('oldPassword')}
                     className={classNameInputProfile}
@@ -348,14 +347,14 @@ export const UserProfile = () => {
                     >
                       {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
                 <div className="relative">
                   <Label htmlFor="new-password">Nouveau mot de passe</Label>
-                  <Input
+                  <InputShared
                     id="new-password"
                     type={showNewPassword ? 'text' : 'password'}
-                    placeholder="Nouveau mot de passe"
+                    placeholder="Nouveau" // mot de passe"
                     value={newPassword}
                     onChange={handleInputChange('newPassword')}
                     className={classNameInputProfile}
@@ -366,16 +365,16 @@ export const UserProfile = () => {
                     >
                       {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
                 <div className="relative">
                   <Label htmlFor="confirm-password">
                     Confirmation du mot de passe
                   </Label>
-                  <Input
+                  <InputShared
                     id="confirm-password"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirmation mot de passe"
+                    placeholder="Confirmation" // mot de passe"
                     value={confirmPassword}
                     onChange={handleInputChange('confirmPassword')}
                     className={classNameInputProfile}
@@ -386,7 +385,7 @@ export const UserProfile = () => {
                     >
                       {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                     </Button>
-                  </Input>
+                  </InputShared>
                 </div>
               </div>
               <DialogFooter>
@@ -414,6 +413,7 @@ export const UserProfile = () => {
         <Button
           onClick={() => setIsDialogOpen(true)}
           className="text-gray-400 underline flex items-center"
+          id="btn-edit-profile"
         >
           <MdOutlineEdit className="mr-2" size={'1.2rem'} />
           <p className="underline">Modifier mon profil</p>
@@ -421,6 +421,7 @@ export const UserProfile = () => {
         <Button
           onClick={() => setIsPasswordDialogOpen(true)}
           className="text-gray-400 underline flex items-center"
+          id="update-password"
         >
           <MdOutlineEdit className="mr-2" size={'1.2rem'} />
           <p className="underline">Modifier mon mot de passe</p>

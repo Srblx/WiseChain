@@ -1,33 +1,46 @@
-describe('Auth', () => {
-  it('Should navigate on web site', () => {
-    Cypress.on('uncaught:exception', () => {
-      return false;
-    });
+
+describe('Navigation', () => {
+  before(() => {
+    Cypress.on('uncaught:exception', () => false);
   });
 
-  it('Should navigate on login page', () => {
+  const pages = [
+    { path: '/', wait: 3500 },
+    { path: '/courses/Investissement', wait: 3500 },
+    { path: '/courses/Crypto-monnaie', wait: 3500 },
+    { path: '/courses/Blockchain', wait: 3500 },
+    { path: '/courses/NFT', wait: 3500 },
+    { path: '/glossary', wait: 3500 },
+    { path: '/market', wait: 3500 },
+  ];
+
+  const footerLinks = [
+    { text: 'FAQ', path: '/faq' },
+    { text: 'À Propos', path: '/about' },
+    { text: "Condition d'utilisation", path: '/terms' },
+    { text: 'Politique de confidentialité', path: '/privacy' },
+  ];
+
+  const visitAndCheck = (path: string, wait: number) => {
+    cy.visit(path);
+    if (path !== '/') {
+      cy.url().should('include', path);
+    }
+    cy.wait(wait);
+  };
+
+  it('Should navigate through main pages', () => {
+    pages.forEach(page => visitAndCheck(page.path, page.wait));
+  });
+
+  it('Should navigate through footer links', () => {
     cy.visit('/');
-    cy.wait(3500);
-    cy.visit('/courses/Investissement');
-    cy.url().should('include', '/courses/Investissement');
-    cy.wait(3500);
-    cy.visit('/courses/Crypto-monnaie');
-    cy.url().should('include', '/courses/Crypto-monnaie');
-    cy.wait(3500);
-    cy.visit('/courses/Blockchain');
-    cy.url().should('include', '/courses/Blockchain');
-    cy.wait(3500);
-    cy.visit('/courses/NFT');
-    cy.url().should('include', '/courses/NFT');
-    cy.wait(3500);
     cy.get('#logo').click();
-    cy.get('footer').contains('FAQ').click();
-    cy.url().should('include', '/faq');
-    cy.get('footer').contains('À Propos').click();
-    cy.url().should('include', '/about');
-    cy.get('footer').contains("Condition d'utilisation").click();
-    cy.url().should('include', '/terms');
-    cy.get('footer').contains('Politique de confidentialité').click();
-    cy.url().should('include', '/privacy');
+    
+    footerLinks.forEach(link => {
+      cy.get('footer').contains(link.text).click();
+      cy.url().should('include', link.path);
+    });
+    cy.visit('/');
   });
 });

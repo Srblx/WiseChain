@@ -58,7 +58,7 @@ model SequenceArticle {
 model RealizeQuestionary {
   id                    String   @id @default(cuid())
   score                 Int
-  date_of_realize_questionary Boolean
+  date_of_realize_questionary DateTime @default(now())
   user                  User     @relation(fields: [user_id], references: [id])
   user_id               String
   questionary           Questionary @relation(fields: [questionary_id], references: [id])
@@ -74,6 +74,8 @@ model Questionary {
   rewards    Reward[]
   questions  Question[]
   answers    Answer[]
+  course Course? @relation(fields: [courseId], references: [id])
+  courseId String?
 }
 
 model Course {
@@ -86,9 +88,10 @@ model Course {
   update_at   DateTime @updatedAt @db.Date
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
-  difficulty      String @default("Facile")
+  difficulty  String @default("Facile")
   sequences   Sequence[]
   tool_courses ToolCourse[]
+  questionaries Questionary[]
 }
 
 model ToolCourse {
@@ -192,4 +195,3 @@ model Glossary {
   definition  String   @db.Text
   created_at  DateTime @default(now())
 }
-

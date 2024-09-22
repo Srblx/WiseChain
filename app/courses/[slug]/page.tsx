@@ -4,7 +4,8 @@
 import { Course } from '@/interfaces/course.interface';
 
 // Components
-import CardCourse from '@/components/card/CardCourse.component';
+import CardCourse from '@/components/shared/card/CardCourse.component';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 
 // Libs Next
 import { useParams, useRouter } from 'next/navigation';
@@ -16,7 +17,7 @@ import { useEffect, useState } from 'react';
 import Routes from '@/enums/routes.enum';
 
 // Utils
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Helpers
 import axios from 'axios';
@@ -39,7 +40,7 @@ const CategoryCoursesPage = () => {
             setCourses(response.data.course);
           }
         } catch (error) {
-          console.error(ERROR_MESSAGES.ERROR_FETCHING_COURSE, error);
+          console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_COURSE, error);
         } finally {
           setIsLoading(false);
         }
@@ -50,11 +51,7 @@ const CategoryCoursesPage = () => {
   }, [category]);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const [firstThreeCourses, remainingCourses] =
@@ -64,16 +61,17 @@ const CategoryCoursesPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl mb-4">{category}</h1>
+      <h1 className="text-3xl mb-4 pt-8">{category}</h1>
       <div className="min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 cursor-pointer">
           {firstThreeCourses.map((course, index) => (
             <CardCourse
+              id={course.id}
               key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
               sequence={`${course.sequences.length} min de lecture`}
-              title={course.main_title}
+              title={course.mainTitle}
               className={index === 0 ? 'lg:row-span-2' : ''}
               isMainCard={index === 0}
               isLarge={index > 0}
@@ -84,11 +82,12 @@ const CategoryCoursesPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gird-cols-4 gap-6 mt-6">
           {remainingCourses.map((course) => (
             <CardCourse
+              id={'key'}
               key={course.id}
               description={course.description}
               image={course.img ? `/img/${course.img}` : '/img/logo.jpg'}
               sequence={`${course.sequences.length} min de lecture`}
-              title={course.main_title}
+              title={course.mainTitle}
               isLarge={true}
               onClick={() => router.push(`/courses/detail-course/${course.id}`)}
             />

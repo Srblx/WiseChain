@@ -14,7 +14,7 @@ export default function InvestmentSensitivity() {
   return (
     <div className="bg-backgroundTransparent flex justify-center items-center p-6 border-y-2 border-white mt-20">
       <div className="text-center text-sm space-y-6">
-        <div className="flex items-center space-x-4 ">
+        <div className="flex items-center space-x-4  z-50">
           <div
             className="xl:tooltip tooltip tooltip-right"
             data-tip={tooltipContent}
@@ -22,7 +22,8 @@ export default function InvestmentSensitivity() {
             <TiWarningOutline
               size={'2.4rem'}
               color="red"
-              className="text-blueDark font-extrabold cursor-help"
+              //! Z index a corriger
+              className="text-blueDark font-extrabold cursor-help "
             />
           </div>
           <p className="text-lg xs:text-sm sm:text-base font-extrabold ">

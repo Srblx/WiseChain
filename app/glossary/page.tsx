@@ -8,7 +8,7 @@ import { Glossary as GlossaryInterface } from '@/components/ui/glossary/Glossary
 import { Articles } from '@/interfaces/article.interface';
 
 // Utils
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Helpers
 import axios from 'axios';
@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Components
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import ScrollToTopButton from '@/components/shared/ScrollToTop.component';
 import GlossaryList from '@/components/ui/glossary/GlossaryList.component';
 import GlossaryTerm from '@/components/ui/glossary/GlossaryTerms.component';
@@ -41,8 +42,8 @@ const Glossary = () => {
         setGlossary(response.data.glossary);
         setIsLoading(false);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY, error);
-        setError(ERROR_MESSAGES.ERROR_FETCHING_GLOSSARY);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_GLOSSARY, error);
+        setError(ERROR_MESSAGES_FR.ERROR_FETCHING_GLOSSARY);
         setIsLoading(false);
       }
     };
@@ -58,7 +59,7 @@ const Glossary = () => {
         );
         setArticles(response.data.recentArticles);
       } catch (error) {
-        console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
+        console.error(ERROR_MESSAGES_FR.ERROR_FETCHING_ARTICLE, error);
       }
     };
 
@@ -103,11 +104,7 @@ const Glossary = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -115,16 +112,12 @@ const Glossary = () => {
   }
 
   if (articles.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   return (
     <>
-      <h1 className="text-3xl mb-4">Lexique : toutes les définitions</h1>
+      <h1 className="text-3xl mb-4 pt-8">Glossaire : toutes les définitions</h1>
       <GlossaryList
         glossary={glossary}
         selectedSection={selectedSection}

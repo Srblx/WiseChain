@@ -1,9 +1,8 @@
 'use server';
 
 // Helpers
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/utils/constante.utils';
 
-const prisma = new PrismaClient();
 
 export async function checkEmailExists(mail: string): Promise<boolean> {
   const user = await prisma.user.findUnique({

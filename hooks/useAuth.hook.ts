@@ -50,6 +50,7 @@ function useAuth() {
   return {
     token,
     user,
+    setUser,
     login,
     logout,
   };

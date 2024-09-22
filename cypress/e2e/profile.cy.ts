@@ -1,32 +1,45 @@
 import { CypressData } from '../data/data';
 
 describe('Profile', () => {
-  it('Should update user profile', () => {
-    Cypress.on('uncaught:exception', () => {
-      return false;
-    });
+  before(() => {
+    // Gérer les exceptions non capturées
+    Cypress.on('uncaught:exception', () => false);
+  });
 
+  const login = (email: string, password: string) => {
     cy.visit('/');
-    cy.wait(5000);
     cy.get('#btn-user').click();
-    cy.get('input[placeholder="Email"]').clear().type(CypressData.mail);
-    cy.get('input[placeholder="************"]')
-      .clear()
-      .type(CypressData.password);
+    cy.get('input[placeholder="Email"]').clear().type(email);
+    cy.get('input[placeholder="************"]').clear().type(password);
     cy.get('button[type="submit"]').click();
+  };
 
-    cy.wait(2000);
-    cy.get('#btn-user').click();
-    cy.wait(2000);
+  const openProfile = () => {
+    cy.get('#btn-user').click({ force: true });
     cy.get('#profile-link').click();
+  };
+
+  const updateProfile = (firstname: string, lastname: string, pseudo: string) => {
     cy.get('#btn-edit-profile').click();
-    cy.get('input[placeholder="firstname"]').click();
-    cy.get('input[placeholder="firstname"]').clear().type('John');
-    cy.get('input[placeholder="lastname"]').click();
-    cy.get('input[placeholder="lastname"]').clear().type('Doe');
-    cy.get('input[placeholder="pseudo"]').click();
-    cy.get('input[placeholder="pseudo"]').clear().type('johndoe_test');
-    cy.get('#btn-save-profile').click();
+    cy.get('input[placeholder="firstname"]').clear().type(firstname);
+    cy.get('input[placeholder="lastname"]').clear().type(lastname);
+    cy.get('input[placeholder="pseudo"]').clear().type(pseudo);
+    cy.get('button').contains('Enregistrer les modifications').click();
+  };
+
+  const updatePassword = (oldPassword: string, newPassword: string, confirmPassword: string) => {
+    cy.get('#update-password').click();
+    cy.get('input[placeholder="Ancien"]').clear().type(oldPassword);
+    cy.get('input[placeholder="Nouveau"]').clear().type(newPassword);
+    cy.get('input[placeholder="Confirmation"]').clear().type(confirmPassword);
+    cy.get('button').contains('Enregistrer le mot de passe').click();
+  };
+
+  it('Should update user profile', () => {
+    login(CypressData.mail, CypressData.password);
+    cy.wait(2000);
+    openProfile();
+    updateProfile('John', 'Doe', 'johndoe_test');
     cy.get('.Toastify__toast-body').should(
       'contain',
       'Profil utilisateur modifié avec succès'
@@ -34,24 +47,10 @@ describe('Profile', () => {
   });
 
   it('Should update password failed length', () => {
-    cy.visit('/profile');
-    cy.get('#compte-link').click();
-    cy.get('#update-password-or-cancel').click();
+    login(CypressData.mail, CypressData.password);
     cy.wait(2000);
-    cy.get('input[placeholder="Ancien mot de passe"]').click();
-    cy.get('input[placeholder="Ancien mot de passe"]')
-      .clear()
-      .type(CypressData.password);
-    cy.get('input[placeholder="Nouveau mot de passe"]')
-      .click()
-      .clear()
-      .type(CypressData.passwordLenghtError);
-
-    cy.get('input[placeholder="Confirmation mot de passe"]')
-      .click()
-      .clear()
-      .type(CypressData.passwordLenghtError);
-    cy.get('#register-new-password').click();
+    openProfile();
+    updatePassword(CypressData.password, CypressData.passwordLenghtError, CypressData.passwordLenghtError);
     cy.get('.Toastify__toast-body').should(
       'contain',
       'Le mot de passe doit avoir au moins 12 caractères'
@@ -62,24 +61,11 @@ describe('Profile', () => {
     );
   });
 
-  it('Should update password corespondence failed ', () => {
-    cy.visit('/profile');
-    cy.get('#compte-link').click();
-    cy.get('#update-password-or-cancel').click();
+  it('Should update password correspondence failed', () => {
+    login(CypressData.mail, CypressData.password);
     cy.wait(2000);
-    cy.get('input[placeholder="Ancien mot de passe"]').click();
-    cy.get('input[placeholder="Ancien mot de passe"]')
-      .clear()
-      .type(CypressData.password);
-    cy.get('input[placeholder="Nouveau mot de passe"]')
-      .click()
-      .clear()
-      .type(CypressData.password);
-    cy.get('input[placeholder="Confirmation mot de passe"]')
-      .click()
-      .clear()
-      .type(CypressData.passwordError);
-    cy.get('#register-new-password').click();
+    openProfile();
+    updatePassword(CypressData.password, CypressData.password, CypressData.passwordError);
     cy.get('.Toastify__toast-body').should(
       'contain',
       'Les mots de passe ne correspondent pas'
@@ -87,33 +73,13 @@ describe('Profile', () => {
   });
 
   it('Should update password success', () => {
-    cy.visit('/profile');
-    cy.get('#compte-link').click();
-    cy.get('#update-password-or-cancel').click();
+    login(CypressData.mail, CypressData.password);
     cy.wait(2000);
-    cy.get('input[placeholder="Ancien mot de passe"]').click();
-    cy.get('input[placeholder="Ancien mot de passe"]')
-      .clear()
-      .type(CypressData.password);
-    cy.get('input[placeholder="Nouveau mot de passe"]')
-      .click()
-      .clear()
-      .type('Motdepasse123@');
-    cy.get('input[placeholder="Confirmation mot de passe"]')
-      .click()
-      .clear()
-      .type('Motdepasse123@');
-    cy.get('#register-new-password').click();
-    // cy.get('.Toastify__toast-body').should(
-    //   'contain',
-    //   'Mot de passe mis à jour avec succès'
-    // );
-    cy.wait(2000);
-    cy.get('#delete-account-button').click();
-    cy.get('#confirm-dialog').click();
+    openProfile();
+    updatePassword(CypressData.password, 'Motdepasse123@', 'Motdepasse123@');
     cy.get('.Toastify__toast-body').should(
       'contain',
-      'Erreur lors de la suppression du compte'
+      'Mot de passe mis à jour avec succès'
     );
   });
 });

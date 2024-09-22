@@ -1,4 +1,5 @@
 'use client';
+import LoadingSpinner from '@/components/shared/LoadingSpinner.component';
 import Routes from '@/enums/routes.enum';
 import { Articles } from '@/interfaces/article.interface';
 // Interface
@@ -33,11 +34,7 @@ const RecentArticles = () => {
   }, []);
 
   if (articles.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const [latestArticle, ...otherArticles] = articles;

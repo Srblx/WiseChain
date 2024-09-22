@@ -1,63 +1,56 @@
 // Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN, SUCCESS_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Helpers
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // Lib Next
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const { newPassword, token } = await request.json();
-
   try {
-    const decodedToken = jwt.verify(
-      token,
-      process.env.JWT_SECRET!
-    ) as JwtPayload;
+    const { newPassword } = await request.json();
 
-    if (typeof decodedToken === 'object' && 'userId' in decodedToken) {
-      const userId = decodedToken.userId;
+    const decodedTokenOrError = verifyAndDecodeToken(request);
+    if (decodedTokenOrError instanceof NextResponse) {
+      return decodedTokenOrError;
+    }
 
-      const user = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-      });
+    const userId = decodedTokenOrError.userId;
 
-      if (!user) {
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.USER_NOT_FOUND },
-          { status: 404 }
-        );
-      }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-      await prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          password: hashedPassword,
-        },
-      });
-
-      return NextResponse.json({
-        message: SUCCESS_MESSAGES.RESET_PASSWORD,
-      });
-    } else {
+    if (!user) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.INVALID_TOKEN },
-        { status: 400 }
+        { error: ERROR_MESSAGES_EN.USERS_NOT_FOUND },
+        { status: 404 }
       );
     }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return NextResponse.json({
+      message: SUCCESS_MESSAGES_EN.RESET_PASSWORD,
+    });
   } catch (error) {
-    console.error(ERROR_MESSAGES.RESET_PASSWORD, error);
+    console.error(ERROR_MESSAGES_EN.RESET_PASSWORD, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.RESET_PASSWORD },
+      { error: ERROR_MESSAGES_EN.RESET_PASSWORD },
       { status: 500 }
     );
   }

@@ -9,12 +9,12 @@ import {
   initialState,
   signupReducer,
 } from '@/utils/data/signupReducer';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_FR } from '@/utils/messages.utils';
 
 // Components
 import { ButtonIcon } from '@/components/shared/ButtonIcon.component';
 import Button from '@/components/shared/auth/BtnSubmit.component';
-import Input from '@/components/shared/auth/Input.component';
+import InputLog from '@/components/shared/auth/Input.component';
 
 // Libs React
 import { FormEvent, useEffect, useReducer, useState } from 'react';
@@ -46,9 +46,11 @@ import useAuth from '@/hooks/useAuth.hook';
 import { compilerMailTemplate, sendMail } from '@/lib/mail';
 
 // Helpers
+
 import axios from 'axios';
 import * as Yup from 'yup';
 
+// CSS
 export const inputClassName = 'input input-bordered flex items-center gap-2';
 
 const FormSignup = ({ onSuccess }: FormSignupProps) => {
@@ -114,17 +116,17 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
           toast.success('Inscription réussie');
           onSuccess();
         } else {
-          throw new Error(ERROR_MESSAGES.SIGNUP_FAILED);
+          throw new Error(ERROR_MESSAGES_FR.SIGNUP_FAILED);
         }
       } catch (error) {
         console.error(error);
-        let errorMessage = ERROR_MESSAGES.USER_CREATION_ERROR;
+        let errorMessage = ERROR_MESSAGES_FR.ADD_USER_ERROR;
         if (axios.isAxiosError(error) && error.response) {
           if (error.response.status === 400) {
             errorMessage =
-              error.response.data.error || ERROR_MESSAGES.VALIDATE_DATA_ERROR;
+              error.response.data.error || ERROR_MESSAGES_FR.VALIDATE_DATA_ERROR;
           } else if (error.response.status === 409) {
-            errorMessage = ERROR_MESSAGES.PSEUDO_OR_MAIL_ALREADY_TAKEN;
+            errorMessage = ERROR_MESSAGES_FR.PSEUDO_OR_MAIL_ALREADY_TAKEN;
           }
         }
         dispatch({ type: 'SET_ERROR_MESSAGE', payload: errorMessage });
@@ -157,7 +159,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
       <div className="grid grid-cols-2 w-full gap-4">
         <label className={inputClassName}>
           <FaUser />*
-          <Input
+          <InputLog
             type="text"
             placeholder="Nom"
             value={state.firstname}
@@ -169,7 +171,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <FaUser />*
-          <Input
+          <InputLog
             type="text"
             placeholder="Prénom"
             value={state.lastname}
@@ -181,7 +183,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <FaUserSecret />*
-          <Input
+          <InputLog
             type="text"
             placeholder="Pseudo"
             value={state.pseudo}
@@ -193,7 +195,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <IoMdMail />*
-          <Input
+          <InputLog
             type="text"
             placeholder="Email"
             value={state.mail}
@@ -205,7 +207,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <FaKey />*
-          <Input
+          <InputLog
             type={showPassword ? 'text' : 'password'}
             placeholder="Mot de passe"
             value={state.password}
@@ -220,7 +222,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <FaKey />*
-          <Input
+          <InputLog
             type={showConfirmPassword ? 'text' : 'password'}
             placeholder="Confirmation mot de passe"
             value={state.confirmPassword}
@@ -238,7 +240,7 @@ const FormSignup = ({ onSuccess }: FormSignupProps) => {
         </label>
         <label className={inputClassName}>
           <FaBirthdayCake />*
-          <Input
+          <InputLog
             type="date"
             placeholder="DD/MM/YYYY"
             value={state.dateOfBirth}

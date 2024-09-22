@@ -1,40 +1,19 @@
 // Utils
+import { verifyAndDecodeToken } from '@/utils/auth/decodedToken.utils';
 import { prisma } from '@/utils/constante.utils';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/messages.utils';
-
-// Helpers
-import jwt from 'jsonwebtoken';
 
 // Lib Next
 import { NextResponse } from 'next/server';
 
 export async function DELETE(request: Request) {
   try {
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.MISSING_TOKEN },
-        { status: 401 }
-      );
+    const decodedTokenOrError = verifyAndDecodeToken(request);
+    if (decodedTokenOrError instanceof NextResponse) {
+      return decodedTokenOrError; 
     }
 
-    let decodedToken;
-    try {
-      decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      if (typeof decodedToken === 'string' || !decodedToken.userId) {
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.INVALID_TOKEN },
-          { status: 401 }
-        );
-      }
-    } catch (error) {
-      return NextResponse.json(
-        { error: ERROR_MESSAGES.INVALID_TOKEN },
-        { status: 401 }
-      );
-    }
-
-    const userId = decodedToken.userId;
+    const userId = decodedTokenOrError.userId;
 
     const user = await prisma.user.findUnique({
       where: {

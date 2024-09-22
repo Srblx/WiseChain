@@ -1,6 +1,6 @@
 // Utils
 import { prisma } from '@/utils/constante.utils';
-import { ERROR_MESSAGES } from '@/utils/messages.utils';
+import { ERROR_MESSAGES_EN } from '@/utils/messages.utils';
 
 // Next Libs
 import { NextResponse } from 'next/server';
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   try {
     if (!articleId) {
       return NextResponse.json(
-        { error: ERROR_MESSAGES.NOT_PARAMS_FOUND },
+        { error: ERROR_MESSAGES_EN.NOT_PARAMS_FOUND },
         { status: 404 }
       );
     }
@@ -28,9 +28,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ article });
   } catch (error) {
-    console.error(ERROR_MESSAGES.ERROR_FETCHING_ARTICLE, error);
+    console.error(ERROR_MESSAGES_EN.ERROR_FETCHING_ARTICLE, error);
     return NextResponse.json(
-      { error: ERROR_MESSAGES.ERROR_FETCHING_ARTICLE },
+      { error: ERROR_MESSAGES_EN.ERROR_FETCHING_ARTICLE },
       { status: 500 }
     );
   }
